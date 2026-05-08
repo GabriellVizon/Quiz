@@ -231,8 +231,7 @@ function mostrarPopup(texto, tipo) {
 function ganharXp(quantia) {
     const multBoost = user.boostAtivo ? user.boostAtivo.multiplicador : 1;
     const rankAtivo = user.equipado.rank ? lojaRanks.find(r => r.id === user.equipado.rank) : null;
-    const multRank = rankAtivo ? rankAtivo.multiplicadorXP : 1
-    ;
+    const multRank = rankAtivo ? rankAtivo.multiplicadorXP : 1;
     const total = Math.floor(quantia * multBoost * multRank);
     if (total > 0) mostrarPopup(`+${total} XP`, 'xp');
     user.xp += total;
