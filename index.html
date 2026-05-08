@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Masters</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="animacaoCanvas"></canvas>
+
+    <div id="gameOverOverlay">
+        <div class="gameover-box">
+            <h2>💀 GAME OVER 💀</h2>
+            <p id="gameoverMsg">Você perdeu todas as vidas!</p>
+            <p id="gameoverAcertos" class="gameover-acertos"></p>
+            <button onclick="fecharGameOver()" class="btn-reiniciar">Tentar Novamente</button>
+        </div>
+    </div>
+
+    <div id="floatingPopups"></div>
+
+    <div id="charWidget" style="display:none">
+        <div class="char-widget-inner">
+            <canvas id="charWidgetPixel" class="char-widget-pixel"></canvas>
+            <span id="charWidgetNome" class="char-widget-nome">Naruto</span>
+            <button id="charWidgetPoder" class="char-widget-poder" onclick="usarPoder()">💜 Poder</button>
+        </div>
+    </div>
+
+    <div id="hud">
+        <div class="hud-left">
+            <div id="vidasContainer">
+                <span id="vida1" class="vida">❤️</span>
+                <span id="vida2" class="vida">❤️</span>
+                <span id="vida3" class="vida">❤️</span>
+            </div>
+            <span id="hudNivel" class="hud-nivel">LV 1</span>
+            <div class="hud-xp-bar">
+                <div id="hudBarra" class="hud-xp-preenchimento"></div>
+            </div>
+            <span id="hudXpTexto" class="hud-xp-texto">0/100 XP</span>
+        </div>
+        <div class="hud-right">
+            <span id="hudStreak" class="hud-streak" style="display:none"></span>
+            <span id="hudBoost" class="hud-boost" style="display:none"></span>
+            <span id="hudRank" class="hud-rank"></span>
+            <span id="hudMoedas" class="hud-moedas">🪙 0</span>
+        </div>
+    </div>
+
+    <div id="tabBar">
+        <button class="tab ativa" id="tabQuiz" onclick="mostrarAba('Quiz')">📝 Quiz</button>
+        <button class="tab" id="tabLoja" onclick="mostrarAba('Loja')">🛒 Loja</button>
+        <button class="tab" id="tabInventario" onclick="mostrarAba('Inventario')">🎒 Inventário</button>
+        <button class="tab" id="tabPerfil" onclick="mostrarAba('Perfil')">👤 Perfil</button>
+    </div>
+
+    <div id="viewQuiz" class="view ativa">
+        <div id="generoSelecao">
+            <h2>🎮 Escolha o Gênero</h2>
+            <p>Selecione quais tipos de perguntas você quer:</p>
+            <div class="genero-grid">
+                <button onclick="iniciarQuiz('games')" class="genero-btn">
+                    <span class="genero-icone">🎮</span>
+                    <span class="genero-nome">Games</span>
+                    <span class="genero-desc">Geral, FPS, RPG, Pixel...</span>
+                </button>
+                <button onclick="iniciarQuiz('filmes')" class="genero-btn">
+                    <span class="genero-icone">🎬</span>
+                    <span class="genero-nome">Filmes</span>
+                    <span class="genero-desc">Ação, Ficção, Animação...</span>
+                </button>
+                <button onclick="iniciarQuiz('todos')" class="genero-btn destaque">
+                    <span class="genero-icone">🌟</span>
+                    <span class="genero-nome">Todos</span>
+                    <span class="genero-desc">Mistura completa!</span>
+                </button>
+            </div>
+        </div>
+        <div id="quizContainer" style="display:none">
+            <h1>🎮 Quiz Masters</h1>
+            <div class="barra-progresso">
+                <div id="progresso"></div>
+            </div>
+            <div class="header-info">
+                <span id="contador">Questão 1 de 20</span>
+                <span id="pontuacaoParcial">Acertos: 0</span>
+            </div>
+            <p id="pergunta"></p>
+            <div id="opcoes"></div>
+            <p id="resultado"></p>
+            <button onclick="proximaPergunta()" id="btnProximo">Próxima ➜</button>
+        </div>
+    </div>
+
+    <div id="viewLoja" class="view">
+        <div class="view-header">
+            <h2>🛒 Loja</h2>
+            <span class="saldo-moedas">🪙 <span id="lojaSaldo">0</span></span>
+        </div>
+        <div id="lojaConteudo"></div>
+    </div>
+
+    <div id="viewInventario" class="view">
+        <div class="view-header">
+            <h2>🎒 Inventário</h2>
+        </div>
+        <div id="invConteudo"></div>
+    </div>
+
+    <div id="viewPerfil" class="view">
+        <div class="view-header">
+            <h2>👤 Perfil</h2>
+        </div>
+        <div id="perfilConteudo"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
