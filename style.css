@@ -755,18 +755,18 @@ body {
 .pixel-art {
     border-radius: 8px;
     image-rendering: pixelated;
+    width: 80px;
+    height: 96px;
+}
+
+.pixel-art.pixel-sm {
     width: 64px;
     height: 80px;
 }
 
-.pixel-art.pixel-sm {
-    width: 48px;
-    height: 60px;
-}
-
 .pixel-art.pixel-lg {
-    width: 96px;
-    height: 120px;
+    width: 120px;
+    height: 144px;
 }
 
 .btn-comprar, .btn-equipar {
@@ -876,8 +876,8 @@ body {
     margin-bottom: 18px;
 }
 
-.perfil-avatar-placeholder { font-size: 3.5rem; min-width: 96px; text-align: center; }
-.perfil-pixel .pixel-art { width: 96px; height: 120px; }
+.perfil-avatar-placeholder { font-size: 3.5rem; min-width: 128px; text-align: center; }
+.perfil-pixel .pixel-art { width: 128px; height: 154px; }
 .perfil-info { flex: 1; }
 .perfil-info h2 { color: #ffd200; font-size: 1.5rem; margin-bottom: 6px; }
 
@@ -1024,8 +1024,8 @@ body {
 }
 
 .char-widget-pixel {
-    width: 96px;
-    height: 120px;
+    width: 128px;
+    height: 154px;
     image-rendering: pixelated;
     border-radius: 10px;
 }
@@ -1218,8 +1218,8 @@ body {
 #charDetailClose:hover { color: #f87171; }
 
 .char-detail-pixel {
-    width: 128px;
-    height: 160px;
+    width: 160px;
+    height: 192px;
     image-rendering: pixelated;
     border-radius: 12px;
     margin-bottom: 8px;
@@ -1287,10 +1287,10 @@ body {
 .char-detail-float {
     position: absolute;
     bottom: -20px;
-    animation: floatUp 10s linear infinite;
+    animation: floatEmojiUp 10s linear infinite;
 }
 
-@keyframes floatUp {
+@keyframes floatEmojiUp {
     0% { transform: translateY(0) rotate(0deg); opacity: 0; }
     10% { opacity: 1; }
     90% { opacity: 1; }
