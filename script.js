@@ -4959,7 +4959,9 @@ function renderizarLoja() {
 
     html += '<h3 class="secao-titulo">🎭 Personagens</h3>';
     html += '<div class="loja-categorias">';
-    for (const char of CHARACTERS) {
+    const rarityOrder = { rare: 0, epic: 1, mythic: 2 };
+    const sortedChars = [...CHARACTERS].sort((a, b) => rarityOrder[a.rarity] - rarityOrder[b.rarity]);
+    for (const char of sortedChars) {
         const poder = poderesDisponiveis[char.id];
         const item = {
             id: char.id, nome: char.name, desc: poder ? poder.desc : 'Personagem', preco: char.price, icone: '🎭'
@@ -5001,7 +5003,12 @@ function cardLoja(item, categoria) {
     const ehPersonagem = categoria === 'personagens' && CHARACTERS_MAP[item.id];
     const clickPersonagem = ehPersonagem ? ' onclick="mostrarDetalhePersonagem(\'' + item.id + '\')"' : '';
     const charImg = ehPersonagem ? CHARACTERS_MAP[item.id].image : '';
-    let html = '<div class="card-loja' + (ehPersonagem ? ' card-personagem' : '') + (categoria === 'titulos' ? ' card-titulo' : '') + '"' + estiloCor + clickPersonagem + '>';
+    const char = ehPersonagem ? CHARACTERS_MAP[item.id] : null;
+    const rarityClass = char ? ' rarity-' + char.rarity : '';
+    const rarityLabel = { rare: 'Raro', epic: 'Épico', mythic: 'Mítico' };
+    const badge = char ? '<span class="rarity-badge rarity-badge-' + char.rarity + '">' + (rarityLabel[char.rarity] || char.rarity) + '</span>' : '';
+    let html = '<div class="card-loja' + (ehPersonagem ? ' card-personagem' : '') + rarityClass + (categoria === 'titulos' ? ' card-titulo' : '') + '"' + estiloCor + clickPersonagem + '>';
+    if (badge) html += badge;
     if (ehPersonagem) {
         html += '<div class="pixel-container"><img src="' + charImg + '" alt="' + item.nome + '" class="char-sprite char-sm" /></div>';
     } else if (categoria === 'titulos') {
@@ -5146,10 +5153,18 @@ function renderizarInventario() {
 
     html += '<div class="inv-conteudo-tab ativa">';
 
-    const itens = user.inventario[invAbaAtual] || [];
+    let itens = user.inventario[invAbaAtual] || [];
     if (itens.length === 0) {
         html += '<div class="vazio">Nada aqui ainda... Compre na loja!</div>';
     } else {
+        if (invAbaAtual === 'personagens') {
+            const rarityOrder = { rare: 0, epic: 1, mythic: 2 };
+            itens = [...itens].sort((a, b) => {
+                const ra = CHARACTERS_MAP[a] ? rarityOrder[CHARACTERS_MAP[a].rarity] || 99 : 99;
+                const rb = CHARACTERS_MAP[b] ? rarityOrder[CHARACTERS_MAP[b].rarity] || 99 : 99;
+                return ra - rb;
+            });
+        }
         html += '<div class="inv-grid">';
         itens.forEach(id => {
             let item = null;
@@ -5177,8 +5192,13 @@ function renderizarInventario() {
             const ehPersonagemInv = invAbaAtual === 'personagens' && CHARACTERS_MAP[id];
             const ehTituloInv = invAbaAtual === 'titulos';
             const clickPersonagemInv = ehPersonagemInv ? ' onclick="mostrarDetalhePersonagem(\'' + id + '\')"' : '';
+            const charInv = ehPersonagemInv ? CHARACTERS_MAP[id] : null;
+            const rarityClassInv = charInv ? ' rarity-' + charInv.rarity : '';
+            const rarityLabel = { rare: 'Raro', epic: 'Épico', mythic: 'Mítico' };
+            const badgeInv = charInv ? '<span class="rarity-badge rarity-badge-' + charInv.rarity + '">' + (rarityLabel[charInv.rarity] || charInv.rarity) + '</span>' : '';
 
-            html += '<div class="card-inv ' + (equipado ? 'equipado' : '') + (boostAtivo ? ' boost-ativo' : '') + (ehPersonagemInv ? ' card-personagem' : '') + (ehTituloInv ? ' card-titulo' : '') + '"' + clickPersonagemInv + '>';
+            html += '<div class="card-inv' + rarityClassInv + (equipado ? ' equipado' : '') + (boostAtivo ? ' boost-ativo' : '') + (ehPersonagemInv ? ' card-personagem' : '') + (ehTituloInv ? ' card-titulo' : '') + '"' + clickPersonagemInv + '>';
+            if (badgeInv) html += badgeInv;
             if (ehPersonagemInv) {
                 const char = CHARACTERS_MAP[id];
                 html += '<div class="pixel-container"><img src="' + char.image + '" alt="' + nome + '" class="char-sprite char-sm" /></div>';
