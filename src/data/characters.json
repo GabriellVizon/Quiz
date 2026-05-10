@@ -238,5 +238,29 @@
       "bgColors": ["#f87171", "#1a1a1a"]
     },
     "price": 150
+  },
+  {
+    "id": "sukuna",
+    "name": "Sukuna",
+    "image": "public/characters/sukuna.png",
+    "color": "#dc2626",
+    "rarity": "mythic",
+    "power": {
+      "name": "Corte Nether",
+      "desc": "Elimina todas as opcoes erradas",
+      "icon": "🔪",
+      "type": "dano_massivo",
+      "color": "#dc2626"
+    },
+    "passive": {
+      "name": "Rei das Maldições",
+      "desc": "10% chance de acerto critico automatico"
+    },
+    "details": {
+      "quote": "Eu sou o Rei das Maldições!",
+      "emojis": ["👁️", "🔪", "💀"],
+      "bgColors": ["#dc2626", "#1a1a1a"]
+    },
+    "price": 0
   }
 ]

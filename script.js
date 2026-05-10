@@ -40,7 +40,8 @@ const poderesDisponiveis = {
     sailor: { nome: 'Moon Healing', desc: 'Restaura TODAS as vidas!', icone: '🌙', tipo: 'curar_tudo', cor: '#ec4899' },
     vegeta: { nome: 'Final Flash', desc: 'Triplica XP no proximo acerto', icone: '💥', tipo: 'xp_triplo', cor: '#14b8a6' },
     itachi: { nome: 'Tsukuyomi', desc: 'Revela a resposta certa por 3s', icone: '🔮', tipo: 'revelar_tempo', cor: '#f87171' },
-    meliodas: { nome: 'Full Counter', desc: 'Chance de refletir o dano e nao perder vida ao errar', icone: '🛡️', tipo: 'refletir_dano', cor: '#fbbf24' }
+    meliodas: { nome: 'Full Counter', desc: 'Chance de refletir o dano e nao perder vida ao errar', icone: '🛡️', tipo: 'refletir_dano', cor: '#fbbf24' },
+    sukuna: { nome: 'Corte Nether', desc: 'Elimina todas as opcoes erradas', icone: '🔪', tipo: 'dano_massivo', cor: '#dc2626' }
 };
 
 // ===== CONQUISTAS =====
@@ -794,6 +795,11 @@ const CHARACTERS = [
     power:{ name:"Full Counter", desc:"Chance de refletir o dano e nao perder vida ao errar", icon:"🛡️", type:"refletir_dano", color:"#fbbf24" },
     passive:{ name:"Pacto com o Demônio", desc:"+20% de dano critico" },
     details:{ quote:"Eu sou o Rei dos Piratas!", emojis:["☠️","🍖","🏴‍☠️"], bgColors:["#f87171","#fbbf24"] }
+  },
+  { id:"sukuna", name:"Sukuna", image:"public/characters/sukuna.png", color:"#dc2626", rarity:"mythic", price:0,
+    power:{ name:"Corte Nether", desc:"Causa dano massivo nas questoes", icon:"🔪", type:"dano_massivo", color:"#dc2626" },
+    passive:{ name:"Rei das Maldições", desc:"10% chance de acerto critico automatico" },
+    details:{ quote:"Eu sou o Rei das Maldições!", emojis:["👁️","🔪","💀"], bgColors:["#dc2626","#1a1a1a"] }
   }
 ];
 
@@ -995,7 +1001,8 @@ const lojaRanks = [
     { id: 'platina', nome: 'Platina', desc: 'Rank premium', preco: 800, icone: '💿', mult: 1.8, cor: '#e5e4e2' },
     { id: 'diamante', nome: 'Diamante', desc: 'Rank elite', preco: 1000, icone: '💎', mult: 2.0, cor: '#00bfff' },
     { id: 'esmeralda', nome: 'Esmeralda', desc: 'Rank mitico', preco: 1800, icone: '💚', mult: 2.5, cor: '#50c878' },
-    { id: 'mestre', nome: 'Mestre', desc: 'Rank lendario', preco: 2500, icone: '👑', mult: 3.0, cor: '#a855f7' }
+    { id: 'mestre', nome: 'Mestre', desc: 'Rank lendario', preco: 2500, icone: '👑', mult: 3.0, cor: '#a855f7' },
+    { id: 'Lenda', nome: 'Lenda', desc: 'Rank lendario', preco: 4500, icone: '👑', mult: 4.1, cor: '#fcff3c' }
 ];
 
 const lojaPosts = [
@@ -1239,6 +1246,28 @@ function verificarResposta(selecionada) {
             mostrarPopup('+' + speedBonus + ' bonus velocidade!', 'xp');
         }
         
+        if (poderEfeito === 'xp_bonus') { xpGanho += 50; poderEfeito = null; }
+        if (poderEfeito === 'moedas_dobradas') { moedasGanho *= 2; poderEfeito = null; }
+        if (poderEfeito === 'xp_triplo') { xpGanho *= 3; poderEfeito = null; }
+        xpGanho = Math.floor(xpGanho * getBoostMultiplicadorXP());
+        moedasGanho = Math.floor(moedasGanho * getBoostMultiplicadorMoedas());
+        xpGanho = aplicarBonusPassivaXP(xpGanho);
+        moedasGanho = aplicarBonusPassivaMoedas(moedasGanho);
+        ganharXp(xpGanho);
+        ganharMoedas(moedasGanho);
+        document.getElementById('btnProximo').style.display = 'inline-block';
+    } else if (getChanceAcertoCritico()) {
+        res.innerText = '🔥 Acerto Critico! ' + item.opcoes[correta];
+        res.style.color = '#dc2626';
+        notificar('👁️ Rei das Maldições! Acerto critico ativado!', '#dc2626');
+        pontuacao++;
+        user.totalAcertos++;
+        user.streak++;
+        if (user.streak > user.maxStreak) user.maxStreak = user.streak;
+        const rankMult = getRankMultiplicador();
+        const bonusStreak = Math.min(user.streak, BONUS_STREAK_MAX);
+        let xpGanho = Math.floor((XP_BASE + (bonusStreak * 2)) * MULT_DIFICULDADE[item.dificuldade] * rankMult);
+        let moedasGanho = Math.floor((MOEDAS_ACERTO + Math.floor(bonusStreak / 2)) * rankMult);
         if (poderEfeito === 'xp_bonus') { xpGanho += 50; poderEfeito = null; }
         if (poderEfeito === 'moedas_dobradas') { moedasGanho *= 2; poderEfeito = null; }
         if (poderEfeito === 'xp_triplo') { xpGanho *= 3; poderEfeito = null; }
@@ -1666,6 +1695,20 @@ function usarPoder() {
             notificar('🛡️ Full Counter! Dano refletido no proximo erro!', '#fbbf24');
             break;
 
+        case 'dano_massivo': {
+            let eliminadas = 0;
+            for (let i = 0; i < item.opcoes.length; i++) {
+                if (i !== item.correta) {
+                    botoes[i].classList.add('eliminada');
+                    botoes[i].disabled = true;
+                    eliminadas++;
+                }
+            }
+            animarPoderPersonagem(personId);
+            notificar('🔪 Corte Nether! Todas as opcoes erradas foram eliminadas!', '#dc2626');
+            break;
+        }
+
         default:
             notificar('Poder desconhecido!', '#f87171');
             poderUsado = false;
@@ -1836,7 +1879,7 @@ function animarPoderPersonagem(personagemId) {
     const opcoesEl = document.getElementById('opcoes');
     let opcoesRect = null;
     if (opcoesEl) opcoesRect = opcoesEl.getBoundingClientRect();
-    const charDurations = { naruto: 4000, goku: 4000, luffy: 2500, pikachu: 2500, tanjiro: 2500, gojo: 3800, mikasa: 2500, sailor: 2500, vegeta: 4000, itachi: 2800, meliodas: 3800 };
+    const charDurations = { naruto: 4000, goku: 4000, luffy: 4000, pikachu: 3500, tanjiro: 3500, gojo: 3800, mikasa: 3500, sailor: 3500, vegeta: 4000, itachi: 4000, meliodas: 3800, sukuna: 4000 };
     const duracao = charDurations[personagemId] || 2500;
     const start = Date.now();
 
@@ -1994,7 +2037,7 @@ function animarPoderPersonagem(personagemId) {
                 // ===== PHASE 3: RASEN-SHURIKEN THROWN (0.48 - 0.62) =====
                 else if (pp < 0.62) {
                     const t = (pp - 0.48) / 0.14;
-                    const throwX = rasenganX + t * (canvas.width - rasenganX + 50);
+                    const throwX = rasenganX + t * (cx - rasenganX);
                     const throwY = rasenganY + Math.sin(t * 6.28) * 15;
                     const radius = 50 * (1 - t * 0.2);
                     // Shuriken glow while flying
@@ -2046,7 +2089,7 @@ function animarPoderPersonagem(personagemId) {
                 // ===== PHASE 4: IMPACT + ROTATING EXPLOSION (0.62 - 0.80) =====
                 else if (pp < 0.80) {
                     const t = (pp - 0.62) / 0.18;
-                    const impactX = rasenganX + 0.85 * (canvas.width - rasenganX + 50);
+                    const impactX = cx;
                     const impactY = rasenganY;
                     const explosionR = 15 + t * 60;
                     // Outer blast
@@ -2125,7 +2168,7 @@ function animarPoderPersonagem(personagemId) {
                 // ===== PHASE 5: BLUE EXPLOSION PEAK (0.80 - 0.93) =====
                 else if (pp < 0.93) {
                     const t = (pp - 0.80) / 0.13;
-                    const blastX = rasenganX + 0.85 * (canvas.width - rasenganX + 50);
+                    const blastX = cx;
                     const blastY = rasenganY;
                     const blastR = 30 + t * 100;
                     np(blastX, blastY, blastR + 30, 'rgba(56, 189, 248, ' + (0.06 + t * 0.06) + ')', 60);
@@ -2553,163 +2596,624 @@ function animarPoderPersonagem(personagemId) {
                 break;
             }
             case 'luffy': {
-                const rPhase = progress < 0.25 ? 0 : progress < 0.5 ? 1 : 2;
-                const pp = rPhase === 0 ? progress / 0.25 : rPhase === 1 ? (progress - 0.25) / 0.25 : (progress - 0.5) / 0.5;
-                if (rPhase === 0) {
+                const luffyDur = 4000;
+                const pp = Math.min(1, elapsed / luffyDur);
+                const lx = startX + 30;
+                const ly = startY;
+
+                function lp(x, y, r, color, blur) {
                     ctx.save();
-                    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([5, 8]);
-                    const armLen = pp * 100;
+                    ctx.fillStyle = color;
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = blur || 25;
                     ctx.beginPath();
-                    ctx.moveTo(startX + 30, startY);
-                    ctx.lineTo(startX + 30 - armLen, startY - 10);
-                    ctx.stroke();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
                     ctx.restore();
-                    drawCircle(startX + 30 - pp * 100, startY - 10, 12 + pp * 2, '#ff6b35', 20);
-                } else if (rPhase === 1) {
-                    const fromX = startX + 30 - 100, fromY = startY - 10;
-                    const fistX = fromX + (cx - fromX) * pp;
-                    const fistY = fromY + (cy - fromY) * pp;
-                    drawCircle(fistX, fistY, 14, '#ef4444', 25);
+                }
+
+                // ===== PHASE 0: ARM STRETCHES BACK + FIRE BUILDS (0.00 - 0.15) =====
+                if (pp < 0.15) {
+                    const t = pp / 0.15;
+                    const armBack = t * 80;
+                    const fistX = lx - armBack;
+                    const fistY = ly - 10 - t * 10;
                     ctx.save();
-                    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-                    ctx.lineWidth = 3;
-                    ctx.setLineDash([4, 6]);
+                    ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.2 + t * 0.3) + ')';
+                    ctx.lineWidth = 4;
+                    ctx.shadowColor = '#ff4500';
+                    ctx.shadowBlur = 10;
+                    ctx.setLineDash([6 + t * 4, 4]);
                     ctx.beginPath();
-                    ctx.moveTo(startX, startY);
+                    ctx.moveTo(lx, ly);
                     ctx.lineTo(fistX, fistY);
                     ctx.stroke();
                     ctx.restore();
-                } else {
-                    const impactX = cx, impactY = cy;
-                    for (let i = 0; i < 40; i++) {
+                    lp(fistX, fistY, 12 + t * 5, 'rgba(255, 69, 0, ' + (0.5 + t * 0.4) + ')', 25);
+                    lp(fistX, fistY, 6 + t * 3, 'rgba(255, 165, 0, ' + (t * 0.5) + ')', 15);
+                    lp(fistX, fistY, 3, 'rgba(255, 255, 255, ' + (t * 0.4) + ')', 10);
+                    for (let i = 0; i < 6 * t; i++) {
                         const a = Math.random() * 6.28;
-                        const d = pp * 150;
-                        const size = 2 + Math.random() * 6;
-                        ctx.save();
-                        ctx.globalAlpha = (1 - pp) * 0.7;
-                        ctx.fillStyle = '#fbbf24';
-                        ctx.shadowColor = '#fbbf24';
-                        ctx.shadowBlur = 10;
-                        ctx.save();
-                        ctx.translate(impactX + Math.cos(a) * d, impactY + Math.sin(a) * d);
-                        ctx.rotate(a);
-                        ctx.fillRect(-size / 2, -1, size, 2);
-                        ctx.restore();
-                        ctx.restore();
+                        const d = 5 + t * 20;
+                        lp(fistX + Math.cos(a) * d, fistY + Math.sin(a) * d, 2 + Math.random() * 2, '#ff6347', 8);
                     }
-                    drawCircle(impactX, impactY, 20 * (1 - pp), 'rgba(255,255,255,' + (0.6 * (1 - pp)) + ')', 50);
+                }
+
+                // ===== PHASE 1: RED HAWK PUNCH FLIES FORWARD (0.15 - 0.45) =====
+                else if (pp < 0.45) {
+                    const t = (pp - 0.15) / 0.30;
+                    const fistX = lx - 80 + t * (cx - lx + 80);
+                    const fistY = ly - 10 - 10 + Math.sin(t * 6.28) * 8;
+                    const fistR = 17 + t * 3;
+                    // Fire trail
+                    for (let i = 0; i < 15; i++) {
+                        const trailX = fistX - Math.random() * 40 * (1 + t);
+                        const trailY = fistY + (Math.random() - 0.5) * 25;
+                        const size = 3 + Math.random() * 5;
+                        lp(trailX, trailY, size, 'rgba(255, 69, 0, ' + (0.3 * (1 - t * 0.5)) + ')', 12);
+                    }
+                    // Main fire fist
+                    lp(fistX, fistY, fistR + 10, 'rgba(255, 69, 0, ' + (0.4 + t * 0.3) + ')', 35);
+                    lp(fistX, fistY, fistR, 'rgba(255, 165, 0, ' + (0.5 + t * 0.3) + ')', 30);
+                    lp(fistX, fistY, fistR * 0.5, 'rgba(255, 200, 0, ' + (t * 0.5) + ')', 20);
+                    lp(fistX, fistY, fistR * 0.2, 'rgba(255, 255, 255, ' + (t * 0.4) + ')', 15);
+                    // Fire particles around fist
+                    for (let i = 0; i < 12; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = fistR * (0.5 + Math.random() * 0.8);
+                        lp(fistX + Math.cos(a) * d, fistY + Math.sin(a) * d, 2 + Math.random() * 4, i % 2 === 0 ? '#ff4500' : '#ff8c00', 10);
+                    }
+                    // Arm line (rubber band)
                     ctx.save();
-                    ctx.strokeStyle = 'rgba(255,200,0,' + (0.3 * (1 - pp)) + ')';
-                    ctx.lineWidth = 2;
-                    for (let i = 0; i < 6; i++) {
-                        const a = i * 1.05;
-                        const r = 15 + pp * 50;
+                    ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.2 + t * 0.2) + ')';
+                    ctx.lineWidth = 3;
+                    ctx.shadowColor = '#ff4500';
+                    ctx.shadowBlur = 8;
+                    ctx.setLineDash([8, 6]);
+                    ctx.beginPath();
+                    ctx.moveTo(lx, ly);
+                    const midX = lx + (fistX - lx) * 0.4;
+                    const midY = ly + Math.sin(t * 4) * 15;
+                    ctx.quadraticCurveTo(midX, midY, fistX, fistY);
+                    ctx.stroke();
+                    ctx.restore();
+                    // Screen rumble as fist approaches
+                    if (t > 0.6) {
+                        const shake = (t - 0.6) * 8;
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
+                        });
+                    }
+                }
+
+                // ===== PHASE 2: IMPACT + EXPLOSION (0.45 - 0.65) =====
+                else if (pp < 0.65) {
+                    const t = (pp - 0.45) / 0.20;
+                    const impactX = cx;
+                    const impactY = ly - 10;
+                    const blastR = 15 + t * 70;
+                    // Fire explosion
+                    lp(impactX, impactY, blastR + 25, 'rgba(255, 69, 0, ' + (0.1 + t * 0.15) + ')', 55);
+                    lp(impactX, impactY, blastR, 'rgba(255, 69, 0, ' + (0.3 + t * 0.4) + ')', 45);
+                    lp(impactX, impactY, blastR * 0.6, 'rgba(255, 165, 0, ' + (0.4 + t * 0.3) + ')', 30);
+                    lp(impactX, impactY, blastR * 0.2, 'rgba(255, 255, 255, ' + (0.5 + t * 0.3) + ')', 20);
+                    // Shockwave rings
+                    ctx.save();
+                    for (let i = 0; i < 4; i++) {
+                        const ringR = blastR + i * 12 + t * 15;
+                        ctx.strokeStyle = 'rgba(255, 69, 0, ' + (0.25 * (1 - i * 0.2) * (1 - t * 0.4)) + ')';
+                        ctx.lineWidth = 2 + i;
+                        ctx.shadowColor = '#ff4500';
+                        ctx.shadowBlur = 20;
                         ctx.beginPath();
-                        ctx.moveTo(impactX + Math.cos(a) * r * 0.5, impactY + Math.sin(a) * r * 0.5);
-                        ctx.lineTo(impactX + Math.cos(a) * r, impactY + Math.sin(a) * r);
+                        ctx.arc(impactX, impactY, ringR, 0, Math.PI * 2);
                         ctx.stroke();
                     }
                     ctx.restore();
+                    // Fire particles flying
+                    for (let i = 0; i < 25; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = blastR * (0.3 + Math.random() * 1.1);
+                        lp(impactX + Math.cos(a) * d, impactY + Math.sin(a) * d, 2 + Math.random() * 5, i % 3 === 0 ? '#ff8c00' : '#ff4500', 12);
+                    }
+                    // Fire on question elements
+                    botoes.forEach(btn => {
+                        const r = btn.getBoundingClientRect();
+                        const bx = r.left + r.width / 2, by = r.top + r.height / 2;
+                        for (let i = 0; i < 6 * t; i++) {
+                            const a = Math.random() * 6.28;
+                            const d = Math.random() * 25;
+                            lp(bx + Math.cos(a) * d, by + Math.sin(a) * d, 2 + Math.random() * 4, '#ff6347', 8);
+                        }
+                        lp(bx, by, 10 * t, 'rgba(255, 69, 0, ' + (0.2 * t) + ')', 20);
+                    });
+                    // Red overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(255, 69, 0, ' + (0.06 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Screen shake
+                    const shake = 4 + t * 8;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
+                    });
+                    // Blur question
+                    const perguntaEl = document.getElementById('pergunta');
+                    if (perguntaEl && t > 0.3) {
+                        perguntaEl.style.opacity = 1 - (t - 0.3) * 1.2;
+                        perguntaEl.style.filter = 'blur(' + (t - 0.3) * 8 + 'px)';
+                    }
+                }
+
+                // ===== PHASE 3: FIRE SUBSIDES + DAMAGE (0.65 - 0.85) =====
+                else if (pp < 0.85) {
+                    const t = (pp - 0.65) / 0.20;
+                    const impactX = cx;
+                    const impactY = ly - 10;
+                    const glowR = 30 * (1 - t);
+                    lp(impactX, impactY, glowR + 10, 'rgba(255, 69, 0, ' + (0.15 * (1 - t)) + ')', 30);
+                    lp(impactX, impactY, glowR * 0.5, 'rgba(255, 165, 0, ' + (0.1 * (1 - t)) + ')', 15);
+                    // Embers flying
+                    for (let i = 0; i < 10; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = 10 + (1 - t) * 50;
+                        lp(impactX + Math.cos(a) * d, impactY + Math.sin(a) * d, 1 + Math.random() * 3, '#ff8c00', 5);
+                    }
+                    // Fire still on buttons
+                    botoes.forEach(btn => {
+                        const r = btn.getBoundingClientRect();
+                        const bx = r.left + r.width / 2, by = r.top + r.height / 2;
+                        lp(bx, by, 8 * (1 - t), 'rgba(255, 69, 0, ' + (0.15 * (1 - t)) + ')', 15);
+                    });
+                    // Red overlay fades
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(255, 69, 0, ' + (0.06 * (1 - t)) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+
+                // ===== PHASE 4: FADEOUT + RED CORNER EFFECT (0.85 - 1.00) =====
+                else {
+                    const t = (pp - 0.85) / 0.15;
+                    lp(cx, ly - 10, 15 * (1 - t), 'rgba(255, 69, 0, ' + (0.1 * (1 - t)) + ')', 20);
+                    ctx.save();
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(255, 69, 0, ' + (0.3 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(200, 50, 0, ' + (0.12 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(200, 50, 0, 0)');
+                    ctx.fillStyle = cornerGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.3;
+                    const fadeGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                    fadeGrad.addColorStop(0, '#2e1a0a');
+                    fadeGrad.addColorStop(0.5, '#1e1005');
+                    fadeGrad.addColorStop(1, '#0a0500');
+                    ctx.fillStyle = fadeGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    if (t > 0.5) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
                 }
                 break;
             }
             case 'pikachu': {
-                const pp = progress;
-                const boltCount = Math.floor(pp * 8);
-                for (let i = 0; i < boltCount; i++) {
-                    const bx = cx + (Math.random() - 0.5) * 100;
-                    const by = (Math.random() - 0.5) * 100;
+                const pikDur = 3500;
+                const pp = Math.min(1, elapsed / pikDur);
+
+                function bolt(x1, y1, x2, y2, width, color, blur, alpha) {
                     ctx.save();
-                    ctx.globalAlpha = Math.max(0, 1 - (pp - i * 0.12) * 3);
-                    ctx.strokeStyle = '#fbbf24';
+                    ctx.globalAlpha = alpha || 1;
+                    ctx.strokeStyle = color || '#fbbf24';
+                    ctx.lineWidth = width || 3;
                     ctx.shadowColor = '#fff';
-                    ctx.shadowBlur = 25;
-                    ctx.lineWidth = 3 + Math.random() * 3;
+                    ctx.shadowBlur = blur || 25;
                     ctx.beginPath();
-                    let lx = bx, ly = -20;
-                    ctx.moveTo(lx, ly);
-                    for (let j = 0; j < 5; j++) {
-                        lx += (Math.random() - 0.5) * 50;
-                        ly += 40 + Math.random() * 30;
-                        ctx.lineTo(lx, ly);
+                    ctx.moveTo(x1, y1);
+                    const steps = 6;
+                    const dx = (x2 - x1) / steps;
+                    const dy = (y2 - y1) / steps;
+                    let px = x1, py = y1;
+                    for (let i = 0; i < steps; i++) {
+                        px += dx + (Math.random() - 0.5) * 30;
+                        py += dy + (Math.random() - 0.5) * 20;
+                        ctx.lineTo(px, py);
                     }
+                    ctx.lineTo(x2, y2);
                     ctx.stroke();
                     ctx.restore();
                 }
-                if (pp > 0.8) {
-                    botoes.forEach((btn, i) => {
-                        if (i === item.correta) {
-                            const r = btn.getBoundingClientRect();
-                            const bx = r.left + r.width / 2, by = r.top + r.height / 2;
-                            ctx.save();
-                            ctx.globalAlpha = (pp - 0.8) * 2;
-                            ctx.fillStyle = 'rgba(251, 191, 36, 0.3)';
-                            ctx.shadowColor = '#fbbf24';
-                            ctx.shadowBlur = 40;
-                            ctx.beginPath();
-                            ctx.arc(bx, by, 40 + (pp - 0.8) * 20, 0, 6.28);
-                            ctx.fill();
-                            ctx.restore();
-                        }
+
+                // ===== PHASE 0: DARK CLOUDS GATHER (0.00 - 0.10) =====
+                if (pp < 0.10) {
+                    const t = pp / 0.10;
+                    ctx.save();
+                    const cloudGrad = ctx.createLinearGradient(0, 0, 0, canvas.height * 0.2);
+                    cloudGrad.addColorStop(0, 'rgba(30, 30, 50, ' + (t * 0.8) + ')');
+                    cloudGrad.addColorStop(1, 'rgba(30, 30, 50, 0)');
+                    ctx.fillStyle = cloudGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height * 0.2);
+                    ctx.restore();
+                    for (let i = 0; i < 8 * t; i++) {
+                        const cx2 = Math.random() * canvas.width;
+                        const cy2 = Math.random() * canvas.height * 0.12;
+                        ctx.save();
+                        ctx.fillStyle = 'rgba(60, 60, 80, ' + (0.2 * t) + ')';
+                        ctx.beginPath();
+                        ctx.arc(cx2, cy2, 20 + Math.random() * 40, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    // Small static sparks
+                    for (let i = 0; i < 4 * t; i++) {
+                        const sx = Math.random() * canvas.width;
+                        bolt(sx, 0, sx + (Math.random() - 0.5) * 20, 20 + Math.random() * 30, 2, '#fbbf24', 10, 0.5 * t);
+                    }
+                }
+
+                // ===== PHASE 1: EL THOR STRIKES (0.10 - 0.45) =====
+                else if (pp < 0.45) {
+                    const t = (pp - 0.10) / 0.35;
+                    const strikeX = cx;
+                    // Main lightning bolt from sky to center
+                    const boltWidth = 6 + t * 10;
+                    bolt(strikeX, -20, strikeX + (Math.random() - 0.5) * 40, cy, boltWidth, '#fbbf24', 40, 1);
+                    bolt(strikeX, -20, strikeX + (Math.random() - 0.5) * 30, cy, boltWidth * 0.5, '#fff', 50, 1);
+                    // Secondary bolts
+                    for (let i = 0; i < 3; i++) {
+                        const sx = strikeX + (Math.random() - 0.5) * 100;
+                        bolt(sx, -10, strikeX + (Math.random() - 0.5) * 80, cy - 40 + Math.random() * 80, 3 + Math.random() * 4, '#fbbf24', 20, 0.6 + t * 0.3);
+                    }
+                    // Flash effect
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(255, 255, 200, ' + (0.08 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Ground sparks at impact
+                    for (let i = 0; i < 10 * t; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = 5 + t * 30;
+                        const sx = cx + Math.cos(a) * d;
+                        const sy = cy + Math.sin(a) * d;
+                        ctx.save();
+                        ctx.fillStyle = '#fbbf24';
+                        ctx.shadowColor = '#fff';
+                        ctx.shadowBlur = 15;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, 2 + Math.random() * 3, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    // Screen shake
+                    const shake = 2 + t * 8;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
                     });
+                }
+
+                // ===== PHASE 2: LIGHTNING SPREADS (0.45 - 0.75) =====
+                else if (pp < 0.75) {
+                    const t = (pp - 0.45) / 0.30;
+                    // Multiple bolts spreading across screen
+                    for (let i = 0; i < 6; i++) {
+                        const x1 = Math.random() * canvas.width;
+                        const x2 = x1 + (Math.random() - 0.5) * 200;
+                        const y1 = -10 - Math.random() * 50;
+                        const y2 = canvas.height * 0.3 + Math.random() * canvas.height * 0.7;
+                        const alpha = (0.3 + t * 0.5) * (1 - i * 0.1);
+                        bolt(x1, y1, x2, y2, 2 + Math.random() * 3, Math.random() > 0.5 ? '#fbbf24' : '#fde047', 15, alpha);
+                    }
+                    // Central persistent bolt
+                    bolt(cx, -20, cx + (Math.random() - 0.5) * 20, cy, 4 + t * 3, '#fff', 35, 0.7);
+                    // Sparks on the ground
+                    for (let i = 0; i < 15; i++) {
+                        const sx = Math.random() * canvas.width;
+                        const sy = canvas.height * 0.2 + Math.random() * canvas.height * 0.7;
+                        ctx.save();
+                        ctx.fillStyle = '#fde047';
+                        ctx.shadowColor = '#fbbf24';
+                        ctx.shadowBlur = 10;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, 1 + Math.random() * 3, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    // Yellow overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(251, 191, 36, ' + (0.04 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+
+                // ===== PHASE 3: RESIDUAL + FADEOUT (0.75 - 1.00) =====
+                else {
+                    const t = (pp - 0.75) / 0.25;
+                    // Fading bolts
+                    for (let i = 0; i < 3; i++) {
+                        const sx = cx + (Math.random() - 0.5) * 150;
+                        bolt(sx, -10, sx + (Math.random() - 0.5) * 50, cy - 50 + Math.random() * 100, 2, '#fbbf24', 12, 0.4 * (1 - t));
+                    }
+                    // Sparks
+                    for (let i = 0; i < 8 * (1 - t); i++) {
+                        const sx = Math.random() * canvas.width;
+                        const sy = Math.random() * canvas.height;
+                        ctx.save();
+                        ctx.fillStyle = '#fde047';
+                        ctx.shadowColor = '#fbbf24';
+                        ctx.shadowBlur = 8;
+                        ctx.globalAlpha = 0.5 * (1 - t);
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, 1 + Math.random() * 2, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    // Yellow corner effect
+                    ctx.save();
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(251, 191, 36, ' + (0.3 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(217, 119, 6, ' + (0.12 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(217, 119, 6, 0)');
+                    ctx.fillStyle = cornerGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.3;
+                    const fadeGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                    fadeGrad.addColorStop(0, '#1a1a2e');
+                    fadeGrad.addColorStop(0.5, '#1a1a2e');
+                    fadeGrad.addColorStop(1, '#0a0a1e');
+                    ctx.fillStyle = fadeGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    if (t > 0.5) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
                 }
                 break;
             }
             case 'tanjiro': {
-                const rPhase = progress < 0.3 ? 0 : progress < 0.55 ? 1 : 2;
-                const pp = rPhase === 0 ? progress / 0.3 : rPhase === 1 ? (progress - 0.3) / 0.25 : (progress - 0.55) / 0.45;
-                if (rPhase === 0) {
-                    for (let i = 0; i < 15; i++) {
-                        const a = i * 0.42 + pp * 3;
-                        const d = 10 + pp * 40;
-                        const x = startX + Math.cos(a) * d;
-                        const y = startY + Math.sin(a) * d;
+                const tanDur = 3500;
+                const pp = Math.min(1, elapsed / tanDur);
+                const tx = startX + 20;
+                const ty = startY;
+
+                function tp(x, y, r, color, blur) {
+                    ctx.save();
+                    ctx.fillStyle = color;
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = blur || 25;
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // ===== PHASE 0: WATER FORMS AROUND TANJIRO (0.00 - 0.12) =====
+                if (pp < 0.12) {
+                    const t = pp / 0.12;
+                    // Water particles
+                    for (let i = 0; i < 12 * t; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = 5 + t * 35;
+                        tp(tx + Math.cos(a) * d, ty + Math.sin(a) * d, 2 + Math.random() * 3, 'rgba(56, 189, 248, ' + (0.3 + t * 0.4) + ')', 10);
+                    }
+                    // Foam bubbles
+                    for (let i = 0; i < 5 * t; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = 10 + Math.random() * 25;
                         ctx.save();
-                        ctx.globalAlpha = 0.5;
-                        ctx.fillStyle = '#4ade80';
-                        ctx.shadowColor = '#4ade80';
-                        ctx.shadowBlur = 15;
+                        ctx.strokeStyle = 'rgba(147, 234, 255, ' + (0.2 * t) + ')';
+                        ctx.lineWidth = 1;
                         ctx.beginPath();
-                        ctx.arc(x, y, 3 + Math.sin(a) * 2, 0, 6.28);
-                        ctx.fill();
+                        ctx.arc(tx + Math.cos(a) * d, ty + Math.sin(a) * d, 2 + Math.random() * 3, 0, Math.PI * 2);
+                        ctx.stroke();
                         ctx.restore();
                     }
-                } else if (rPhase === 1) {
-                    const waveY = startY + Math.sin(pp * 6.28) * 40;
+                    tp(tx, ty, 5 + t * 12, 'rgba(56, 189, 248, ' + (0.15 + t * 0.2) + ')', 25);
+                }
+
+                // ===== PHASE 1: WATER DRAGON FORMS + TRAVELS (0.12 - 0.45) =====
+                else if (pp < 0.45) {
+                    const t = (pp - 0.12) / 0.33;
+                    const dragonX = tx + t * (cx - tx);
+                    const dragonY = ty + Math.sin(t * 6.28) * 20;
+                    const bodyR = 12 + t * 8;
+                    // Dragon body (main glow)
+                    tp(dragonX, dragonY, bodyR + 8, 'rgba(56, 189, 248, ' + (0.2 + t * 0.2) + ')', 40);
+                    tp(dragonX, dragonY, bodyR, 'rgba(102, 217, 255, ' + (0.4 + t * 0.3) + ')', 30);
+                    tp(dragonX, dragonY, bodyR * 0.5, 'rgba(147, 234, 255, ' + (t * 0.4) + ')', 20);
+                    tp(dragonX, dragonY, bodyR * 0.2, 'rgba(255, 255, 255, ' + (t * 0.3) + ')', 15);
+                    // Blue translucent trailing
                     ctx.save();
-                    ctx.strokeStyle = 'rgba(74, 222, 128, 0.7)';
-                    ctx.shadowColor = '#4ade80';
-                    ctx.shadowBlur = 25;
-                    ctx.lineWidth = 4;
+                    ctx.strokeStyle = 'rgba(56, 189, 248, ' + (0.15 * t) + ')';
+                    ctx.lineWidth = bodyR * 0.6;
+                    ctx.shadowColor = '#38bdf8';
+                    ctx.shadowBlur = 20;
                     ctx.beginPath();
-                    ctx.moveTo(startX, startY);
-                    for (let x = 0; x < (cx - startX) * pp; x += 5) {
-                        ctx.lineTo(startX + x, startY + Math.sin(x * 0.05) * 30);
+                    const trailLen = 40 + t * 60;
+                    ctx.moveTo(dragonX - trailLen, dragonY + Math.sin(t * 6.28 - 2) * 15);
+                    for (let s = 1; s <= 10; s++) {
+                        const frac = s / 10;
+                        const sx = dragonX - trailLen + frac * trailLen;
+                        const sy = dragonY + Math.sin((t - frac * 0.3) * 6.28) * 15 + (Math.sin(frac * 6.28) * 8);
+                        ctx.lineTo(sx, sy);
                     }
                     ctx.stroke();
                     ctx.restore();
-                } else {
-                    const vidaEls = document.querySelectorAll('.vida:not(.perdida)');
-                    vidaEls.forEach(el => {
-                        const r = el.getBoundingClientRect();
-                        const vx = r.left + r.width / 2, vy = r.top + r.height / 2;
-                        drawCircle(vx, vy, 12 * (1 - pp), 'rgba(74, 222, 128, ' + (0.4 * (1 - pp)) + ')', 25);
+                    // Water particles along the trail
+                    for (let i = 0; i < 18; i++) {
+                        const trailX = dragonX - Math.random() * 80 * t;
+                        const trailY = dragonY + (Math.random() - 0.5) * 30;
+                        const size = 2 + Math.random() * 4;
+                        tp(trailX, trailY, size, 'rgba(147, 234, 255, ' + (0.2 + Math.random() * 0.3) + ')', 8);
+                    }
+                    // Foam bubbles along dragon
+                    for (let i = 0; i < 6; i++) {
+                        const fx = dragonX + (Math.random() - 0.5) * 30;
+                        const fy = dragonY + (Math.random() - 0.5) * 20;
                         ctx.save();
-                        ctx.globalAlpha = (1 - pp) * 0.6;
-                        ctx.fillStyle = '#4ade80';
-                        ctx.shadowColor = '#4ade80';
-                        ctx.shadowBlur = 10;
-                        for (let k = 0; k < 5; k++) {
-                            const a = Math.random() * 6.28;
-                            const d = Math.random() * 20;
-                            ctx.beginPath();
-                            ctx.arc(vx + Math.cos(a) * d, vy + Math.sin(a) * d, 2, 0, 6.28);
-                            ctx.fill();
-                        }
+                        ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.15 * t) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.arc(fx, fy, 2 + Math.random() * 3, 0, Math.PI * 2);
+                        ctx.stroke();
                         ctx.restore();
+                    }
+                    // Liquid droplets falling
+                    for (let i = 0; i < 8 * t; i++) {
+                        const dx = dragonX + (Math.random() - 0.5) * 50;
+                        const dy = dragonY + 10 + Math.random() * 30;
+                        tp(dx, dy, 1.5 + Math.random() * 2, 'rgba(56, 189, 248, ' + (0.2 * t) + ')', 5);
+                    }
+                    // Screen starts rumbling
+                    if (t > 0.7) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = 'translate(' + (Math.random() - 0.5) * 2 + 'px, ' + (Math.random() - 0.5) * 2 + 'px)';
+                        });
+                    }
+                }
+
+                // ===== PHASE 2: DRAGON HITS QUESTIONS (0.45 - 0.70) =====
+                else if (pp < 0.70) {
+                    const t = (pp - 0.45) / 0.25;
+                    const hitX = cx;
+                    const hitY = ty;
+                    const splashR = 15 + t * 55;
+                    // Water splash explosion
+                    tp(hitX, hitY, splashR + 20, 'rgba(56, 189, 248, ' + (0.1 + t * 0.12) + ')', 50);
+                    tp(hitX, hitY, splashR, 'rgba(102, 217, 255, ' + (0.3 + t * 0.4) + ')', 40);
+                    tp(hitX, hitY, splashR * 0.6, 'rgba(147, 234, 255, ' + (0.4 + t * 0.3) + ')', 25);
+                    tp(hitX, hitY, splashR * 0.2, 'rgba(255, 255, 255, ' + (0.5 + t * 0.3) + ')', 20);
+                    // Water splash particles
+                    for (let i = 0; i < 30; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = splashR * (0.3 + Math.random() * 1.0);
+                        const size = 2 + Math.random() * 6;
+                        tp(hitX + Math.cos(a) * d, hitY + Math.sin(a) * d, size, i % 3 === 0 ? '#93eaff' : '#38bdf8', 10);
+                    }
+                    // Foam everywhere
+                    for (let i = 0; i < 12; i++) {
+                        const fx = hitX + (Math.random() - 0.5) * splashR * 1.5;
+                        const fy = hitY + (Math.random() - 0.5) * splashR * 1.5;
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.15 + t * 0.2) + ')';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.arc(fx, fy, 2 + Math.random() * 4, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.restore();
+                    }
+                    // Liquid droplets across the screen
+                    for (let i = 0; i < 15; i++) {
+                        const dx = Math.random() * canvas.width;
+                        const dy = Math.random() * canvas.height;
+                        tp(dx, dy, 1.5 + Math.random() * 3, 'rgba(56, 189, 248, ' + (0.1 + Math.random() * 0.2) + ')', 5);
+                    }
+                    // Shockwave
+                    ctx.save();
+                    for (let i = 0; i < 3; i++) {
+                        const ringR = splashR + i * 15 + t * 20;
+                        ctx.strokeStyle = 'rgba(56, 189, 248, ' + (0.2 * (1 - i * 0.2) * (1 - t * 0.4)) + ')';
+                        ctx.lineWidth = 2 + i;
+                        ctx.shadowColor = '#38bdf8';
+                        ctx.shadowBlur = 15;
+                        ctx.beginPath();
+                        ctx.arc(hitX, hitY, ringR, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    // Blue overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(56, 189, 248, ' + (0.06 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Screen shake
+                    const shake = 3 + t * 6;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
                     });
+                    const perguntaEl = document.getElementById('pergunta');
+                    if (perguntaEl && t > 0.2) {
+                        perguntaEl.style.opacity = 1 - (t - 0.2) * 1.0;
+                        perguntaEl.style.filter = 'blur(' + (t - 0.2) * 6 + 'px)';
+                    }
+                }
+
+                // ===== PHASE 3: WATER RESIDUAL (0.70 - 0.85) =====
+                else if (pp < 0.85) {
+                    const t = (pp - 0.70) / 0.15;
+                    const hitX = cx;
+                    const hitY = ty;
+                    const glowR = 30 * (1 - t);
+                    tp(hitX, hitY, glowR + 5, 'rgba(56, 189, 248, ' + (0.12 * (1 - t)) + ')', 25);
+                    tp(hitX, hitY, glowR * 0.5, 'rgba(147, 234, 255, ' + (0.08 * (1 - t)) + ')', 12);
+                    // Water droplets falling
+                    for (let i = 0; i < 10 * (1 - t); i++) {
+                        const dx = Math.random() * canvas.width;
+                        const dy = Math.random() * canvas.height;
+                        tp(dx, dy, 1 + Math.random() * 2, 'rgba(56, 189, 248, ' + (0.1 * (1 - t)) + ')', 4);
+                    }
+                    // Foam fading
+                    for (let i = 0; i < 5 * (1 - t); i++) {
+                        const fx = Math.random() * canvas.width;
+                        const fy = Math.random() * canvas.height;
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.1 * (1 - t)) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.arc(fx, fy, 1 + Math.random() * 3, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.restore();
+                    }
+                }
+
+                // ===== PHASE 4: FADEOUT + BLUE CORNER (0.85 - 1.00) =====
+                else {
+                    const t = (pp - 0.85) / 0.15;
+                    tp(cx, ty, 15 * (1 - t), 'rgba(56, 189, 248, ' + (0.08 * (1 - t)) + ')', 15);
+                    ctx.save();
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(56, 189, 248, ' + (0.3 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(14, 116, 144, ' + (0.12 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(14, 116, 144, 0)');
+                    ctx.fillStyle = cornerGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.3;
+                    const fadeGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                    fadeGrad.addColorStop(0, '#0a1a2e');
+                    fadeGrad.addColorStop(0.5, '#0a1a2e');
+                    fadeGrad.addColorStop(1, '#050a1e');
+                    ctx.fillStyle = fadeGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    if (t > 0.5) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
                 }
                 break;
             }
@@ -3015,83 +3519,300 @@ function animarPoderPersonagem(personagemId) {
                 break;
             }
             case 'mikasa': {
-                const pp = progress;
-                const numSlash = Math.min(3, Math.floor(pp * 5));
-                for (let i = 0; i < numSlash; i++) {
-                    const sx = 100 + i * 120 + Math.sin(pp * 3 + i) * 50;
-                    const sy = 100 + i * 80 + Math.cos(pp * 2 + i) * 50;
-                    const ex = sx + 80 + Math.sin(pp * 4 + i) * 40;
-                    const ey = sy - 60 - Math.cos(pp * 3 + i) * 40;
-                    const alpha = Math.max(0, 1 - (pp - i * 0.2) * 2);
+                const mikDur = 3500;
+                const pp = Math.min(1, elapsed / mikDur);
+                const mx = startX + 20;
+                const my = startY;
+
+                function mp(x, y, r, color, blur) {
                     ctx.save();
-                    ctx.globalAlpha = alpha;
-                    ctx.strokeStyle = '#fff';
-                    ctx.shadowColor = '#8b5cf6';
-                    ctx.shadowBlur = 20;
-                    ctx.lineWidth = 3;
+                    ctx.fillStyle = color;
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = blur || 25;
                     ctx.beginPath();
-                    ctx.moveTo(sx, sy);
-                    ctx.lineTo(ex, ey);
-                    ctx.stroke();
-                    ctx.strokeStyle = 'rgba(139, 92, 246, ' + alpha * 0.5 + ')';
-                    ctx.lineWidth = 6;
-                    ctx.beginPath();
-                    ctx.moveTo(sx + 5, sy - 5);
-                    ctx.lineTo(ex + 5, ey - 5);
-                    ctx.stroke();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
                     ctx.restore();
+                }
+
+                // ===== PHASE 0: THUNDER SPEARS LAUNCH (0.00 - 0.20) =====
+                if (pp < 0.20) {
+                    const t = pp / 0.20;
+                    for (let s = 0; s < 2; s++) {
+                        const offsetX = s === 0 ? -15 : 15;
+                        const offsetY = s === 0 ? -5 : 5;
+                        const spearX = mx + offsetX;
+                        const spearY = my + offsetY;
+                        const travelX = spearX + t * (cx - spearX);
+                        const travelY = spearY + t * (cy - spearY) + Math.sin(t * 8 + s) * 10;
+                        const angle = Math.atan2(cy - spearY, cx - spearX);
+                        // Rocket trail
+                        for (let i = 0; i < 10 * t; i++) {
+                            const tx = travelX - Math.random() * 20 - Math.cos(angle) * 15 * t;
+                            const ty = travelY + (Math.random() - 0.5) * 10;
+                            mp(tx, ty, 2 + Math.random() * 2, 'rgba(255, 200, 50, ' + (0.3 * t) + ')', 8);
+                        }
+                        // Smoke trail
+                        ctx.save();
+                        for (let i = 0; i < 6 * t; i++) {
+                            const sx = travelX - Math.random() * 25 - Math.cos(angle) * 20 * t;
+                            const sy = travelY + (Math.random() - 0.5) * 15;
+                            ctx.fillStyle = 'rgba(200, 200, 200, ' + (0.15 * t * (1 - i / 6)) + ')';
+                            ctx.shadowBlur = 0;
+                            ctx.beginPath();
+                            ctx.arc(sx, sy, 3 + Math.random() * 5, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                        ctx.restore();
+                        // Spear tip glow
+                        mp(travelX, travelY, 5 + t * 3, 'rgba(255, 215, 0, ' + (0.5 + t * 0.4) + ')', 20);
+                        mp(travelX, travelY, 3 + t * 1.5, 'rgba(255, 255, 200, ' + (t * 0.5) + ')', 12);
+                        mp(travelX, travelY, 1.5, 'rgba(255, 255, 255, ' + (t * 0.6) + ')', 8);
+                    }
+                }
+
+                // ===== PHASE 1: IMPACT EXPLOSION (0.20 - 0.55) =====
+                else if (pp < 0.55) {
+                    const t = (pp - 0.20) / 0.35;
+                    const blastR = 10 + t * 70;
+                    // Dual explosion
+                    for (let s = -1; s <= 1; s += 2) {
+                        const offsetX = s * 15 * (1 - t * 0.5);
+                        const ex = cx + offsetX;
+                        const ey = cy;
+                        mp(ex, ey, blastR + 20, 'rgba(255, 165, 0, ' + (0.08 + t * 0.1) + ')', 50);
+                        mp(ex, ey, blastR, 'rgba(255, 200, 50, ' + (0.2 + t * 0.4) + ')', 40);
+                        mp(ex, ey, blastR * 0.6, 'rgba(255, 255, 100, ' + (0.3 + t * 0.3) + ')', 25);
+                        mp(ex, ey, blastR * 0.2, 'rgba(255, 255, 255, ' + (0.4 + t * 0.4) + ')', 20);
+                    }
+                    // Shockwave rings
+                    ctx.save();
+                    for (let i = 0; i < 4; i++) {
+                        const ringR = blastR + i * 15 + t * 20;
+                        ctx.strokeStyle = 'rgba(255, 200, 50, ' + (0.2 * (1 - i * 0.2) * (1 - t * 0.4)) + ')';
+                        ctx.lineWidth = 2 + i;
+                        ctx.shadowColor = '#ffa500';
+                        ctx.shadowBlur = 20;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    // Debris
+                    for (let i = 0; i < 30; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = blastR * (0.3 + Math.random() * 1.0);
+                        mp(cx + Math.cos(a) * d, cy + Math.sin(a) * d, 2 + Math.random() * 5, i % 3 === 0 ? '#ffd700' : '#ff8c00', 12);
+                    }
+                    // Orange/yellow overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(255, 165, 0, ' + (0.06 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Screen shake
+                    const shake = 3 + t * 7;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
+                    });
+                    const perguntaEl = document.getElementById('pergunta');
+                    if (perguntaEl && t > 0.2) {
+                        perguntaEl.style.opacity = 1 - (t - 0.2) * 0.8;
+                        perguntaEl.style.filter = 'blur(' + (t - 0.2) * 5 + 'px)';
+                    }
+                }
+
+                // ===== PHASE 2: RESIDUAL (0.55 - 0.75) =====
+                else if (pp < 0.75) {
+                    const t = (pp - 0.55) / 0.20;
+                    const glowR = 30 * (1 - t);
+                    mp(cx, cy, glowR, 'rgba(255, 200, 50, ' + (0.12 * (1 - t)) + ')', 25);
+                    mp(cx, cy, glowR * 0.5, 'rgba(255, 255, 100, ' + (0.08 * (1 - t)) + ')', 12);
+                    // Smoke particles fading
+                    for (let i = 0; i < 10 * (1 - t); i++) {
+                        const sx = cx + (Math.random() - 0.5) * 80;
+                        const sy = cy + (Math.random() - 0.5) * 60;
+                        ctx.save();
+                        ctx.fillStyle = 'rgba(180, 180, 180, ' + (0.1 * (1 - t)) + ')';
+                        ctx.shadowBlur = 0;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, 2 + Math.random() * 4, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+
+                // ===== PHASE 3: FADEOUT (0.75 - 1.00) =====
+                else {
+                    const t = (pp - 0.75) / 0.25;
+                    mp(cx, cy, 15 * (1 - t), 'rgba(255, 200, 50, ' + (0.08 * (1 - t)) + ')', 15);
+                    ctx.save();
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(200, 100, 0, ' + (0.3 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(150, 70, 0, ' + (0.12 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(100, 50, 0, 0)');
+                    ctx.fillStyle = cornerGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.3;
+                    const fadeGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                    fadeGrad.addColorStop(0, '#1a1a2e');
+                    fadeGrad.addColorStop(0.5, '#1a1a2e');
+                    fadeGrad.addColorStop(1, '#0a0a1e');
+                    ctx.fillStyle = fadeGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    if (t > 0.5) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
                 }
                 break;
             }
             case 'sailor': {
-                const rPhase = progress < 0.3 ? 0 : progress < 0.6 ? 1 : 2;
-                const pp = rPhase === 0 ? progress / 0.3 : rPhase === 1 ? (progress - 0.3) / 0.3 : (progress - 0.6) / 0.4;
-                if (rPhase === 0) {
-                    drawCircle(startX, startY, 5 + pp * 25, 'rgba(236, 72, 153, ' + (0.3 + pp * 0.3) + ')', 35);
+                const sailDur = 3500;
+                const pp = Math.min(1, elapsed / sailDur);
+                const sx = startX + 20;
+                const sy = startY;
+
+                function sp(x, y, r, color, blur) {
                     ctx.save();
-                    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-                    ctx.setLineDash([3, 5]);
+                    ctx.fillStyle = color;
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = blur || 25;
                     ctx.beginPath();
-                    ctx.arc(startX, startY, 25 + pp * 15, 0, 6.28);
-                    ctx.stroke();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
                     ctx.restore();
-                } else if (rPhase === 1) {
-                    const ringR = 25 + pp * 100;
+                }
+
+                // ===== PHASE 0: PINK CIRCLE FORMS (0.00 - 0.20) =====
+                if (pp < 0.20) {
+                    const t = pp / 0.20;
+                    const ringR = 10 + t * 60;
+                    sp(sx, sy, ringR + 15, 'rgba(236, 72, 153, ' + (0.06 * t) + ')', 50);
+                    sp(sx, sy, ringR, 'rgba(236, 72, 153, ' + (0.2 + t * 0.3) + ')', 40);
+                    sp(sx, sy, ringR * 0.5, 'rgba(244, 114, 182, ' + (t * 0.3) + ')', 25);
+                    sp(sx, sy, ringR * 0.15, 'rgba(255, 255, 255, ' + (t * 0.4) + ')', 20);
+                    // Pink energy rings
                     ctx.save();
-                    ctx.globalAlpha = 0.3 * (1 - pp * 0.4);
-                    ctx.strokeStyle = '#ec4899';
-                    ctx.shadowColor = '#ec4899';
-                    ctx.shadowBlur = 30;
-                    ctx.lineWidth = 4;
-                    ctx.beginPath();
-                    ctx.arc(startX, startY, ringR, 0, 6.28);
-                    ctx.stroke();
-                    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                    ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.15 * t) + ')';
                     ctx.lineWidth = 2;
+                    ctx.setLineDash([4, 6]);
+                    ctx.shadowColor = '#ec4899';
+                    ctx.shadowBlur = 15;
                     ctx.beginPath();
-                    ctx.arc(startX, startY, ringR + 8, 0, 6.28);
+                    ctx.arc(sx, sy, ringR * 0.7, 0, Math.PI * 2);
                     ctx.stroke();
                     ctx.restore();
-                } else {
-                    const vidaEls = document.querySelectorAll('.vida');
+                    // Sparkles
+                    for (let i = 0; i < 10 * t; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = ringR * (0.3 + Math.random() * 0.8);
+                        sp(sx + Math.cos(a) * d, sy + Math.sin(a) * d, 1.5 + Math.random() * 2, 'rgba(255, 255, 255, ' + (0.2 + Math.random() * 0.3) + ')', 5);
+                    }
+                }
+
+                // ===== PHASE 1: HEALING CIRCLE EXPANDS (0.20 - 0.50) =====
+                else if (pp < 0.50) {
+                    const t = (pp - 0.20) / 0.30;
+                    const ringR = 70 + t * 100;
+                    sp(sx, sy, ringR + 20, 'rgba(236, 72, 153, ' + (0.04 + t * 0.04) + ')', 55);
+                    sp(sx, sy, ringR, 'rgba(236, 72, 153, ' + (0.3 + t * 0.2) + ')', 45);
+                    sp(sx, sy, ringR * 0.6, 'rgba(244, 114, 182, ' + (0.3 + t * 0.2) + ')', 30);
+                    sp(sx, sy, ringR * 0.2, 'rgba(255, 255, 255, ' + (0.4 + t * 0.2) + ')', 20);
+                    // Rotating ring
+                    const rot = t * 6.28;
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.2 + t * 0.1) + ')';
+                    ctx.lineWidth = 2.5;
+                    ctx.setLineDash([6, 8]);
+                    ctx.shadowColor = '#ec4899';
+                    ctx.shadowBlur = 20;
+                    for (let i = 0; i < 3; i++) {
+                        const ro = ringR * 0.4 + i * 15 + Math.sin(rot + i) * 5;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, ro, rot + i * 2.09, rot + i * 2.09 + 3.14);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    // Healing sparkles spreading to lives
+                    const vidaEls = document.querySelectorAll('.vida:not(.perdida)');
                     vidaEls.forEach(el => {
                         const r = el.getBoundingClientRect();
                         const vx = r.left + r.width / 2, vy = r.top + r.height / 2;
-                        drawCircle(vx, vy, 8 + pp * 10, 'rgba(236, 72, 153, ' + (0.3 * (1 - pp)) + ')', 25);
-                        ctx.save();
-                        ctx.globalAlpha = (1 - pp) * 0.5;
-                        ctx.fillStyle = '#f472b6';
-                        ctx.shadowColor = '#ec4899';
-                        ctx.shadowBlur = 10;
-                        for (let k = 0; k < 3; k++) {
+                        for (let k = 0; k < 4 * t; k++) {
                             const a = Math.random() * 6.28;
                             const d = Math.random() * 15;
-                            ctx.beginPath();
-                            ctx.arc(vx + Math.cos(a) * d, vy + Math.sin(a) * d, 2 + Math.random() * 2, 0, 6.28);
-                            ctx.fill();
+                            sp(vx + Math.cos(a) * d, vy + Math.sin(a) * d, 2 + Math.random() * 2, 'rgba(236, 72, 153, ' + (0.2 * t) + ')', 8);
                         }
-                        ctx.restore();
+                        sp(vx, vy, 6 + t * 6, 'rgba(244, 114, 182, ' + (0.15 * t) + ')', 15);
                     });
+                    // Pink sparkles across screen
+                    for (let i = 0; i < 12 * t; i++) {
+                        const px = Math.random() * canvas.width;
+                        const py = Math.random() * canvas.height;
+                        const size = 1 + Math.random() * 3;
+                        sp(px, py, size, 'rgba(236, 72, 153, ' + (0.1 * t) + ')', 5);
+                    }
+                    // Pink overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(236, 72, 153, ' + (0.03 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+
+                // ===== PHASE 2: HEALING RESIDUAL (0.50 - 0.75) =====
+                else if (pp < 0.75) {
+                    const t = (pp - 0.50) / 0.25;
+                    const ringR = 170 * (1 - t * 0.4);
+                    sp(sx, sy, ringR, 'rgba(236, 72, 153, ' + (0.2 * (1 - t)) + ')', 30);
+                    sp(sx, sy, ringR * 0.5, 'rgba(244, 114, 182, ' + (0.15 * (1 - t)) + ')', 15);
+                    // Fading sparkles
+                    for (let i = 0; i < 15 * (1 - t); i++) {
+                        const px = Math.random() * canvas.width;
+                        const py = Math.random() * canvas.height;
+                        sp(px, py, 1 + Math.random() * 2, 'rgba(236, 72, 153, ' + (0.1 * (1 - t)) + ')', 4);
+                    }
+                }
+
+                // ===== PHASE 3: FADEOUT + PINK CORNER (0.75 - 1.00) =====
+                else {
+                    const t = (pp - 0.75) / 0.25;
+                    sp(sx, sy, 25 * (1 - t), 'rgba(236, 72, 153, ' + (0.1 * (1 - t)) + ')', 20);
+                    ctx.save();
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(236, 72, 153, ' + (0.3 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(200, 50, 120, ' + (0.12 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(150, 30, 80, 0)');
+                    ctx.fillStyle = cornerGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.3;
+                    const fadeGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                    fadeGrad.addColorStop(0, '#1a0a1e');
+                    fadeGrad.addColorStop(0.5, '#1a0a1e');
+                    fadeGrad.addColorStop(1, '#0a050e');
+                    ctx.fillStyle = fadeGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    if (t > 0.5) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
                 }
                 break;
             }
@@ -3399,49 +4120,275 @@ function animarPoderPersonagem(personagemId) {
                 break;
             }
             case 'itachi': {
-                const rPhase = progress < 0.2 ? 0 : progress < 0.6 ? 1 : 2;
-                const pp = rPhase === 0 ? progress / 0.2 : rPhase === 1 ? (progress - 0.2) / 0.4 : (progress - 0.6) / 0.4;
-                if (rPhase === 0) {
-                    drawCircle(cx, cy, 5 + pp * 15, 'rgba(204, 51, 51, ' + (0.3 + pp * 0.5) + ')', 30);
-                } else if (rPhase === 1) {
-                    const r = 40 + Math.sin(pp * 3) * 5;
-                    drawCircle(cx, cy, r, 'rgba(204, 51, 51, 0.6)', 40);
+                const itaDur = 4000;
+                const pp = Math.min(1, elapsed / itaDur);
+                const ix = startX + 20;
+                const iy = startY;
+
+                function ip(x, y, r, color, blur) {
+                    ctx.save();
+                    ctx.fillStyle = color;
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = blur || 25;
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // Draw Sharingan at given position with size
+                function drawSharingan(sx, sy, size, alpha) {
+                    const a = alpha || 1;
+                    const r = size || 30;
+                    ctx.save();
+                    ctx.globalAlpha = a;
+                    // Red eye
+                    ip(sx, sy, r, 'rgba(204, 51, 51, 0.8)', 30);
+                    ip(sx, sy, r * 0.8, 'rgba(204, 51, 51, 0.6)', 20);
+                    // Black ring
                     ctx.save();
                     ctx.strokeStyle = '#1a1a1a';
                     ctx.lineWidth = 3;
+                    ctx.shadowBlur = 0;
                     ctx.beginPath();
-                    ctx.arc(cx, cy, r - 5, 0, 6.28);
+                    ctx.arc(sx, sy, r - 2, 0, Math.PI * 2);
                     ctx.stroke();
                     ctx.restore();
-                    const tomoeAngle = pp * 4;
+                    // Tomoe
+                    const tomoeAngle = pp * 3;
                     for (let i = 0; i < 3; i++) {
-                        const a = i * 2.09 + tomoeAngle;
-                        const tx = cx + Math.cos(a) * (r * 0.6);
-                        const ty = cy + Math.sin(a) * (r * 0.6);
-                        drawCircle(tx, ty, 6 + Math.sin(pp * 6 + i) * 2, '#1a1a1a', 10);
+                        const ta = tomoeAngle + i * 2.09;
+                        const tx = sx + Math.cos(ta) * (r * 0.55);
+                        const ty = sy + Math.sin(ta) * (r * 0.55);
+                        ip(tx, ty, 4, '#1a1a1a', 5);
                         ctx.save();
-                        ctx.strokeStyle = '#cc3333';
-                        ctx.lineWidth = 2;
+                        ctx.strokeStyle = '#8b0000';
+                        ctx.lineWidth = 1.5;
+                        ctx.shadowBlur = 0;
                         ctx.beginPath();
-                        ctx.arc(tx, ty, 8, 0, 6.28);
+                        ctx.arc(tx, ty, 6, 0, Math.PI * 2);
                         ctx.stroke();
                         ctx.restore();
                     }
-                    drawCircle(cx, cy, 8, '#1a1a1a', 15);
-                } else {
-                    const r = 40 * (1 - pp * 0.3);
+                    // Center pupil
+                    ip(sx, sy, 4, '#1a1a1a', 5);
+                    ctx.restore();
+                }
+
+                // Draw Mangekyou Sharingan
+                function drawMangekyou(sx, sy, size, alpha, rotation) {
+                    const a = alpha || 1;
+                    const r = size || 40;
+                    const rot = rotation || 0;
                     ctx.save();
-                    ctx.globalAlpha = 1 - pp;
-                    drawCircle(cx, cy, r, 'rgba(204, 51, 51, ' + (0.5 * (1 - pp)) + ')', 30);
-                    ctx.strokeStyle = 'rgba(204, 51, 51, ' + (0.3 * (1 - pp)) + ')';
-                    ctx.lineWidth = 2;
+                    ctx.globalAlpha = a;
+                    // Red glow
+                    ip(sx, sy, r + 15, 'rgba(204, 51, 51, ' + (0.15 * a) + ')', 40);
+                    ip(sx, sy, r, 'rgba(204, 51, 51, 0.7)', 30);
+                    ip(sx, sy, r * 0.7, 'rgba(204, 51, 51, 0.5)', 20);
+                    ip(sx, sy, r * 0.2, 'rgba(255, 50, 50, 0.6)', 15);
+                    // Three-blade pinwheel pattern
+                    ctx.save();
+                    ctx.shadowColor = '#cc3333';
+                    ctx.shadowBlur = 15;
                     for (let i = 0; i < 3; i++) {
-                        const a = i * 2.09 + pp * 2;
+                        const bladeAngle = rot + i * 2.09;
+                        ctx.save();
+                        ctx.translate(sx, sy);
+                        ctx.rotate(bladeAngle);
+                        ctx.fillStyle = 'rgba(10, 10, 10, 0.8)';
                         ctx.beginPath();
-                        ctx.arc(cx + Math.cos(a) * r * 0.6, cy + Math.sin(a) * r * 0.6, 6, 0, 6.28);
-                        ctx.stroke();
+                        ctx.moveTo(0, -r * 0.2);
+                        ctx.quadraticCurveTo(r * 0.3, -r * 0.5, r * 0.1, -r * 0.85);
+                        ctx.quadraticCurveTo(0, -r * 0.7, -r * 0.1, -r * 0.85);
+                        ctx.quadraticCurveTo(-r * 0.3, -r * 0.5, 0, -r * 0.2);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.restore();
                     }
                     ctx.restore();
+                    // Black ring
+                    ctx.save();
+                    ctx.strokeStyle = '#1a1a1a';
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 0;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, r * 0.85, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                    ctx.restore();
+                }
+
+                // Draw Amaterasu black fire (bigger, stronger)
+                function drawAmaterasu(px, py, intensity) {
+                    const t = intensity || 1;
+                    const flames = 15 + Math.floor(t * 30);
+                    for (let i = 0; i < flames; i++) {
+                        const ax = px + (Math.random() - 0.5) * 60 * t;
+                        const ay = py - Math.random() * 100 * t;
+                        const size = 5 + Math.random() * 14 * t;
+                        ip(ax, ay, size, 'rgba(5, 2, 10, ' + (0.5 * t) + ')', 18);
+                        ip(ax, ay, size * 0.6, 'rgba(50, 8, 15, ' + (0.4 * t) + ')', 12);
+                        // Red/orange glow on edges
+                        if (Math.random() > 0.5) {
+                            ip(ax - 2, ay - 1, size * 0.4, 'rgba(180, 30, 20, ' + (0.3 * t) + ')', 8);
+                            ip(ax + 1, ay - 2, size * 0.2, 'rgba(255, 60, 30, ' + (0.15 * t) + ')', 5);
+                        }
+                    }
+                }
+
+                // ===== PHASE 0: SHARINGAN APPEARS BESIDE CHARACTER (0.00 - 0.15) =====
+                if (pp < 0.15) {
+                    const t = pp / 0.15;
+                    const sharinganX = ix + 50;
+                    const sharinganY = iy;
+                    const size = 10 + t * 20;
+                    drawSharingan(sharinganX, sharinganY, size, t);
+                    // Red particles
+                    for (let i = 0; i < 8 * t; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = 5 + t * 25;
+                        ip(sharinganX + Math.cos(a) * d, sharinganY + Math.sin(a) * d, 2 + Math.random() * 2, 'rgba(204, 51, 51, ' + (0.3 * t) + ')', 8);
+                    }
+                }
+
+                // ===== PHASE 1: MANGEKYOU APPEARS IN MIDDLE (0.15 - 0.40) =====
+                else if (pp < 0.40) {
+                    const t = (pp - 0.15) / 0.25;
+                    const mgX = cx;
+                    const mgY = cy - 50;
+                    const size = 15 + t * 25;
+                    const rot = t * 2;
+                    drawMangekyou(mgX, mgY, size, t, rot);
+                    // Red aura
+                    for (let i = 0; i < 15 * t; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = size * (0.5 + Math.random() * 1.0);
+                        ip(mgX + Math.cos(a) * d, mgY + Math.sin(a) * d, 2 + Math.random() * 3, 'rgba(204, 51, 51, ' + (0.2 * t) + ')', 10);
+                    }
+                    // Darkening overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(0, 0, 0, ' + (0.05 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+
+                // ===== PHASE 2: AMATERASU RISES - BIG FLAMES (0.40 - 0.70) =====
+                else if (pp < 0.70) {
+                    const t = (pp - 0.40) / 0.30;
+                    const mgX = cx;
+                    const mgY = cy - 50;
+                    // Mangekyou still visible, fading
+                    drawMangekyou(mgX, mgY, 40, 1 - t * 0.5, pp * 2);
+                    // Massive black fire from below - reaches middle of screen
+                    const flameHeight = 80 + t * 200;
+                    // Fire wall across entire bottom half
+                    ctx.save();
+                    const fireGrad = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - flameHeight);
+                    fireGrad.addColorStop(0, 'rgba(5, 2, 8, ' + (0.7 * t) + ')');
+                    fireGrad.addColorStop(0.3, 'rgba(40, 8, 15, ' + (0.4 * t) + ')');
+                    fireGrad.addColorStop(0.6, 'rgba(180, 30, 20, ' + (0.15 * t) + ')');
+                    fireGrad.addColorStop(1, 'rgba(10, 5, 15, 0)');
+                    ctx.fillStyle = fireGrad;
+                    ctx.fillRect(0, canvas.height - flameHeight, canvas.width, flameHeight);
+                    ctx.restore();
+                    // Individual flame particles across the whole screen bottom
+                    for (let i = 0; i < 25 + Math.floor(t * 30); i++) {
+                        const fx = Math.random() * canvas.width;
+                        const fy = canvas.height - Math.random() * flameHeight;
+                        const size = 4 + Math.random() * 12 * t;
+                        ip(fx, fy, size, 'rgba(5, 2, 10, ' + (0.4 * t) + ')', 15);
+                        ip(fx, fy, size * 0.5, 'rgba(180, 30, 20, ' + (0.25 * t) + ')', 8);
+                        if (Math.random() > 0.6) {
+                            ip(fx - 1, fy - 1, size * 0.3, 'rgba(255, 60, 30, ' + (0.15 * t) + ')', 5);
+                        }
+                    }
+                    // Flames on each button
+                    botoes.forEach(btn => {
+                        const r = btn.getBoundingClientRect();
+                        const bx = r.left + r.width / 2;
+                        const by = r.bottom;
+                        for (let i = 0; i < 8 + Math.floor(t * 12); i++) {
+                            const fx = bx + (Math.random() - 0.5) * r.width;
+                            const fy = by - Math.random() * flameHeight * 0.6;
+                            const size = 3 + Math.random() * 10 * t;
+                            ip(fx, fy, size, 'rgba(5, 2, 10, ' + (0.5 * t) + ')', 14);
+                            ip(fx, fy, size * 0.4, 'rgba(180, 30, 20, ' + (0.2 * t) + ')', 6);
+                        }
+                    });
+                    // Strong darkening overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(0, 0, 0, ' + (0.15 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Screen shake
+                    if (t > 0.2) {
+                        const shake = 1 + t * 3;
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
+                        });
+                    }
+                    // Blur question
+                    const perguntaEl = document.getElementById('pergunta');
+                    if (perguntaEl && t > 0.3) {
+                        perguntaEl.style.opacity = 1 - (t - 0.3) * 1.2;
+                        perguntaEl.style.filter = 'blur(' + (t - 0.3) * 8 + 'px)';
+                    }
+                }
+
+                // ===== PHASE 3: FLAMES SPREAD + HEAVY DARKNESS (0.70 - 0.88) =====
+                else if (pp < 0.88) {
+                    const t = (pp - 0.70) / 0.18;
+                    // Massive spreading black flames covering the screen
+                    for (let i = 0; i < 30; i++) {
+                        const fx = Math.random() * canvas.width;
+                        const fy = Math.random() * canvas.height;
+                        const size = 5 + Math.random() * 16 * t;
+                        ip(fx, fy, size, 'rgba(5, 2, 10, ' + (0.3 * t) + ')', 14);
+                        ip(fx, fy, size * 0.5, 'rgba(180, 30, 20, ' + (0.15 * t) + ')', 6);
+                    }
+                    // Heavy dark overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(0, 0, 0, ' + (0.2 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+
+                // ===== PHASE 4: FADEOUT + PURPLE CORNER (0.88 - 1.00) =====
+                else {
+                    const t = (pp - 0.88) / 0.12;
+                    // Residual Mangekyou
+                    drawMangekyou(cx, cy - 50, 30, (1 - t) * 0.3, pp * 3);
+                    // Fading flames
+                    for (let i = 0; i < 8 * (1 - t); i++) {
+                        const fx = Math.random() * canvas.width;
+                        const fy = canvas.height * 0.3 + Math.random() * canvas.height * 0.7;
+                        ip(fx, fy, 2 + Math.random() * 4, 'rgba(10, 5, 15, ' + (0.15 * (1 - t)) + ')', 8);
+                    }
+                    // Purple/Dark corner effect
+                    ctx.save();
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(80, 20, 80, ' + (0.35 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(40, 10, 40, ' + (0.15 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(20, 5, 20, 0)');
+                    ctx.fillStyle = cornerGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.4;
+                    ctx.fillStyle = '#0a0a0a';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    if (t > 0.5) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
                 }
                 break;
             }
@@ -3451,216 +4398,402 @@ function animarPoderPersonagem(personagemId) {
                 const mx = startX + 20;
                 const my = startY;
 
-                function melParticle(x, y, size, color, blur) {
-                    ctx.save();
-                    ctx.fillStyle = color;
-                    ctx.shadowColor = color;
-                    ctx.shadowBlur = blur || 20;
-                    ctx.beginPath();
-                    ctx.arc(x, y, size, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                }
-
-                // ===== PHASE 0: DARK AURA BUILDUP (0.00 - 0.12) =====
-                if (pp < 0.12) {
-                    const t = pp / 0.12;
-                    const radius = 5 + t * 30;
-                    melParticle(mx, my, radius + 15, 'rgba(45, 27, 78, ' + (0.08 * t) + ')', 40);
-                    melParticle(mx, my, radius, 'rgba(30, 15, 50, ' + (0.2 + t * 0.3) + ')', 30);
-                    melParticle(mx, my, radius * 0.5, 'rgba(80, 30, 120, ' + (t * 0.4) + ')', 20);
-                    ctx.save();
-                    ctx.strokeStyle = 'rgba(80, 30, 120, ' + (0.2 * t) + ')';
-                    ctx.lineWidth = 2;
-                    ctx.shadowColor = '#2d1b4e';
-                    ctx.shadowBlur = 15;
-                    for (let i = 0; i < 6; i++) {
-                        const a = i * 1.047 + t * 0.5;
-                        const len = 10 + t * 25;
+                // ===== PHASE 0: DARK AURA BUILDUP (0.00 - 0.15) =====
+                if (pp < 0.15) {
+                    const t = pp / 0.15;
+                    for (let i = 0; i < 15 * t; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = 5 + t * 35;
+                        ctx.save();
+                        ctx.fillStyle = '#2d1b4e';
+                        ctx.shadowColor = '#1a0a2e';
+                        ctx.shadowBlur = 15;
+                        ctx.globalAlpha = 0.3 + t * 0.3;
                         ctx.beginPath();
-                        ctx.moveTo(mx, my);
-                        ctx.quadraticCurveTo(mx + Math.cos(a) * len * 0.7, my + Math.sin(a) * len * 0.7, mx + Math.cos(a) * len, my + Math.sin(a) * len);
-                        ctx.stroke();
+                        ctx.arc(mx + Math.cos(a) * d, my + Math.sin(a) * d, 2 + Math.random() * 3, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
                     }
-                    ctx.restore();
-                    melParticle(mx, my, 3, 'rgba(180, 50, 50, ' + (0.3 + t * 0.5) + ')', 25);
-                }
-
-                // ===== PHASE 1: DARK SWORD FORMS (0.12 - 0.30) =====
-                else if (pp < 0.30) {
-                    const t = (pp - 0.12) / 0.18;
-                    const bladeLen = 10 + t * 60;
-                    const bladeX = mx + 20;
-                    const bladeY = my - 10;
-                    melParticle(bladeX, bladeY - bladeLen * 0.5, 3 + t * 5, 'rgba(60, 20, 100, ' + (0.3 + t * 0.4) + ')', 25);
+                    // Dark sword forming
+                    const swordLen = t * 50;
                     ctx.save();
-                    ctx.strokeStyle = 'rgba(120, 40, 180, ' + (0.3 + t * 0.5) + ')';
-                    ctx.lineWidth = 2 + t * 3;
-                    ctx.shadowColor = '#2d1b4e';
-                    ctx.shadowBlur = 20;
+                    ctx.strokeStyle = 'rgba(30, 10, 60, ' + (0.3 + t * 0.4) + ')';
+                    ctx.lineWidth = 3 + t * 5;
+                    ctx.shadowColor = '#1a0a2e';
+                    ctx.shadowBlur = 25;
                     ctx.beginPath();
-                    ctx.moveTo(bladeX - 4, bladeY);
-                    ctx.lineTo(bladeX, bladeY - bladeLen);
-                    ctx.lineTo(bladeX + 4, bladeY);
-                    ctx.closePath();
+                    ctx.moveTo(mx + 20, my);
+                    ctx.lineTo(mx + 20, my - swordLen);
                     ctx.stroke();
-                    ctx.fillStyle = 'rgba(20, 10, 40, ' + (0.3 + t * 0.4) + ')';
-                    ctx.shadowBlur = 0;
-                    ctx.fill();
                     ctx.restore();
-                    for (let i = 0; i < 6 * t; i++) {
-                        const a = Math.random() * Math.PI * 2;
-                        const d = 5 + Math.random() * 15;
-                        melParticle(bladeX + Math.cos(a) * d, bladeY - bladeLen * 0.5 + Math.sin(a) * d, 2 + Math.random() * 3, '#3a1a6e', 10);
-                    }
                 }
 
-                // ===== PHASE 2: DARKNESS CONCENTRATES (0.30 - 0.45) =====
-                else if (pp < 0.45) {
-                    const t = (pp - 0.30) / 0.15;
-                    const bladeX = mx + 20;
-                    const bladeY = my - 10;
-                    const bladeLen = 70;
-                    const tipX = bladeX;
-                    const tipY = bladeY - bladeLen;
-                    const orbR = 5 + t * 20;
-                    melParticle(tipX, tipY, orbR + 12, 'rgba(45, 20, 80, ' + (0.1 + t * 0.15) + ')', 40);
-                    melParticle(tipX, tipY, orbR, 'rgba(30, 10, 60, ' + (0.3 + t * 0.4) + ')', 30);
-                    melParticle(tipX, tipY, orbR * 0.5, 'rgba(100, 40, 160, ' + (t * 0.5) + ')', 20);
-                    ctx.save();
-                    ctx.strokeStyle = 'rgba(80, 30, 140, ' + (0.25 * t) + ')';
-                    ctx.lineWidth = 2;
-                    ctx.shadowColor = '#2d1b4e';
-                    ctx.shadowBlur = 12;
-                    for (let i = 0; i < 3; i++) {
-                        const pulseR = orbR + i * 8 + Math.sin(t * 10 + i) * 4;
-                        ctx.beginPath();
-                        ctx.arc(tipX, tipY, pulseR, 0, Math.PI * 2);
-                        ctx.stroke();
-                    }
-                    ctx.restore();
-                    for (let i = 0; i < 15; i++) {
-                        const a = Math.random() * Math.PI * 2;
-                        const d = 20 + (1 - t) * 40;
-                        melParticle(tipX + Math.cos(a) * d, tipY + Math.sin(a) * d, 2 + Math.random() * 3, '#4a1a7e', 8);
-                    }
-                }
-
-                // ===== PHASE 3: THE BLACK SLASH SWING (0.45 - 0.60) =====
-                else if (pp < 0.60) {
-                    const t = (pp - 0.45) / 0.15;
-                    const arcX = mx + 50 + t * 200;
-                    const arcY = my - 30 + Math.sin(t * Math.PI) * 60;
-                    const arcRadius = 40 + t * 80;
+                // ===== PHASE 1: BIG SLASH SWING (0.15 - 0.50) =====
+                else if (pp < 0.50) {
+                    const t = (pp - 0.15) / 0.35;
+                    const slashX = mx + 50 + t * (cx - mx - 50);
+                    const slashY = my + Math.sin(t * 6.28) * 30;
+                    const slashLen = 80 + t * 120;
+                    const angle = -0.6 + t * 1.2;
+                    // Big dark slash arc
                     ctx.save();
                     ctx.shadowColor = '#1a0a2e';
                     ctx.shadowBlur = 50;
-                    ctx.strokeStyle = 'rgba(30, 10, 60, ' + (0.6 + t * 0.3) + ')';
-                    ctx.lineWidth = 15 + t * 20;
+                    ctx.strokeStyle = 'rgba(20, 5, 40, ' + (0.7 + t * 0.3) + ')';
+                    ctx.lineWidth = 12 + t * 20;
                     ctx.beginPath();
-                    ctx.arc(arcX, arcY, arcRadius, -Math.PI * 0.8 + t * 0.5, Math.PI * 0.3 + t * 0.5);
+                    ctx.arc(slashX, slashY, slashLen, -Math.PI * 0.6 + t * 0.3, Math.PI * 0.6 + t * 0.3);
                     ctx.stroke();
+                    // Purple inner edge
                     ctx.shadowBlur = 30;
                     ctx.strokeStyle = 'rgba(80, 30, 140, ' + (0.3 + t * 0.4) + ')';
-                    ctx.lineWidth = 6 + t * 8;
+                    ctx.lineWidth = 5 + t * 8;
                     ctx.beginPath();
-                    ctx.arc(arcX, arcY, arcRadius, -Math.PI * 0.8 + t * 0.5, Math.PI * 0.3 + t * 0.5);
+                    ctx.arc(slashX, slashY, slashLen, -Math.PI * 0.6 + t * 0.3, Math.PI * 0.6 + t * 0.3);
                     ctx.stroke();
+                    // White core
                     ctx.shadowBlur = 20;
                     ctx.strokeStyle = 'rgba(180, 140, 220, ' + (t * 0.3) + ')';
                     ctx.lineWidth = 2;
                     ctx.beginPath();
-                    ctx.arc(arcX, arcY, arcRadius, -Math.PI * 0.8 + t * 0.5, Math.PI * 0.3 + t * 0.5);
+                    ctx.arc(slashX, slashY, slashLen, -Math.PI * 0.6 + t * 0.3, Math.PI * 0.6 + t * 0.3);
                     ctx.stroke();
                     ctx.restore();
+                    // Slash particles
                     for (let i = 0; i < 20; i++) {
-                        const angle = -Math.PI * 0.8 + t * 0.5 + (Math.random() - 0.5) * 0.4;
-                        const dist = arcRadius * (0.5 + Math.random() * 0.5);
-                        const px = arcX + Math.cos(angle) * dist;
-                        const py = arcY + Math.sin(angle) * dist;
-                        melParticle(px, py, 2 + Math.random() * 4, i % 3 === 0 ? '#6a2aae' : '#2a0a4e', 12);
+                        const a = -Math.PI * 0.6 + t * 0.3 + (Math.random() - 0.5) * 0.5;
+                        const d = slashLen * (0.4 + Math.random() * 0.6);
+                        const px = slashX + Math.cos(a) * d;
+                        const py = slashY + Math.sin(a) * d;
+                        ctx.save();
+                        ctx.fillStyle = i % 3 === 0 ? '#6a2aae' : '#2a0a4e';
+                        ctx.shadowColor = '#1a0a2e';
+                        ctx.shadowBlur = 12;
+                        ctx.beginPath();
+                        ctx.arc(px, py, 2 + Math.random() * 4, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
                     }
-                    const shakeIntensity = 4 + t * 6;
+                    // Screen shake
+                    const shake = 3 + t * 8;
                     document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
-                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shakeIntensity + 'px, ' + (Math.random() - 0.5) * shakeIntensity + 'px)';
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
                     });
                 }
 
-                // ===== PHASE 4: SLASH WAVE TRAVELS (0.60 - 0.78) =====
-                else if (pp < 0.78) {
-                    const t = (pp - 0.60) / 0.18;
-                    const waveX = mx + 100 + t * (canvas.width - mx - 100);
-                    const waveY = my - 30 + Math.sin(t * Math.PI * 2) * 40;
-                    const shockR = 20 + t * 40;
-                    melParticle(waveX, waveY, shockR + 20, 'rgba(30, 10, 60, ' + (0.1 + t * 0.1) + ')', 45);
-                    melParticle(waveX, waveY, shockR, 'rgba(45, 20, 80, ' + (0.3 + t * 0.2) + ')', 35);
-                    melParticle(waveX, waveY, shockR * 0.4, 'rgba(100, 50, 160, ' + (t * 0.4) + ')', 20);
+                // ===== PHASE 2: SLASH HITS + QUESTIONS FALL (0.50 - 0.75) =====
+                else if (pp < 0.75) {
+                    const t = (pp - 0.50) / 0.25;
+                    // Cut line across the questions
                     ctx.save();
-                    ctx.strokeStyle = 'rgba(60, 20, 100, ' + (0.3 * t) + ')';
-                    ctx.lineWidth = 1 + t * 2;
-                    ctx.shadowColor = '#1a0a2e';
-                    ctx.shadowBlur = 10;
-                    for (let i = 0; i < 12; i++) {
-                        const cx = waveX + (Math.random() - 0.5) * 60;
-                        const cy = waveY + (Math.random() - 0.5) * 60;
-                        ctx.beginPath();
-                        ctx.moveTo(cx, cy);
-                        for (let j = 0; j < 3; j++) {
-                            ctx.lineTo(cx + (Math.random() - 0.5) * 30, cy + (Math.random() - 0.5) * 30);
-                        }
-                        ctx.stroke();
-                    }
+                    ctx.strokeStyle = 'rgba(60, 20, 100, ' + (0.4 + t * 0.3) + ')';
+                    ctx.lineWidth = 2 + t * 3;
+                    ctx.shadowColor = '#2d1b4e';
+                    ctx.shadowBlur = 15;
+                    ctx.setLineDash([8, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(cx - 150, cy);
+                    ctx.lineTo(cx + 150, cy + Math.sin(t * 4) * 10);
+                    ctx.stroke();
                     ctx.restore();
-                    for (let i = 0; i < 25; i++) {
-                        const tx = waveX - Math.random() * 100;
-                        const ty = waveY + (Math.random() - 0.5) * 80;
-                        melParticle(tx, ty, 2 + Math.random() * 5, '#2a0a4e', 10);
-                    }
-                }
-
-                // ===== PHASE 5: DARKNESS CONSUMES (0.78 - 0.93) =====
-                else if (pp < 0.93) {
-                    const t = (pp - 0.78) / 0.15;
-                    const centerX = mx + 200;
-                    const centerY = my - 20;
-                    const voidR = 10 + t * 150;
-                    melParticle(centerX, centerY, voidR + 30, 'rgba(10, 5, 20, ' + (0.05 + t * 0.1) + ')', 50);
-                    melParticle(centerX, centerY, voidR, 'rgba(15, 5, 30, ' + (0.2 + t * 0.3) + ')', 40);
-                    melParticle(centerX, centerY, voidR * 0.6, 'rgba(30, 15, 50, ' + (t * 0.3) + ')', 25);
-                    ctx.save();
-                    for (let i = 0; i < 5; i++) {
-                        const rOff = i * 12 + t * 20;
-                        ctx.strokeStyle = 'rgba(80, 30, 140, ' + (0.15 * (1 - i * 0.15) * t) + ')';
-                        ctx.lineWidth = 2 + i * 0.5;
+                    // Cut effect on each button - falling
+                    botoes.forEach(btn => {
+                        const r = btn.getBoundingClientRect();
+                        const bx = r.left + r.width / 2, by = r.top + r.height / 2;
+                        // Cut mark
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(100, 30, 160, ' + (0.5 * t) + ')';
+                        ctx.lineWidth = 3;
                         ctx.shadowColor = '#2d1b4e';
-                        ctx.shadowBlur = 20;
+                        ctx.shadowBlur = 10;
                         ctx.beginPath();
-                        ctx.arc(centerX, centerY, voidR * 0.3 + rOff, 0, Math.PI * 2);
+                        ctx.moveTo(bx - 30, by - 5);
+                        ctx.lineTo(bx + 30, by + 5);
                         ctx.stroke();
-                    }
-                    ctx.restore();
-                    for (let i = 0; i < 30; i++) {
-                        const a = Math.random() * Math.PI * 2;
-                        const d = voidR * (0.2 + Math.random() * 0.8);
-                        melParticle(centerX + Math.cos(a) * d, centerY + Math.sin(a) * d, 2 + Math.random() * 4, '#1a0a2e', 8);
-                    }
-                    const perguntaEl = document.getElementById('pergunta');
-                    if (perguntaEl && t > 0.3) {
-                        const progress = (t - 0.3) / 0.7;
-                        if (progress > 0.3) {
-                            perguntaEl.style.opacity = 1 - (progress - 0.3) * 1.5;
-                            perguntaEl.style.filter = 'blur(' + (progress - 0.3) * 10 + 'px)';
+                        ctx.restore();
+                        // Dark particles from cut
+                        for (let i = 0; i < 6 * t; i++) {
+                            const a = Math.random() * 6.28;
+                            const d = 5 + t * 20;
+                            ctx.save();
+                            ctx.fillStyle = '#1a0a2e';
+                            ctx.shadowColor = '#0a0a0a';
+                            ctx.shadowBlur = 8;
+                            ctx.beginPath();
+                            ctx.arc(bx + Math.cos(a) * d, by + Math.sin(a) * d + t * 10, 2 + Math.random() * 3, 0, Math.PI * 2);
+                            ctx.fill();
+                            ctx.restore();
                         }
+                        // Button falls down with offset
+                        const fallY = t * 20;
+                        btn.style.transform = 'translateY(' + fallY + 'px) rotate(' + (t * 3) + 'deg)';
+                        btn.style.opacity = 1 - t * 0.5;
+                    });
+                    // Dark overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(0, 0, 0, ' + (0.06 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Blur question
+                    const perguntaEl = document.getElementById('pergunta');
+                    if (perguntaEl && t > 0.2) {
+                        perguntaEl.style.opacity = 1 - (t - 0.2) * 0.8;
+                        perguntaEl.style.filter = 'blur(' + (t - 0.2) * 6 + 'px)';
                     }
                 }
 
-                // ===== PHASE 6: FADEOUT + AUTO PROXIMA (0.93 - 1.00) =====
+                // ===== PHASE 3: FADEOUT + DARK CORNER (0.75 - 1.00) =====
                 else {
-                    const t = (pp - 0.93) / 0.07;
-                    melParticle(mx + 50, my - 10, 20 * (1 - t), 'rgba(30, 15, 50, ' + (0.15 * (1 - t)) + ')', 25);
+                    const t = (pp - 0.75) / 0.25;
+                    // Reset button transforms on cleanup
+                    if (t > 0.5) {
+                        botoes.forEach(btn => {
+                            btn.style.transform = '';
+                            btn.style.opacity = '';
+                        });
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
                     ctx.save();
-                    ctx.globalAlpha = t * 0.5;
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(20, 5, 30, ' + (0.35 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(10, 3, 15, ' + (0.15 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(5, 2, 10, 0)');
+                    ctx.fillStyle = cornerGrad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.4;
                     ctx.fillStyle = '#0a0a0a';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+                break;
+            }
+            case 'sukuna': {
+                const sukDur = 4000;
+                const pp = Math.min(1, elapsed / sukDur);
+
+                function sip(x, y, r, color, blur) {
+                    ctx.save();
+                    ctx.fillStyle = color;
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = blur || 25;
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // Draw eye
+                function drawEye(ex, ey, size, alpha) {
+                    const s = size || 20;
+                    const a = alpha || 1;
+                    ctx.save();
+                    ctx.globalAlpha = a;
+                    // Red sclera
+                    sip(ex, ey, s, 'rgba(180, 20, 20, 0.8)', 20);
+                    // Black pupil
+                    sip(ex, ey, s * 0.5, 'rgba(5, 2, 5, 0.9)', 15);
+                    // Inner red glow
+                    sip(ex, ey, s * 0.3, 'rgba(220, 30, 30, 0.6)', 10);
+                    // Black rings around eye
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(5, 2, 5, 0.8)';
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 0;
+                    ctx.beginPath();
+                    ctx.arc(ex, ey, s, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                    ctx.restore();
+                }
+
+                // ===== PHASE 0: SCREEN DARKENS + EYES APPEAR (0.00 - 0.20) =====
+                if (pp < 0.20) {
+                    const t = pp / 0.20;
+                    // Dark overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(5, 2, 10, ' + (t * 0.7) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Eyes appearing in the middle
+                    const eyeSize = 10 + t * 25;
+                    const eyeSpacing = eyeSize * 1.8;
+                    drawEye(cx - eyeSpacing / 2, cy, eyeSize, t);
+                    drawEye(cx + eyeSpacing / 2, cy, eyeSize, t);
+                    // Red glow around eyes
+                    sip(cx, cy, 40 + t * 40, 'rgba(180, 20, 20, ' + (0.03 * t) + ')', 35);
+                }
+
+                // ===== PHASE 1: CUT LINES APPEAR (0.20 - 0.45) =====
+                else if (pp < 0.45) {
+                    const t = (pp - 0.20) / 0.25;
+                    // Dark background
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(5, 2, 10, 0.7)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Eyes watching
+                    const eyeSize = 35;
+                    drawEye(cx - 32, cy, eyeSize, 1);
+                    drawEye(cx + 32, cy, eyeSize, 1);
+                    // Cut lines appearing across screen
+                    ctx.save();
+                    for (let i = 0; i < 8 + Math.floor(t * 12); i++) {
+                        const x1 = Math.random() * canvas.width;
+                        const y1 = Math.random() * canvas.height;
+                        const x2 = x1 + (Math.random() - 0.5) * 300;
+                        const y2 = y1 + (Math.random() - 0.5) * 300;
+                        ctx.strokeStyle = 'rgba(180, 180, 200, ' + (0.1 + t * 0.3) + ')';
+                        ctx.lineWidth = 1 + Math.random() * 2;
+                        ctx.shadowColor = '#aaa';
+                        ctx.shadowBlur = 5;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, y1);
+                        for (let s = 1; s <= 4; s++) {
+                            const frac = s / 4;
+                            const lx = x1 + (x2 - x1) * frac + (Math.random() - 0.5) * 15;
+                            const ly = y1 + (y2 - y1) * frac + (Math.random() - 0.5) * 15;
+                            ctx.lineTo(lx, ly);
+                        }
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    // Screen shake building
+                    const shake = 1 + t * 4;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
+                    });
+                }
+
+                // ===== PHASE 2: CUTS CROSS ENTIRE SCREEN (0.45 - 0.70) =====
+                else if (pp < 0.70) {
+                    const t = (pp - 0.45) / 0.25;
+                    // Dark background
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(5, 2, 10, 0.8)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    // Eyes still visible
+                    drawEye(cx - 25, cy, 25, 1 - t * 0.3);
+                    drawEye(cx + 25, cy, 25, 1 - t * 0.3);
+                    // Massive cuts crossing the entire screen
+                    ctx.save();
+                    for (let i = 0; i < 15; i++) {
+                        const isHorizontal = i % 2 === 0;
+                        const x1 = isHorizontal ? 0 : Math.random() * canvas.width;
+                        const y1 = isHorizontal ? Math.random() * canvas.height : 0;
+                        const x2 = isHorizontal ? canvas.width : x1 + (Math.random() - 0.5) * 200;
+                        const y2 = isHorizontal ? y1 + (Math.random() - 0.5) * 20 : canvas.height;
+                        ctx.strokeStyle = 'rgba(200, 190, 210, ' + (0.2 + t * 0.4) + ')';
+                        ctx.lineWidth = 2 + Math.random() * 4;
+                        ctx.shadowColor = '#fff';
+                        ctx.shadowBlur = 8;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, y1);
+                        let px = x1, py = y1;
+                        const steps = 10;
+                        for (let s = 1; s <= steps; s++) {
+                            const frac = s / steps;
+                            px = x1 + (x2 - x1) * frac + (Math.random() - 0.5) * 20;
+                            py = y1 + (y2 - y1) * frac + (Math.random() - 0.5) * 20;
+                            ctx.lineTo(px, py);
+                        }
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    // Screen violently shaking
+                    const shake = 3 + t * 10;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
+                    });
+                    // Blur everything
+                    const perguntaEl = document.getElementById('pergunta');
+                    if (perguntaEl && t > 0.2) {
+                        perguntaEl.style.opacity = 1 - (t - 0.2) * 1.5;
+                        perguntaEl.style.filter = 'blur(' + (t - 0.2) * 10 + 'px)';
+                    }
+                    // Red overlay building
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(180, 20, 20, ' + (0.04 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+
+                // ===== PHASE 3: RED/BLACK EXPLOSION - SCREEN "RIPPED" (0.70 - 0.90) =====
+                else if (pp < 0.90) {
+                    const t = (pp - 0.70) / 0.20;
+                    // Black background
+                    ctx.fillStyle = '#050208';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    // Red/black explosion centered
+                    const blastR = 20 + t * 200;
+                    sip(cx, cy, blastR + 40, 'rgba(180, 20, 20, ' + (0.05 + t * 0.08) + ')', 60);
+                    sip(cx, cy, blastR, 'rgba(180, 20, 20, ' + (0.1 + t * 0.2) + ')', 50);
+                    sip(cx, cy, blastR * 0.7, 'rgba(120, 10, 10, ' + (0.2 + t * 0.3) + ')', 35);
+                    sip(cx, cy, blastR * 0.3, 'rgba(220, 30, 30, ' + (t * 0.4) + ')', 25);
+                    sip(cx, cy, blastR * 0.1, 'rgba(255, 80, 50, ' + (t * 0.5) + ')', 20);
+                    // "Ripped screen" effect - jagged edges
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(40, 10, 10, 0.8)';
+                    ctx.lineWidth = 3;
+                    for (let i = 0; i < 12; i++) {
+                        const angle = Math.random() * 6.28;
+                        const d1 = blastR * (0.3 + Math.random() * 0.5);
+                        const d2 = blastR * (0.6 + Math.random() * 0.6);
+                        ctx.beginPath();
+                        ctx.moveTo(cx + Math.cos(angle) * d1, cy + Math.sin(angle) * d1);
+                        for (let s = 1; s <= 5; s++) {
+                            const frac = s / 5;
+                            const lx = cx + Math.cos(angle + (Math.random() - 0.5) * 0.3) * (d1 + (d2 - d1) * frac) + (Math.random() - 0.5) * 10;
+                            const ly = cy + Math.sin(angle + (Math.random() - 0.5) * 0.3) * (d1 + (d2 - d1) * frac) + (Math.random() - 0.5) * 10;
+                            ctx.lineTo(lx, ly);
+                        }
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    // Dark debris particles
+                    for (let i = 0; i < 35; i++) {
+                        const a = Math.random() * 6.28;
+                        const d = blastR * (0.2 + Math.random() * 1.2);
+                        sip(cx + Math.cos(a) * d, cy + Math.sin(a) * d, 2 + Math.random() * 6, '#0a0508', 8);
+                    }
+                    // Screen shake at max
+                    const shake = 5 + t * 8;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shake + 'px, ' + (Math.random() - 0.5) * shake + 'px)';
+                    });
+                    // Red flash overlay
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(180, 10, 10, ' + (0.06 * t) + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+
+                // ===== PHASE 4: FADEOUT + DARK CORNER (0.90 - 1.00) =====
+                else {
+                    const t = (pp - 0.90) / 0.10;
+                    ctx.fillStyle = 'rgba(5, 2, 10, ' + t + ')';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    // Residual red glow
+                    sip(cx, cy, 30 * (1 - t), 'rgba(180, 20, 20, ' + (0.1 * (1 - t)) + ')', 25);
+                    // Red/black corner effect
+                    ctx.save();
+                    const cornerGrad = ctx.createRadialGradient(
+                        canvas.width, canvas.height, 0,
+                        canvas.width, canvas.height, canvas.width * 0.6
+                    );
+                    cornerGrad.addColorStop(0, 'rgba(100, 10, 10, ' + (0.3 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(0.4, 'rgba(40, 5, 10, ' + (0.12 * (1 - t * 0.3)) + ')');
+                    cornerGrad.addColorStop(1, 'rgba(10, 2, 5, 0)');
+                    ctx.fillStyle = cornerGrad;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     ctx.restore();
                     if (t > 0.5) {
@@ -4150,7 +5283,8 @@ function getPassiva(personagemId) {
         sailor: { nome: 'Luar', desc: 'Comeca cada quiz com todas as vidas +1 extra', aplicar: null },
         vegeta: { nome: 'Principe Sayajin', desc: '+15% XP em todas as fontes', aplicar: (xp) => Math.floor(xp * 1.15) },
         itachi: { nome: 'Sharingan', desc: 'Uma opcao errada e eliminada automaticamente', aplicar: null },
-        meliodas: { nome: 'Full Counter', desc: 'Chance de refletir o dano e nao perder vida ao errar', aplicar: null }
+        meliodas: { nome: 'Full Counter', desc: 'Chance de refletir o dano e nao perder vida ao errar', aplicar: null },
+        sukuna: { nome: 'Rei das Maldições', desc: '10% chance de acerto critico automatico', aplicar: null }
     };
     return passivas[personagemId] || null;
 }
@@ -4205,6 +5339,12 @@ function getChanceSalvarVida() {
 function getChanceRefletirDano() {
     const personId = user.equipado.personagem;
     if (personId === 'meliodas' && Math.random() < 0.1) return true;
+    return false;
+}
+
+function getChanceAcertoCritico() {
+    const personId = user.equipado.personagem;
+    if (personId === 'sukuna' && Math.random() < 0.1) return true;
     return false;
 }
 
