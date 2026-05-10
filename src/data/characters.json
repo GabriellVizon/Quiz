@@ -1,0 +1,242 @@
+[
+  {
+    "id": "naruto",
+    "name": "Naruto",
+    "image": "public/characters/naruto.png",
+    "color": "#f7971e",
+    "rarity": "rare",
+    "power": {
+      "name": "Modo Sabio",
+      "desc": "+50 XP no proximo acerto",
+      "icon": "🍃",
+      "type": "xp_bonus",
+      "color": "#f7971e"
+    },
+    "passive": {
+      "name": "Determinação",
+      "desc": "+5% XP em todas as fontes"
+    },
+    "details": {
+      "quote": "Vou me tornar Hokage, acredite!",
+      "emojis": ["🍜", "🦊", "🌀"],
+      "bgColors": ["#f7971e", "#ff6b00"]
+    },
+    "price": 150
+  },
+  {
+    "id": "goku",
+    "name": "Goku",
+    "image": "public/characters/goku.png",
+    "color": "#f87171",
+    "rarity": "rare",
+    "power": {
+      "name": "Kamehameha",
+      "desc": "Elimina 2 opcoes erradas",
+      "icon": "⚡",
+      "type": "eliminar_opcoes",
+      "color": "#3b82f6"
+    },
+    "passive": {
+      "name": "Super Saiyajin",
+      "desc": "+1 vida no inicio do quiz"
+    },
+    "details": {
+      "quote": "Isso ultrapassa 9000!",
+      "emojis": ["🐉", "✨", "🍚"],
+      "bgColors": ["#f87171", "#3b82f6"]
+    },
+    "price": 150
+  },
+  {
+    "id": "luffy",
+    "name": "Luffy",
+    "image": "public/characters/luffy.png",
+    "color": "#f87171",
+    "rarity": "rare",
+    "power": {
+      "name": "Gomu Gomu",
+      "desc": "Pula a questao sem perder vida",
+      "icon": "🪨",
+      "type": "pular_questao",
+      "color": "#ef4444"
+    },
+    "passive": {
+      "name": "Rei dos Piratas",
+      "desc": "+10% moedas ganhas"
+    },
+    "details": {
+      "quote": "Eu vou ser o Rei dos Piratas!",
+      "emojis": ["☠️", "🍖", "🏴‍☠️"],
+      "bgColors": ["#f87171", "#fbbf24"]
+    },
+    "price": 150
+  },
+  {
+    "id": "pikachu",
+    "name": "Pikachu",
+    "image": "public/characters/pikachu.png",
+    "color": "#fbbf24",
+    "rarity": "rare",
+    "power": {
+      "name": "Choque do Trovao",
+      "desc": "Revela a resposta certa por 2s",
+      "icon": "⚡",
+      "type": "revelar_resposta",
+      "color": "#fbbf24"
+    },
+    "passive": {
+      "name": "Eletricidade",
+      "desc": "+3s extra no timer"
+    },
+    "details": {
+      "quote": "Pika Pika!",
+      "emojis": ["⚡", "⚡", "🔋"],
+      "bgColors": ["#fbbf24", "#f59e0b"]
+    },
+    "price": 150
+  },
+  {
+    "id": "tanjiro",
+    "name": "Tanjiro",
+    "image": "public/characters/tanjiro.png",
+    "color": "#4ade80",
+    "rarity": "epic",
+    "power": {
+      "name": "Respiracao da Agua",
+      "desc": "Recupera 1 vida",
+      "icon": "🌊",
+      "type": "curar_vida",
+      "color": "#4ade80"
+    },
+    "passive": {
+      "name": "Fôlego Constante",
+      "desc": "10% chance de nao perder vida ao errar"
+    },
+    "details": {
+      "quote": "Hinokami Kagura!",
+      "emojis": ["🌊", "🗡️", "💧"],
+      "bgColors": ["#4ade80", "#1a6b3c"]
+    },
+    "price": 150
+  },
+  {
+    "id": "gojo",
+    "name": "Gojo",
+    "image": "public/characters/gojo.png",
+    "color": "#3b82f6",
+    "rarity": "mythic",
+    "power": {
+      "name": "Roxo (Hollow Purple)",
+      "desc": "PASSAR AUTOMATICO na questao! 💜",
+      "icon": "💜",
+      "type": "passar_questao",
+      "color": "#a855f7"
+    },
+    "passive": {
+      "name": "Seis Olhos",
+      "desc": "Poder pode ser usado 2 vezes por quiz"
+    },
+    "details": {
+      "quote": "Nah, eu venceria.",
+      "emojis": ["💜", "👁️", "🌀"],
+      "bgColors": ["#3b82f6", "#1e3a5f"]
+    },
+    "price": 150
+  },
+  {
+    "id": "mikasa",
+    "name": "Mikasa",
+    "image": "public/characters/mikasa.png",
+    "color": "#8b5cf6",
+    "rarity": "epic",
+    "power": {
+      "name": "Laminas Titanicas",
+      "desc": "Dobra moedas no proximo acerto",
+      "icon": "🗡️",
+      "type": "moedas_dobradas",
+      "color": "#8b5cf6"
+    },
+    "passive": {
+      "name": "Lealdade",
+      "desc": "+2 moedas extras por acerto"
+    },
+    "details": {
+      "quote": "Esse mundo e cruel...",
+      "emojis": ["🗡️", "🧣", "🕊️"],
+      "bgColors": ["#8b5cf6", "#4a1d6e"]
+    },
+    "price": 150
+  },
+  {
+    "id": "sailor",
+    "name": "Sailor Moon",
+    "image": "public/characters/sailor.png",
+    "color": "#ec4899",
+    "rarity": "epic",
+    "power": {
+      "name": "Moon Healing",
+      "desc": "Restaura TODAS as vidas!",
+      "icon": "🌙",
+      "type": "curar_tudo",
+      "color": "#ec4899"
+    },
+    "passive": {
+      "name": "Luar",
+      "desc": "Comeca cada quiz com todas as vidas +1 extra"
+    },
+    "details": {
+      "quote": "Em nome da Lua, eu te puno!",
+      "emojis": ["🌙", "✨", "💖"],
+      "bgColors": ["#ec4899", "#7e22ce"]
+    },
+    "price": 150
+  },
+  {
+    "id": "vegeta",
+    "name": "Vegeta",
+    "image": "public/characters/vegeta.png",
+    "color": "#f87171",
+    "rarity": "epic",
+    "power": {
+      "name": "Final Flash",
+      "desc": "Triplica XP no proximo acerto",
+      "icon": "💥",
+      "type": "xp_triplo",
+      "color": "#14b8a6"
+    },
+    "passive": {
+      "name": "Príncipe Sayajin",
+      "desc": "+15% XP em todas as fontes"
+    },
+    "details": {
+      "quote": "Eu sou o Principe dos Sayajins!",
+      "emojis": ["💥", "👑", "🔥"],
+      "bgColors": ["#14b8a6", "#0f766e"]
+    },
+    "price": 150
+  },
+  {
+    "id": "itachi",
+    "name": "Itachi",
+    "image": "public/characters/itachi.png",
+    "color": "#f87171",
+    "rarity": "mythic",
+    "power": {
+      "name": "Tsukuyomi",
+      "desc": "Revela a resposta certa por 3s",
+      "icon": "🔮",
+      "type": "revelar_tempo",
+      "color": "#f87171"
+    },
+    "passive": {
+      "name": "Sharingan",
+      "desc": "Uma opcao errada e eliminada automaticamente"
+    },
+    "details": {
+      "quote": "Perdoe-me, Sasuke...",
+      "emojis": ["🐦‍⬛", "🔮", "🍃"],
+      "bgColors": ["#f87171", "#1a1a1a"]
+    },
+    "price": 150
+  }
+]

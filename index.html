@@ -23,7 +23,7 @@
     <div id="charDetailOverlay">
         <div id="charDetailModal">
             <button id="charDetailClose" onclick="fecharDetalhePersonagem()">✕</button>
-            <canvas id="charDetailPixel" class="char-detail-pixel"></canvas>
+            <img id="charDetailImg" class="char-detail-img" alt="" />
             <h2 id="charDetailNome"></h2>
             <div id="charDetailQuote"></div>
             <div class="char-detail-info">
@@ -42,7 +42,7 @@
 
     <div id="charWidget" style="display:none">
         <div class="char-widget-inner">
-            <canvas id="charWidgetPixel" class="char-widget-pixel"></canvas>
+            <img id="charWidgetImg" class="char-widget-img" alt="" />
             <span id="charWidgetNome" class="char-widget-nome">Naruto</span>
             <span id="charWidgetPassiva" class="char-widget-passiva"></span>
             <div class="char-widget-carga-container">
@@ -71,6 +71,7 @@
             <span id="hudStreak" class="hud-streak" style="display:none"></span>
             <span id="hudBoost" class="hud-boost" style="display:none"></span>
             <span id="hudRank" class="hud-rank"></span>
+            <span id="hudTitulo" class="hud-titulo" style="display:none"></span>
             <span id="hudMoedas" class="hud-moedas">🪙 0</span>
         </div>
     </div>

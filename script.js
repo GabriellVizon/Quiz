@@ -39,7 +39,8 @@ const poderesDisponiveis = {
     mikasa: { nome: 'Laminas Titanicas', desc: 'Dobra moedas no proximo acerto', icone: '🗡️', tipo: 'moedas_dobradas', cor: '#8b5cf6' },
     sailor: { nome: 'Moon Healing', desc: 'Restaura TODAS as vidas!', icone: '🌙', tipo: 'curar_tudo', cor: '#ec4899' },
     vegeta: { nome: 'Final Flash', desc: 'Triplica XP no proximo acerto', icone: '💥', tipo: 'xp_triplo', cor: '#14b8a6' },
-    itachi: { nome: 'Tsukuyomi', desc: 'Revela a resposta certa por 3s', icone: '🔮', tipo: 'revelar_tempo', cor: '#f87171' }
+    itachi: { nome: 'Tsukuyomi', desc: 'Revela a resposta certa por 3s', icone: '🔮', tipo: 'revelar_tempo', cor: '#f87171' },
+    meliodas: { nome: 'Full Counter', desc: 'Chance de refletir o dano e nao perder vida ao errar', icone: '🛡️', tipo: 'refletir_dano', cor: '#fbbf24' }
 };
 
 // ===== CONQUISTAS =====
@@ -157,6 +158,25 @@ const perguntasGames = [
     { pergunta: "Qual a nacionalidade do protagonista de 'Ghost of Tsushima'?", opcoes: ["Chines", "Coreano", "Japones", "Mongol"], correta: 2, cat: 'games', dificuldade: 'medio' },
     { pergunta: "Em 'Horizon Zero Dawn', a protagonista se chama:", opcoes: ["Aloy", "Lara", "Ellie", "Senua"], correta: 0, cat: 'games', dificuldade: 'medio' },
     { pergunta: "Qual foi o primeiro jogo da serie 'Resident Evil'?", opcoes: ["Resident Evil 0", "Resident Evil 1", "Resident Evil 2", "Resident Evil Code Veronica"], correta: 1, cat: 'games', dificuldade: 'facil' },
+    { pergunta: "Em 'The Legend of Zelda: Ocarina of Time', quantos templos principais existem?", opcoes: ["5", "6", "7", "8"], correta: 2, cat: 'games', dificuldade: 'medio' },
+    { pergunta: "Qual empresa desenvolveu 'Celeste'?", opcoes: ["Team Cherry", "Matt Makes Games", "Supergiant", "Red Hook"], correta: 1, cat: 'games', dificuldade: 'dificil' },
+    { pergunta: "Qual e o nome do protagonista de 'Persona 4'?", opcoes: ["Yu Narukami", "Ren Amamiya", "Makoto Yuki", "Tatsuya Suou"], correta: 0, cat: 'games', dificuldade: 'medio' },
+    { pergunta: "Em 'Undertale', qual e o nome do boss final da rota genocide?", opcoes: ["Asgore", "Sans", "Flowey", "Toriel"], correta: 1, cat: 'games', dificuldade: 'medio' },
+    { pergunta: "Qual jogo popularizou o termo 'Soulslike'?", opcoes: ["Elden Ring", "Dark Souls", "Demon's Souls", "Bloodborne"], correta: 2, cat: 'games', dificuldade: 'medio' },
+    { pergunta: "Em que ano foi lancado 'Super Mario 64'?", opcoes: ["1995", "1996", "1997", "1998"], correta: 1, cat: 'games', dificuldade: 'medio' },
+    { pergunta: "Qual personagem nao e jogavel em 'Super Smash Bros. Ultimate'?", opcoes: ["Sora", "Goku", "Banjo", "Steve"], correta: 1, cat: 'games', dificuldade: 'facil' },
+    { pergunta: "Qual empresa criou 'Minecraft'?", opcoes: ["Microsoft", "Mojang", "Epic Games", "Valve"], correta: 1, cat: 'games', dificuldade: 'facil' },
+    { pergunta: "Em qual jogo aparece a frase 'The cake is a lie'?", opcoes: ["Portal", "Half-Life", "Team Fortress", "Left 4 Dead"], correta: 0, cat: 'games', dificuldade: 'facil' },
+    { pergunta: "Qual e o nome do protagonista de 'Chrono Trigger'?", opcoes: ["Crono", "Lucca", "Frog", "Magus"], correta: 0, cat: 'games', dificuldade: 'dificil' },
+    { pergunta: "Quem e o antagonista principal de 'Final Fantasy VII'?", opcoes: ["Sephiroth", "Kefka", "Cloud", "Zack"], correta: 0, cat: 'games', dificuldade: 'facil' },
+    { pergunta: "Quantos mundos existem em 'Super Mario World'?", opcoes: ["6", "7", "8", "9"], correta: 2, cat: 'games', dificuldade: 'dificil' },
+    { pergunta: "Em 'Street Fighter II', qual golpe especial de Ryu e o 'Hadouken'?", opcoes: ["Chute voador", "Projetil de fogo", "Golpe de cotovelo", "Soco carregado"], correta: 1, cat: 'games', dificuldade: 'facil' },
+    { pergunta: "Qual jogo apresenta o sistema de 'Nemesis'?", opcoes: ["Shadow of Mordor", "Assassin's Creed", "Far Cry", "The Witcher"], correta: 0, cat: 'games', dificuldade: 'dificil' },
+    { pergunta: "Qual console da Nintendo foi o primeiro a ter tela touch?", opcoes: ["Wii U", "Nintendo DS", "Switch", "3DS"], correta: 1, cat: 'games', dificuldade: 'facil' },
+    { pergunta: "Em qual jogo você controla um 'Paleblood' caçador?", opcoes: ["Dark Souls", "Bloodborne", "Sekiro", "Elden Ring"], correta: 1, cat: 'games', dificuldade: 'medio' },
+    { pergunta: "Qual foi o jogo mais vendido do PlayStation 2?", opcoes: ["GTA San Andreas", "GTA Vice City", "Final Fantasy X", "Gran Turismo 3"], correta: 0, cat: 'games', dificuldade: 'dificil' },
+    { pergunta: "Em 'Mario Kart', qual item permite ao jogador teletransportar para a frente?", opcoes: ["Estrela", "Cogumelo", "Raio", "Casca azul"], correta: 0, cat: 'games', dificuldade: 'medio' },
+    { pergunta: "Qual e o nome do protagonista de 'Metroid'?", opcoes: ["Samus Aran", "Ridley", "Mother Brain", "Kraid"], correta: 0, cat: 'games', dificuldade: 'facil' },
 ];
 
 // ===== PERGUNTAS - FILMES =====
@@ -221,6 +241,25 @@ const perguntasFilmes = [
     { pergunta: "Em 'Vingadores: Guerra Infinita', Thanos busca o que?", opcoes: ["Joias do Infinito", "Martelo do Thor", "Escudo do Capitao", "Armadura do Homem de Ferro"], correta: 0, cat: 'filmes', dificuldade: 'facil' },
     { pergunta: "Cidade de 'Batman'?", opcoes: ["Metropolis", "Gotham", "Star City", "Central City"], correta: 1, cat: 'filmes', dificuldade: 'facil' },
     { pergunta: "Nome do menino em 'A Vida e Bela'?", opcoes: ["Guido", "Giosue", "Joshua", "Eliseu"], correta: 1, cat: 'filmes', dificuldade: 'dificil' },
+    { pergunta: "Qual ator interpretou o 'Coringa' em 2008?", opcoes: ["Joaquin Phoenix", "Jack Nicholson", "Heath Ledger", "Jared Leto"], correta: 2, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Em 'Matrix', qual e a cor da pilula que Neo escolhe?", opcoes: ["Azul", "Verde", "Vermelha", "Branca"], correta: 2, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Qual filme foi o primeiro da Marvel Studios?", opcoes: ["Homem de Ferro", "Capitão America", "Thor", "Hulk"], correta: 0, cat: 'filmes', dificuldade: 'medio' },
+    { pergunta: "Diretor de 'Cidade de Deus'?", opcoes: ["Fernando Meirelles", "Walter Salles", "Jose Padilha", "Hector Babenco"], correta: 0, cat: 'filmes', dificuldade: 'medio' },
+    { pergunta: "Qual a nacionalidade do diretor 'Almodóvar'?", opcoes: ["Mexicana", "Espanhola", "Francesa", "Italiana"], correta: 1, cat: 'filmes', dificuldade: 'dificil' },
+    { pergunta: "Em 'O Senhor dos Aneis', quem e o portador do Anel em 'As Duas Torres'?", opcoes: ["Frodo", "Gandalf", "Aragorn", "Sam"], correta: 0, cat: 'filmes', dificuldade: 'medio' },
+    { pergunta: "Qual instrumento e usado pelo assassino em 'O Segredo dos Seus Olhos'?", opcoes: ["Faca", "Pistola", "Corda", "Machado"], correta: 2, cat: 'filmes', dificuldade: 'dificil' },
+    { pergunta: "Em 'Interestelar', qual e o nome da filha de Cooper?", opcoes: ["Murph", "Laura", "Amelia", "Brand"], correta: 0, cat: 'filmes', dificuldade: 'medio' },
+    { pergunta: "Qual planeta em 'Star Wars' e deserto e casa de Anakin?", opcoes: ["Naboo", "Coruscant", "Tatooine", "Mustafar"], correta: 2, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Atriz que interpretou a 'Katniss Everdeen'?", opcoes: ["Emma Watson", "Jennifer Lawrence", "Shailene Woodley", "Kristen Stewart"], correta: 1, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "O que significa 'Titanic' no filme de mesmo nome?", opcoes: ["Nome do navio", "Cidade", "Personagem", "Empresa"], correta: 0, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Em 'Divertida Mente', quantas emocoes principais existem?", opcoes: ["4", "5", "6", "7"], correta: 1, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Qual filme venceu o Oscar de 1995 (Melhor Filme)?", opcoes: ["Forrest Gump", "Pulp Fiction", "Clube da Luta", "Matrix"], correta: 0, cat: 'filmes', dificuldade: 'dificil' },
+    { pergunta: "Quem dirigiu 'O Poderoso Chefao'?", opcoes: ["Martin Scorsese", "Francis Ford Coppola", "Steven Spielberg", "Brian De Palma"], correta: 1, cat: 'filmes', dificuldade: 'medio' },
+    { pergunta: "Em 'A Origem', qual objeto Cobb usa como totem?", opcoes: ["Dado", "Pião", "Moeda", "Anel"], correta: 1, cat: 'filmes', dificuldade: 'medio' },
+    { pergunta: "Qual e o nome do dinossauro principal em 'Jurassic World'?", opcoes: ["Indominus Rex", "T-Rex", "Velociraptor", "Spinosaurus"], correta: 0, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Atriz que interpretou 'Gamora' no MCU?", opcoes: ["Zoe Saldana", "Scarlett Johansson", "Natalie Portman", "Brie Larson"], correta: 0, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Qual filme da Pixar se passa no Mexico?", opcoes: ["Viva", "Coco", "Encanto", "Moana"], correta: 1, cat: 'filmes', dificuldade: 'facil' },
+    { pergunta: "Quem e o vilao de 'Pantera Negra'?", opcoes: ["Killmonger", "Thanos", "Ultron", "Loki"], correta: 0, cat: 'filmes', dificuldade: 'facil' },
 ];
 
 // ===== PERGUNTAS - MATEMATICA =====
@@ -262,6 +301,20 @@ const perguntasMatematica = [
     { pergunta: "Em porcentagem, 1/4 equivale a?", opcoes: ["15%", "20%", "25%", "30%"], correta: 2, cat: 'matematica', dificuldade: 'facil' },
     { pergunta: "Qual e o resultado de 8 / 2(2+2)?", opcoes: ["1", "16", "8", "4"], correta: 1, cat: 'matematica', dificuldade: 'dificil' },
     { pergunta: "Quantos numeros naturais existem?", opcoes: ["100", "1000", "Infinitos", "1 milhao"], correta: 2, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Quanto e 3 elevado a 4?", opcoes: ["27", "81", "64", "243"], correta: 1, cat: 'matematica', dificuldade: 'medio' },
+    { pergunta: "Qual e a area de um triangulo com base 10 e altura 6?", opcoes: ["30", "60", "16", "40"], correta: 0, cat: 'matematica', dificuldade: 'medio' },
+    { pergunta: "Quanto e 25 x 25?", opcoes: ["525", "625", "725", "425"], correta: 1, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Quantos lados tem um octogono?", opcoes: ["6", "7", "8", "9"], correta: 2, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Qual e o valor de 0.5 + 0.25?", opcoes: ["0.75", "0.50", "1.0", "0.25"], correta: 0, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "O que e um numero inteiro?", opcoes: ["Numero com virgula", "Numero sem virgula", "Numero primo", "Numero par"], correta: 1, cat: 'matematica', dificuldade: 'medio' },
+    { pergunta: "Quanto e 12 x 15?", opcoes: ["150", "160", "170", "180"], correta: 3, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Qual e a raiz quadrada de 225?", opcoes: ["13", "14", "15", "16"], correta: 2, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Quantos graus tem um angulo reto?", opcoes: ["45", "90", "180", "360"], correta: 1, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Qual e a media de 7, 8 e 9?", opcoes: ["7", "8", "9", "10"], correta: 1, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Quanto e 2/5 em decimal?", opcoes: ["0.2", "0.25", "0.4", "0.5"], correta: 2, cat: 'matematica', dificuldade: 'medio' },
+    { pergunta: "Qual e o MDC de 24 e 36?", opcoes: ["6", "8", "12", "18"], correta: 2, cat: 'matematica', dificuldade: 'medio' },
+    { pergunta: "Quanto e 100 - 37?", opcoes: ["63", "67", "73", "77"], correta: 0, cat: 'matematica', dificuldade: 'facil' },
+    { pergunta: "Qual e o resultado de 15 + 8 x 2?", opcoes: ["46", "23", "31", "38"], correta: 2, cat: 'matematica', dificuldade: 'medio' },
 ];
 
 // ===== PERGUNTAS - GEOGRAFIA =====
@@ -297,6 +350,19 @@ const perguntasGeografia = [
     { pergunta: "Qual e o ponto mais alto do Brasil?", opcoes: ["Pico da Neblina", "Pico da Bandeira", "Monte Roraima", "Pico Paranagua"], correta: 0, cat: 'geografia', dificuldade: 'medio' },
     { pergunta: "Mar Mediterraneo separa quais continentes?", opcoes: ["Europa e Asia", "Europa e Africa", "Africa e Asia", "America e Europa"], correta: 1, cat: 'geografia', dificuldade: 'facil' },
     { pergunta: "Qual e a capital da Irlanda?", opcoes: ["Belfast", "Dublin", "Cork", "Galway"], correta: 1, cat: 'geografia', dificuldade: 'medio' },
+    { pergunta: "Qual pais tem a maior populacao do mundo?", opcoes: ["China", "India", "EUA", "Indonesia"], correta: 1, cat: 'geografia', dificuldade: 'facil' },
+    { pergunta: "Em que continente fica o deserto do Saara?", opcoes: ["Asia", "Africa", "America do Sul", "Australia"], correta: 1, cat: 'geografia', dificuldade: 'facil' },
+    { pergunta: "Qual e o rio mais extenso do Brasil?", opcoes: ["Amazonas", "Sao Francisco", "Parana", "Tocantins"], correta: 0, cat: 'geografia', dificuldade: 'facil' },
+    { pergunta: "Qual e a capital da Escocia?", opcoes: ["Glasgow", "Edimburgo", "Londres", "Cardiff"], correta: 1, cat: 'geografia', dificuldade: 'medio' },
+    { pergunta: "Quantos paises existem na America do Sul?", opcoes: ["10", "11", "12", "13"], correta: 2, cat: 'geografia', dificuldade: 'medio' },
+    { pergunta: "Qual e o maior lago da Africa?", opcoes: ["Victoria", "Tanganica", "Malawi", "Chade"], correta: 0, cat: 'geografia', dificuldade: 'dificil' },
+    { pergunta: "Qual oceano esta ao norte do Canada?", opcoes: ["Atlantico", "Pacifico", "Artico", "Indico"], correta: 2, cat: 'geografia', dificuldade: 'facil' },
+    { pergunta: "Qual e a capital da Colombia?", opcoes: ["Bogota", "Lima", "Quito", "Caracas"], correta: 0, cat: 'geografia', dificuldade: 'facil' },
+    { pergunta: "Em qual pais fica a sede do Monte Everest?", opcoes: ["India", "Nepal", "Tibet", "China"], correta: 1, cat: 'geografia', dificuldade: 'medio' },
+    { pergunta: "Qual e a menor ilha habitada do mundo?", opcoes: ["Just Room Enough", "Maldivas", "Bermudas", "Fernando de Noronha"], correta: 0, cat: 'geografia', dificuldade: 'dificil' },
+    { pergunta: "Qual e o pais com mais fusos horarios?", opcoes: ["Russia", "EUA", "Franca", "China"], correta: 2, cat: 'geografia', dificuldade: 'dificil' },
+    { pergunta: "Qual deserto e o maior fora das regiões polares?", opcoes: ["Gobi", "Atacama", "Saara", "Kalahari"], correta: 2, cat: 'geografia', dificuldade: 'facil' },
+    { pergunta: "O Mar Caspio e na verdade um?", opcoes: ["Oceano", "Lago", "Rio", "Golfo"], correta: 1, cat: 'geografia', dificuldade: 'medio' },
 ];
 
 // ===== PERGUNTAS - CIENCIAS =====
@@ -332,6 +398,20 @@ const perguntasCiencias = [
     { pergunta: "Qual cientista criou a teoria da evolucao?", opcoes: ["Lamarck", "Darwin", "Mendel", "Wallace"], correta: 1, cat: 'ciencias', dificuldade: 'facil' },
     { pergunta: "O coracao humano tem quantas camaras?", opcoes: ["2", "3", "4", "5"], correta: 2, cat: 'ciencias', dificuldade: 'facil' },
     { pergunta: "Qual e a temperatura do nucleo da Terra?", opcoes: ["Cerca de 3000°C", "Cerca de 5500°C", "Cerca de 8000°C", "Cerca de 10000°C"], correta: 1, cat: 'ciencias', dificuldade: 'dificil' },
+    { pergunta: "Qual vitamina e essencial para a coagulacao do sangue?", opcoes: ["Vitamina A", "Vitamina C", "Vitamina K", "Vitamina E"], correta: 2, cat: 'ciencias', dificuldade: 'medio' },
+    { pergunta: "Qual e o elemento quimico mais pesado natural?", opcoes: ["Uranio", "Plutonio", "Ouro", "Chumbo"], correta: 0, cat: 'ciencias', dificuldade: 'dificil' },
+    { pergunta: "Quantos ossos tem o cranio humano?", opcoes: ["18", "22", "26", "30"], correta: 1, cat: 'ciencias', dificuldade: 'dificil' },
+    { pergunta: "Qual organela e responsavel pela producao de energia na celula?", opcoes: ["Nucleo", "Mitocondria", "Ribossomo", "Complexo de Golgi"], correta: 1, cat: 'ciencias', dificuldade: 'facil' },
+    { pergunta: "Qual gas e o principal componente da atmosfera terrestre?", opcoes: ["Oxigenio", "Hidrogenio", "Nitrogenio", "Dioxido de Carbono"], correta: 2, cat: 'ciencias', dificuldade: 'medio' },
+    { pergunta: "Qual e a unidade de medida da corrente eletrica?", opcoes: ["Volt", "Ampere", "Watt", "Ohm"], correta: 1, cat: 'ciencias', dificuldade: 'medio' },
+    { pergunta: "Quantos cromossomos tem uma celula humana normal?", opcoes: ["23", "44", "46", "48"], correta: 2, cat: 'ciencias', dificuldade: 'facil' },
+    { pergunta: "Qual e o pH do suco gastrico?", opcoes: ["Neutro (7)", "Alcalino (9)", "Acido (2)", "Levemente acido (6)"], correta: 2, cat: 'ciencias', dificuldade: 'medio' },
+    { pergunta: "Qual animal e conhecido como 'o engenheiro do ecossistema'?", opcoes: ["Castor", "Formiga", "Abelha", "Lobo"], correta: 0, cat: 'ciencias', dificuldade: 'dificil' },
+    { pergunta: "Qual osso e o maior do corpo humano?", opcoes: ["Tibia", "Femur", "Umero", "Radio"], correta: 1, cat: 'ciencias', dificuldade: 'facil' },
+    { pergunta: "O que sao antibioticos?", opcoes: ["Vitaminas", "Medicamentos contra bacterias", "Analgesicos", "Anti-inflamatorios"], correta: 1, cat: 'ciencias', dificuldade: 'facil' },
+    { pergunta: "Quantos elementos quimicos existem na tabela periodica natural?", opcoes: ["92", "100", "118", "120"], correta: 0, cat: 'ciencias', dificuldade: 'dificil' },
+    { pergunta: "Qual planeta tem o maior numero de luas?", opcoes: ["Jupiter", "Saturno", "Urano", "Netuno"], correta: 1, cat: 'ciencias', dificuldade: 'medio' },
+    { pergunta: "Qual e a funcao da insulina no corpo?", opcoes: ["Regular acucar no sangue", "Digestao", "Producao de energia", "Fortalecer ossos"], correta: 0, cat: 'ciencias', dificuldade: 'medio' },
 ];
 
 // ===== PERGUNTAS - HISTORIA =====
@@ -364,6 +444,19 @@ const perguntasHistoria = [
     { pergunta: "Povo que construiu Machu Picchu?", opcoes: ["Maias", "Astecas", "Incas", "Tupi-Guarani"], correta: 2, cat: 'historia', dificuldade: 'facil' },
     { pergunta: "Quem foi o primeiro presidente dos EUA?", opcoes: ["Thomas Jefferson", "George Washington", "Abraham Lincoln", "John Adams"], correta: 1, cat: 'historia', dificuldade: 'facil' },
     { pergunta: "Ano da queda do Imperio Romano do Ocidente?", opcoes: ["376", "476", "576", "676"], correta: 1, cat: 'historia', dificuldade: 'dificil' },
+    { pergunta: "Quem foi o ultimo imperador do Brasil?", opcoes: ["Dom Pedro I", "Dom Pedro II", "Dom Joao VI", "Dom Miguel"], correta: 1, cat: 'historia', dificuldade: 'medio' },
+    { pergunta: "Em que ano as mulheres conquistaram o direito ao voto no Brasil?", opcoes: ["1928", "1932", "1934", "1940"], correta: 1, cat: 'historia', dificuldade: 'medio' },
+    { pergunta: "Qual guerra durou 100 anos?", opcoes: ["Guerra dos Cem Anos", "Guerra dos Trinta Anos", "Guerra das Rosas", "Guerra Fria"], correta: 0, cat: 'historia', dificuldade: 'facil' },
+    { pergunta: "Quem foi o primeiro europeu a chegar ao Brasil?", opcoes: ["Cristovao Colombo", "Pedro Alvares Cabral", "Amerigo Vespucci", "Vasco da Gama"], correta: 1, cat: 'historia', dificuldade: 'facil' },
+    { pergunta: "Qual farao construiu a Grande Piramide de Giza?", opcoes: ["Ramsés II", "Tutancamon", "Queops", "Akhenaton"], correta: 2, cat: 'historia', dificuldade: 'dificil' },
+    { pergunta: "Em que ano a Bastilha foi tomada?", opcoes: ["1776", "1789", "1799", "1804"], correta: 1, cat: 'historia', dificuldade: 'medio' },
+    { pergunta: "Quem descobriu a penicilina?", opcoes: ["Louis Pasteur", "Alexander Fleming", "Marie Curie", "Robert Koch"], correta: 1, cat: 'historia', dificuldade: 'facil' },
+    { pergunta: "O que foi a 'Inconfidencia Mineira'?", opcoes: ["Revolta pela independencia", "Revolta contra impostos", "Guerra civil", "Tratado de paz"], correta: 1, cat: 'historia', dificuldade: 'medio' },
+    { pergunta: "Quem foi o primeiro presidente eleito do Brasil?", opcoes: ["Deodoro da Fonseca", "Prudente de Morais", "Campos Salles", "Getulio Vargas"], correta: 0, cat: 'historia', dificuldade: 'dificil' },
+    { pergunta: "Em que ano ocorreu o 'Massacre da Praça da Paz Celestial'?", opcoes: ["1986", "1987", "1988", "1989"], correta: 3, cat: 'historia', dificuldade: 'dificil' },
+    { pergunta: "Qual pais foi o primeiro a reconhecer a independencia do Brasil?", opcoes: ["Portugal", "Inglaterra", "EUA", "Franca"], correta: 2, cat: 'historia', dificuldade: 'dificil' },
+    { pergunta: "Tratado que encerrou a Primeira Guerra Mundial?", opcoes: ["Tratado de Paris", "Tratado de Versalhes", "Tratado de Tordesilhas", "Tratado de Viena"], correta: 1, cat: 'historia', dificuldade: 'medio' },
+    { pergunta: "Onde foi assinada a independencia do Brasil?", opcoes: ["Rio de Janeiro", "Sao Paulo", "Minas Gerais", "Bahia"], correta: 1, cat: 'historia', dificuldade: 'facil' },
 ];
 
 // ===== PERGUNTAS - ESPORTES =====
@@ -392,6 +485,17 @@ const perguntasEsportes = [
     { pergunta: "Qual time brasileiro tem mais titulos mundiais de clubes?", opcoes: ["Flamengo", "Santos", "Sao Paulo", "Corinthians"], correta: 2, cat: 'esportes', dificuldade: 'medio' },
     { pergunta: "Esporte que combina natação, ciclismo e corrida?", opcoes: ["Decatlo", "Triatlo", "Pentatlo", "Heptatlo"], correta: 1, cat: 'esportes', dificuldade: 'facil' },
     { pergunta: "Quantas faltas um jogador de basquete pode cometer antes de ser eliminado?", opcoes: ["4", "5", "6", "7"], correta: 1, cat: 'esportes', dificuldade: 'dificil' },
+    { pergunta: "Qual time de futebol tem a maior torcida do Brasil?", opcoes: ["Flamengo", "Corinthians", "Sao Paulo", "Palmeiras"], correta: 0, cat: 'esportes', dificuldade: 'facil' },
+    { pergunta: "Qual e o esporte nacional do Japao?", opcoes: ["Judo", "Sumo", "Karate", "Beisebol"], correta: 1, cat: 'esportes', dificuldade: 'medio' },
+    { pergunta: "Qual jogador de basquete e conhecido como 'King James'?", opcoes: ["Kobe Bryant", "Michael Jordan", "LeBron James", "Stephen Curry"], correta: 2, cat: 'esportes', dificuldade: 'facil' },
+    { pergunta: "Quantas medalhas de ouro Michael Phelps tem em Olimpiadas?", opcoes: ["18", "23", "28", "33"], correta: 1, cat: 'esportes', dificuldade: 'dificil' },
+    { pergunta: "Qual pais sediou as Olimpiadas de 2012?", opcoes: ["Reino Unido", "China", "Russia", "Grecia"], correta: 0, cat: 'esportes', dificuldade: 'facil' },
+    { pergunta: "Quantos km tem uma maratona oficial?", opcoes: ["38.2 km", "40.0 km", "42.195 km", "45.0 km"], correta: 2, cat: 'esportes', dificuldade: 'medio' },
+    { pergunta: "Qual pais venceu a Copa do Mundo de Rugby em 2019?", opcoes: ["Inglaterra", "Nova Zelandia", "Africa do Sul", "Australia"], correta: 2, cat: 'esportes', dificuldade: 'dificil' },
+    { pergunta: "Em que ano o Brasil sediou a Copa do Mundo pela segunda vez?", opcoes: ["1950", "2014", "1962", "1970"], correta: 1, cat: 'esportes', dificuldade: 'medio' },
+    { pergunta: "Qual time venceu a primeira edicao do Campeonato Brasileiro de 1971?", opcoes: ["Atletico Mineiro", "Palmeiras", "Santos", "Internacional"], correta: 0, cat: 'esportes', dificuldade: 'dificil' },
+    { pergunta: "Qual era o numero da camisa de Michael Jordan no Chicago Bulls?", opcoes: ["33", "23", "45", "12"], correta: 1, cat: 'esportes', dificuldade: 'facil' },
+    { pergunta: "Em quantos minutos e disputada uma partida de futebol sem acrescimos?", opcoes: ["80", "90", "100", "120"], correta: 1, cat: 'esportes', dificuldade: 'facil' },
 ];
 
 // ===== PERGUNTAS - MUSICA =====
@@ -416,6 +520,18 @@ const perguntasMusica = [
     { pergunta: "Cantor de 'Billie Jean'?", opcoes: ["Prince", "Michael Jackson", "Usher", "Justin Timberlake"], correta: 1, cat: 'musica', dificuldade: 'facil' },
     { pergunta: "Qual e o instrumento favorito de Jimi Hendrix?", opcoes: ["Baixo", "Guitarra", "Teclado", "Bateria"], correta: 1, cat: 'musica', dificuldade: 'facil' },
     { pergunta: "Estilo musical com origem em Nova Orleans?", opcoes: ["Rock", "Jazz", "Blues", "Country"], correta: 1, cat: 'musica', dificuldade: 'medio' },
+    { pergunta: "Qual banda lancou o album 'Abbey Road'?", opcoes: ["The Rolling Stones", "The Beatles", "The Who", "Pink Floyd"], correta: 1, cat: 'musica', dificuldade: 'facil' },
+    { pergunta: "Cantor de 'Purple Rain'?", opcoes: ["Prince", "Michael Jackson", "David Bowie", "Stevie Wonder"], correta: 0, cat: 'musica', dificuldade: 'medio' },
+    { pergunta: "Quantas cordas tem um violino?", opcoes: ["3", "4", "5", "6"], correta: 1, cat: 'musica', dificuldade: 'facil' },
+    { pergunta: "Qual banda e liderada por Kurt Cobain?", opcoes: ["Pearl Jam", "Soundgarden", "Nirvana", "Alice in Chains"], correta: 2, cat: 'musica', dificuldade: 'facil' },
+    { pergunta: "Genero musical originado na Jamaica?", opcoes: ["Salsa", "Reggae", "Samba", "Funk"], correta: 1, cat: 'musica', dificuldade: 'facil' },
+    { pergunta: "Cantor de 'Garota de Ipanema'?", opcoes: ["Joao Gilberto", "Tom Jobim", "Vinicius de Moraes", "Caetano Veloso"], correta: 0, cat: 'musica', dificuldade: 'medio' },
+    { pergunta: "Cantora conhecida como 'Rainha do Pop' brasileiro?", opcoes: ["Anitta", "Ivete Sangalo", "Mariah Carey", "Madonna"], correta: 0, cat: 'musica', dificuldade: 'facil' },
+    { pergunta: "Qual e o nome real de Freddie Mercury?", opcoes: ["Farrokh Bulsara", "John Deacon", "Brian May", "Roger Taylor"], correta: 0, cat: 'musica', dificuldade: 'dificil' },
+    { pergunta: "Qual compositor e conhecido como 'O Pai da Sinfonia'?", opcoes: ["Mozart", "Haydn", "Bach", "Beethoven"], correta: 1, cat: 'musica', dificuldade: 'dificil' },
+    { pergunta: "Instrumento de sopro mais comum em orquestras?", opcoes: ["Flauta", "Trompete", "Clarinete", "Trombone"], correta: 0, cat: 'musica', dificuldade: 'medio' },
+    { pergunta: "Qual e a nota musical que representa a frequencia 440 Hz?", opcoes: ["Do", "Re", "Mi", "La"], correta: 3, cat: 'musica', dificuldade: 'dificil' },
+    { pergunta: "Qual pais e conhecido como o berco do Rock and Roll?", opcoes: ["Reino Unido", "Alemanha", "EUA", "Australia"], correta: 2, cat: 'musica', dificuldade: 'facil' },
 ];
 
 // ===== PERGUNTAS - TECNOLOGIA =====
@@ -440,19 +556,31 @@ const perguntasTecnologia = [
     { pergunta: "Qual criptomoeda foi a primeira criada?", opcoes: ["Ethereum", "Bitcoin", "Litecoin", "Dogecoin"], correta: 1, cat: 'tecnologia', dificuldade: 'facil' },
     { pergunta: "O que e 'Bluetooth'?", opcoes: ["Protocolo de comunicacao sem fio", "Padrao de video", "Tipo de bateria", "Conector USB"], correta: 0, cat: 'tecnologia', dificuldade: 'facil' },
     { pergunta: "O que significa 'SSD'?", opcoes: ["Solid State Drive", "Super Speed Disk", "System Storage Device", "Silicon Storage Drive"], correta: 0, cat: 'tecnologia', dificuldade: 'facil' },
+    { pergunta: "O que significa 'API'?", opcoes: ["Application Programming Interface", "Application Process Integration", "Automated Program Interface", "Advanced Programming Interface"], correta: 0, cat: 'tecnologia', dificuldade: 'medio' },
+    { pergunta: "Qual empresa e dona do Instagram?", opcoes: ["Google", "Microsoft", "Apple", "Meta"], correta: 3, cat: 'tecnologia', dificuldade: 'facil' },
+    { pergunta: "O que significa 'HTTP'?", opcoes: ["HyperText Transfer Protocol", "High Tech Transfer Process", "Hyper Transfer Text Protocol", "Home Tool Transfer Protocol"], correta: 0, cat: 'tecnologia', dificuldade: 'facil' },
+    { pergunta: "Qual e o nucleo do sistema operacional Linux?", opcoes: ["Kernel", "Shell", "BIOS", "Bootloader"], correta: 0, cat: 'tecnologia', dificuldade: 'medio' },
+    { pergunta: "Criptomoeda criada por Vitalik Buterin?", opcoes: ["Bitcoin", "Litecoin", "Ethereum", "Dogecoin"], correta: 2, cat: 'tecnologia', dificuldade: 'medio' },
+    { pergunta: "O que significa 'JSON'?", opcoes: ["Java Standard Object Notation", "JavaScript Object Notation", "Java Source Object Network", "JavaScript Online Network"], correta: 1, cat: 'tecnologia', dificuldade: 'medio' },
+    { pergunta: "Qual empresa criou o processador Ryzen?", opcoes: ["Intel", "NVIDIA", "AMD", "ARM"], correta: 2, cat: 'tecnologia', dificuldade: 'facil' },
+    { pergunta: "O que e um 'firewall'?", opcoes: ["Antivirus", "Sistema de seguranca de rede", "Navegador", "Servidor web"], correta: 1, cat: 'tecnologia', dificuldade: 'facil' },
+    { pergunta: "Qual linguagem de programacao e conhecida como 'a mais antiga ainda em uso'?", opcoes: ["Python", "Java", "C", "Fortran"], correta: 2, cat: 'tecnologia', dificuldade: 'dificil' },
+    { pergunta: "O que significa 'AI' (inteligencia artificial)?", opcoes: ["Artificial Intelligence", "Automated Input", "Algorithm Integration", "Advanced Interface"], correta: 0, cat: 'tecnologia', dificuldade: 'facil' },
+    { pergunta: "Qual resolucao e conhecida como 4K?", opcoes: ["1920x1080", "2560x1440", "3840x2160", "7680x4320"], correta: 2, cat: 'tecnologia', dificuldade: 'medio' },
+    { pergunta: "O que significa 'IoT'?", opcoes: ["Internet of Things", "Input Output Terminal", "Integrated Operating Technology", "Internal Object Tracking"], correta: 0, cat: 'tecnologia', dificuldade: 'medio' },
 ];
 
 // ===== PERGUNTAS - ANIMES =====
 const perguntasAnimes = [
-    { pergunta: "Qual anime tem o protagonista chamado 'Naruto Uzumaki'?", opcoes: ["One Piece", "Naruto", "Bleach", "Dragon Ball"], correta: 1, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Qual anime tem o protagonista chamado 'Naruto Uzumaki'?", opcoes: ["One Piece", "Dragon Ball", "Bleach", "Naruto"], correta: 3, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Em 'Dragon Ball', qual e o nome do Sayajin lendario?", opcoes: ["Goku", "Vegeta", "Broly", "Gohan"], correta: 2, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Qual e o nome do protagonista de 'One Piece'?", opcoes: ["Zoro", "Luffy", "Sanji", "Nami"], correta: 1, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Estudio famoso por filmes como 'A Viagem de Chihiro'?", opcoes: ["Toei", "Madhouse", "Ghibli", "Kyoto Animation"], correta: 2, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Em 'Attack on Titan', qual o nome do protagonista?", opcoes: ["Levi", "Eren", "Mikasa", "Armin"], correta: 1, cat: 'animes', dificuldade: 'facil' },
-    { pergunta: "Qual anime apresenta o personagem 'Saitama'?", opcoes: ["One Punch Man", "Mob Psycho 100", "Dragon Ball", "Naruto"], correta: 0, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Qual anime apresenta o personagem 'Saitama'?", opcoes: ["Naruto", "Mob Psycho 100", "Dragon Ball", "One Punch Man"], correta: 3, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Em 'Pokemon', qual e o nome do protagonista?", opcoes: ["Ash", "Red", "Gary", "Brock"], correta: 0, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Qual anime tem 'Gojo Satoru' e 'Yuji Itadori'?", opcoes: ["Demon Slayer", "Jujutsu Kaisen", "Attack on Titan", "My Hero Academia"], correta: 1, cat: 'animes', dificuldade: 'facil' },
-    { pergunta: "Em 'Demon Slayer', qual o nome do protagonista?", opcoes: ["Tanjiro", "Zenitsu", "Inosuke", "Nezuko"], correta: 0, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Em 'Demon Slayer', qual o nome do protagonista?", opcoes: ["Nezuko", "Zenitsu", "Inosuke", "Tanjiro"], correta: 3, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Anime que apresenta o 'Exame Hunter'?", opcoes: ["Hunter x Hunter", "Black Clover", "Fairy Tail", "Sword Art Online"], correta: 0, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Qual anime e sobre alquimia?", opcoes: ["Fullmetal Alchemist", "Attack on Titan", "Steins;Gate", "Vinland Saga"], correta: 0, cat: 'animes', dificuldade: 'facil' },
     { pergunta: "Em 'Death Note', qual o nome do Shinigami principal?", opcoes: ["Ryuk", "Rem", "Sidoh", "Gelus"], correta: 0, cat: 'animes', dificuldade: 'facil' },
@@ -469,6 +597,18 @@ const perguntasAnimes = [
     { pergunta: "Nome do protagonista de 'Vinland Saga'?", opcoes: ["Thorfinn", "Askeladd", "Canute", "Thor"], correta: 0, cat: 'animes', dificuldade: 'medio' },
     { pergunta: "Em 'Steins;Gate', como se chama o protagonista?", opcoes: ["Okabe Rintaro", "Daru", "Mayuri", "Kurisu"], correta: 0, cat: 'animes', dificuldade: 'medio' },
     { pergunta: "Qual e o maior anime em numero de episodios?", opcoes: ["One Piece", "Naruto", "Dragon Ball", "Sazae-san"], correta: 3, cat: 'animes', dificuldade: 'dificil' },
+    { pergunta: "Em 'One Piece', qual e o nome do navio dos Chapeus de Palha?", opcoes: ["Red Force", "Thousand Sunny", "Oro Jackson", "Moby Dick"], correta: 1, cat: 'animes', dificuldade: 'medio' },
+    { pergunta: "Criador de 'One Piece'?", opcoes: ["Masashi Kishimoto", "Eiichiro Oda", "Tite Kubo", "Akira Toriyama"], correta: 1, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Em 'Dragon Ball Z', qual e o nome do pai de Goku?", opcoes: ["Bardock", "King Vegeta", "Raditz", "Paragus"], correta: 0, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Em 'Attack on Titan', qual e o nome do Titan de Eren?", opcoes: ["Titan Colossal", "Titan Blindado", "Titan de Ataque", "Titan Bestial"], correta: 2, cat: 'animes', dificuldade: 'medio' },
+    { pergunta: "Em 'Naruto', qual e o nome da tecnica de invocacao de sapos?", opcoes: ["Rasengan", "Chidori", "Kuchiyose", "Shadow Clone"], correta: 2, cat: 'animes', dificuldade: 'medio' },
+    { pergunta: "Qual anime e sobre um cavaleiro amaldicoado chamado Guts?", opcoes: ["Vinland Saga", "Berserk", "Claymore", "Vagabond"], correta: 1, cat: 'animes', dificuldade: 'medio' },
+    { pergunta: "Em 'My Hero Academia', qual e a individualidade de All Might?", opcoes: ["Explosion", "One For All", "All For One", "Half-Cold Half-Hot"], correta: 1, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Em 'Death Note', qual e o nome do detetive que persegue Light?", opcoes: ["Near", "Mello", "L", "Watari"], correta: 2, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Qual anime apresenta as pedras filosofais?", opcoes: ["Fullmetal Alchemist", "Hunter x Hunter", "Fairy Tail", "Black Clover"], correta: 0, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Em 'Demon Slayer', qual e o nome da irmã de Tanjiro?", opcoes: ["Shinobu", "Mitsuri", "Nezuko", "Kanao"], correta: 2, cat: 'animes', dificuldade: 'facil' },
+    { pergunta: "Qual e o nome do protagonista de 'Mob Psycho 100'?", opcoes: ["Shigeo Kageyama", "Arataka Reigen", "Teruki Hanazawa", "Ritsu Kageyama"], correta: 0, cat: 'animes', dificuldade: 'medio' },
+    { pergunta: "Em qual anime aparece a espada 'Excalibur'?", opcoes: ["Fate/Stay Night", "Sword Art Online", "Soul Eater", "Bleach"], correta: 0, cat: 'animes', dificuldade: 'dificil' },
 ];
 
 // ===== PERGUNTAS - LITERATURA =====
@@ -490,6 +630,18 @@ const perguntasLiteratura = [
     { pergunta: "Livro mais vendido da historia (excluindo religiosos)?", opcoes: ["Dom Quixote", "Um Conto de Duas Cidades", "O Pequeno Principe", "O Alquimista"], correta: 1, cat: 'literatura', dificuldade: 'dificil' },
     { pergunta: "Quem escreveu 'Grande Sertao: Veredas'?", opcoes: ["Guimaraes Rosa", "Graciliano Ramos", "Jorge Amado", "Rachel de Queiroz"], correta: 0, cat: 'literatura', dificuldade: 'dificil' },
     { pergunta: "O poeta brasileiro autor de 'Quadrilha'?", opcoes: ["Carlos Drummond de Andrade", "Manuel Bandeira", "Vinicius de Moraes", "Joao Cabral de Melo Neto"], correta: 0, cat: 'literatura', dificuldade: 'dificil' },
+    { pergunta: "Quem escreveu 'O Cortico'?", opcoes: ["Machado de Assis", "Jose de Alencar", "Aluisio Azevedo", "Eca de Queiros"], correta: 2, cat: 'literatura', dificuldade: 'dificil' },
+    { pergunta: "Autora de 'O Quinze'?", opcoes: ["Rachel de Queiroz", "Clarice Lispector", "Cecilia Meireles", "Adelia Prado"], correta: 0, cat: 'literatura', dificuldade: 'dificil' },
+    { pergunta: "Livro de George Orwell sobre uma fazenda de animais?", opcoes: ["1984", "A Revolucao dos Bichos", "O Lobo do Mar", "Admiravel Mundo Novo"], correta: 1, cat: 'literatura', dificuldade: 'facil' },
+    { pergunta: "Quem escreveu 'O Apanhador no Campo de Centeio'?", opcoes: ["J.D. Salinger", "Ernest Hemingway", "F. Scott Fitzgerald", "William Faulkner"], correta: 0, cat: 'literatura', dificuldade: 'dificil' },
+    { pergunta: "Escritor brasileiro autor de 'Vidas Secas'?", opcoes: ["Graciliano Ramos", "Jorge Amado", "Machado de Assis", "Guimaraes Rosa"], correta: 0, cat: 'literatura', dificuldade: 'medio' },
+    { pergunta: "Protagonista de 'Os Miseraveis'?", opcoes: ["Jean Valjean", "Javert", "Marius", "Fantine"], correta: 0, cat: 'literatura', dificuldade: 'medio' },
+    { pergunta: "Quem escreveu 'Orgulho e Preconceito'?", opcoes: ["Emily Bronte", "Jane Austen", "Charlotte Bronte", "Mary Shelley"], correta: 1, cat: 'literatura', dificuldade: 'medio' },
+    { pergunta: "Pais de origem do escritor Franz Kafka?", opcoes: ["Alemanha", "Austria", "Republica Tcheca", "Hungria"], correta: 2, cat: 'literatura', dificuldade: 'dificil' },
+    { pergunta: "Obra mais famosa de Fernando Pessoa?", opcoes: ["Mensagem", "O Guardador de Rebanhos", "Livro do Desassossego", "Poesias"], correta: 0, cat: 'literatura', dificuldade: 'medio' },
+    { pergunta: "Quem escreveu 'Cem Anos de Solidao'?", opcoes: ["Julio Cortazar", "Gabriel Garcia Marquez", "Mario Vargas Llosa", "Jorge Luis Borges"], correta: 1, cat: 'literatura', dificuldade: 'medio' },
+    { pergunta: "Genero literario de 'O Senhor dos Aneis'?", opcoes: ["Ficcao Cientifica", "Fantasia Epica", "Romance Historico", "Terror"], correta: 1, cat: 'literatura', dificuldade: 'facil' },
+    { pergunta: "Quem escreveu 'A Moreninha'?", opcoes: ["Joaquim Manuel de Macedo", "Jose de Alencar", "Alvares de Azevedo", "Goncalves Dias"], correta: 0, cat: 'literatura', dificuldade: 'dificil' },
 ];
 
 // ===== PERGUNTAS - ARTE =====
@@ -509,6 +661,18 @@ const perguntasArte = [
     { pergunta: "O 'Vaticano' abriga qual famosa capela?", opcoes: ["Capela Sistina", "Capela de Onze Mil Virgens", "Capela Palatina", "Capela Scrovegni"], correta: 0, cat: 'arte', dificuldade: 'medio' },
     { pergunta: "Qual artista pintava bailarinas?", opcoes: ["Monet", "Degas", "Renoir", "Manet"], correta: 1, cat: 'arte', dificuldade: 'dificil' },
     { pergunta: "Qual movimento artistico Dali pertencia?", opcoes: ["Cubismo", "Surrealismo", "Dadaismo", "Futurismo"], correta: 1, cat: 'arte', dificuldade: 'medio' },
+    { pergunta: "Obra 'O Beijo' e de qual artista?", opcoes: ["Gustav Klimt", "Edvard Munch", "Pablo Picasso", "Claude Monet"], correta: 0, cat: 'arte', dificuldade: 'dificil' },
+    { pergunta: "Pintor famoso por seus nenufares (aguas)?", opcoes: ["Van Gogh", "Monet", "Renoir", "Degas"], correta: 1, cat: 'arte', dificuldade: 'medio' },
+    { pergunta: "Qual movimento artistico surgiu nos anos 1910 na Franca?", opcoes: ["Cubismo", "Impressionismo", "Dadaismo", "Surrealismo"], correta: 0, cat: 'arte', dificuldade: 'medio' },
+    { pergunta: "Escultor do 'David'?", opcoes: ["Donatello", "Bernini", "Michelangelo", "Rodin"], correta: 2, cat: 'arte', dificuldade: 'facil' },
+    { pergunta: "Museu de arte contemporanea em Sao Paulo?", opcoes: ["MASP", "Pinacoteca", "MAC", "MAM"], correta: 2, cat: 'arte', dificuldade: 'dificil' },
+    { pergunta: "Pintura 'Guernica' retrata qual guerra?", opcoes: ["Primeira Guerra", "Guerra Civil Espanhola", "Segunda Guerra", "Guerra Fria"], correta: 1, cat: 'arte', dificuldade: 'dificil' },
+    { pergunta: "Onde esta localizado o museu do Louvre?", opcoes: ["Londres", "Paris", "Roma", "Madri"], correta: 1, cat: 'arte', dificuldade: 'facil' },
+    { pergunta: "Fotografo brasileiro famoso por fotos de indigenas?", opcoes: ["Sebastiao Salgado", "Vik Muniz", "Araquem Alcantara", "Bob Wolfenson"], correta: 0, cat: 'arte', dificuldade: 'medio' },
+    { pergunta: "Qual artista pintou 'American Gothic'?", opcoes: ["Grant Wood", "Edward Hopper", "Norman Rockwell", "Andrew Wyeth"], correta: 0, cat: 'arte', dificuldade: 'dificil' },
+    { pergunta: "Qual artista brasileira pintou 'Operarios'?", opcoes: ["Tarsila do Amaral", "Anita Malfatti", "Candido Portinari", "Di Cavalcanti"], correta: 0, cat: 'arte', dificuldade: 'dificil' },
+    { pergunta: "O movimento 'Pop Art' ficou famoso em qual decada?", opcoes: ["1950", "1960", "1970", "1980"], correta: 1, cat: 'arte', dificuldade: 'medio' },
+    { pergunta: "Qual artista e conhecido por suas esculturas de baloes de cachorro?", opcoes: ["Jeff Koons", "Damien Hirst", "Banksy", "Ai Weiwei"], correta: 0, cat: 'arte', dificuldade: 'dificil' },
 ];
 
 // ===== PERGUNTAS - CURIOSIDADES =====
@@ -530,6 +694,18 @@ const perguntasCuriosidades = [
     { pergunta: "Animal que nunca dorme?", opcoes: ["Golfinho", "Tubarao", "Formiga", "Cavalo"], correta: 1, cat: 'curiosidades', dificuldade: 'dificil' },
     { pergunta: "O que e a 'Aurora Boreal'?", opcoes: ["Fenomeno luminoso atmosferico", "Estrela cadente", "Eclipse solar", "Arco-iris"], correta: 0, cat: 'curiosidades', dificuldade: 'facil' },
     { pergunta: "Quantos planetas anoes tem o sistema solar?", opcoes: ["2", "3", "4", "5"], correta: 3, cat: 'curiosidades', dificuldade: 'dificil' },
+    { pergunta: "Qual e o livro mais vendido da historia?", opcoes: ["Dom Quixote", "A Biblia", "O Pequeno Principe", "Harry Potter"], correta: 1, cat: 'curiosidades', dificuldade: 'facil' },
+    { pergunta: "Quantos ossos tem um bebe ao nascer?", opcoes: ["206", "270", "300", "350"], correta: 2, cat: 'curiosidades', dificuldade: 'dificil' },
+    { pergunta: "Qual e o pais com mais vulcoes ativos?", opcoes: ["Japao", "Indonesia", "Islandia", "Italia"], correta: 1, cat: 'curiosidades', dificuldade: 'dificil' },
+    { pergunta: "Qual e a maior ilha do mundo?", opcoes: ["Groenlandia", "Madagascar", "Borneo", "Nova Guine"], correta: 0, cat: 'curiosidades', dificuldade: 'medio' },
+    { pergunta: "Quantos fusos horarios tem a Russia?", opcoes: ["5", "7", "11", "13"], correta: 2, cat: 'curiosidades', dificuldade: 'dificil' },
+    { pergunta: "O que e 'Mona Lisa'?", opcoes: ["Uma escultura", "Uma pintura", "Uma musica", "Um livro"], correta: 1, cat: 'curiosidades', dificuldade: 'facil' },
+    { pergunta: "Qual metal e liquido a temperatura ambiente?", opcoes: ["Ouro", "Mercurio", "Prata", "Chumbo"], correta: 1, cat: 'curiosidades', dificuldade: 'medio' },
+    { pergunta: "Maior deserto quente do mundo?", opcoes: ["Gobi", "Atacama", "Saara", "Kalahari"], correta: 2, cat: 'curiosidades', dificuldade: 'facil' },
+    { pergunta: "Quantas especies de pinguins existem aproximadamente?", opcoes: ["10", "14", "18", "22"], correta: 2, cat: 'curiosidades', dificuldade: 'dificil' },
+    { pergunta: "Qual a fruta mais consumida no mundo?", opcoes: ["Banana", "Maca", "Laranja", "Uva"], correta: 0, cat: 'curiosidades', dificuldade: 'medio' },
+    { pergunta: "Maior pais da America do Sul em area?", opcoes: ["Argentina", "Brasil", "Peru", "Colombia"], correta: 1, cat: 'curiosidades', dificuldade: 'facil' },
+    { pergunta: "O que causa o efeito estufa?", opcoes: ["Gases poluentes", "Buraco na camada de ozonio", "Desmatamento", "Todos contribuem"], correta: 3, cat: 'curiosidades', dificuldade: 'medio' },
 ];
 
 // ===== REGISTRO DE GENEROS =====
@@ -562,496 +738,103 @@ registrarGenero('todos', 'Todos', '🌟', 'Mistura completa!', '#ffd700', pergun
 
 
 
-// ===== PIXEL ART =====
-const pixelCharacters = {
-    naruto: {
-        nome: 'Naruto', cor: '#f7971e',
-        paleta: ['#f5d6a8','#1a1a1a','#f7971e','#1e40af','#e8e8e8','#ffd700','#d4760a','#d4a875','#8b4513','#cc3333','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '..........555555..............',
-            '.........55555555.............',
-            '........5551331555............',
-            '........5551111555............',
-            '.......555511115555...........',
-            '.......55511511555............',
-            '......5555111115555...........',
-            '......555555555555............',
-            '......055555555550............',
-            '.....0005555555000............',
-            '.....0000500500000............',
-            '.....005330533000.............',
-            '.....000330033000.............',
-            '......00000000000.............',
-            '......0000000000..............',
-            '.....00000000000..............',
-            '....00000000000000............',
-            '....00111000011100............',
-            '....01111111111110............',
-            '....22211111111222............',
-            '....22211111111222............',
-            '....22221111112222............',
-            '....22223333332222............',
-            '....22223333332222............',
-            '....22211111111222............',
-            '....22211111111222............',
-            '....22211111111222............',
-            '.....222111111222.............',
-            '.....111111111111.............',
-            '.....111000111000.............',
-            '....88811188111888............',
-            '....11111111111111............',
-            '....11000111100011............',
-            '....80008888000880............',
-            '..............................'
-        ]
-    },
-    goku: {
-        nome: 'Goku', cor: '#f87171',
-        paleta: ['#f5d6a8','#1a1a1a','#f7971e','#1e40af','#e8e8e8','#ffd700','#d4760a','#d4a875','#f87171','#60a5fa','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '..........111111..............',
-            '.........11111111............',
-            '.........11111111............',
-            '........1111111111...........',
-            '........1111881111...........',
-            '.......111111111111..........',
-            '.......11100111111...........',
-            '......111100111111...........',
-            '......11000011111............',
-            '.....000330033000............',
-            '.....000330033000............',
-            '.....000000000000............',
-            '.....000000000000............',
-            '......0000000000.............',
-            '....00000000000000...........',
-            '....22811111111822...........',
-            '....22211111111222...........',
-            '....22211111111222...........',
-            '....22223333332222...........',
-            '....22223333332222...........',
-            '....22211111111222...........',
-            '....22211111111222...........',
-            '.....222111111222............',
-            '.....111111111111............',
-            '.....111111111111............',
-            '.....110001110001............',
-            '....88111118111188...........',
-            '....11111111111111...........',
-            '....11000111110001...........',
-            '....80008888800088...........',
-            '..............................'
-        ]
-    },
-    luffy: {
-        nome: 'Luffy', cor: '#f87171',
-        paleta: ['#f5d6a8','#1a1a1a','#ef4444','#1e3a5f','#fbbf24','#e8e8e8','#8b4513','#cc3333','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '..........444444..............',
-            '.........44444444............',
-            '........4441111444...........',
-            '........4441111444...........',
-            '.......44441144444...........',
-            '.......44444444444...........',
-            '.......44414414444...........',
-            '.......44444444444...........',
-            '.......00444444400...........',
-            '......000444440000...........',
-            '......00033003300............',
-            '......00000000000............',
-            '......00000000000............',
-            '.......000000000.............',
-            '.....0000000000000...........',
-            '.....226111111622............',
-            '.....2221111111222...........',
-            '.....2221111111222...........',
-            '.....222333332222............',
-            '.....222333332222............',
-            '.....222111111222............',
-            '.....222111111222............',
-            '......2221111222.............',
-            '......1111111111.............',
-            '......1111111111.............',
-            '......1100011000.............',
-            '.....886111186118............',
-            '.....111111111111............',
-            '.....110001110001............',
-            '.....800088880088............',
-            '..............................'
-        ]
-    },
-    pikachu: {
-        nome: 'Pikachu', cor: '#fbbf24',
-        paleta: ['#fbbf24','#8b4513','#1a1a1a','#f87171','#e8e8e8','#f59e0b','#fef3c7','#00aa00'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '......000000000000............',
-            '.....0000000000000...........',
-            '.....0000000000000...........',
-            '....000000000000000..........',
-            '....000001110000000..........',
-            '....000001110000000..........',
-            '....000000000000000..........',
-            '....033000000033000..........',
-            '....033000000033000..........',
-            '.....330000000333............',
-            '....00000000000000...........',
-            '....00000000000000...........',
-            '....00022222000000...........',
-            '.....002222222000............',
-            '.....002222222200............',
-            '......2222222220.............',
-            '......0222222200.............',
-            '......002222200..............',
-            '.......0222000..............',
-            '.......000000................',
-            '.......00000.................',
-            '......000000.................',
-            '.....05500550................',
-            '..............................',
-            '..............................'
-        ]
-    },
-    tanjiro: {
-        nome: 'Tanjiro', cor: '#4ade80',
-        paleta: ['#f5d6a8','#1a1a1a','#2d5a27','#4ade80','#6b2d2d','#e8e8e8','#8b4513','#cc3333','#ffe0b0','#55aa55'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '.........4444444.............',
-            '........444444444............',
-            '.......44411114444...........',
-            '.......44411114444...........',
-            '......444411144444...........',
-            '......44444444444............',
-            '......44414414444............',
-            '.......001044100.............',
-            '......00000000000............',
-            '......00030000300............',
-            '......00033003300............',
-            '......00000000000............',
-            '.......000000000.............',
-            '......00000000000............',
-            '.....0000000000000...........',
-            '.....22900000922.............',
-            '....2229000009222............',
-            '....2221111111222............',
-            '....2222323322222............',
-            '....2222323322222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '.....222111111222............',
-            '.....111111111111............',
-            '.....111111111111............',
-            '.....111000111000............',
-            '....88811188111888............',
-            '....11111111111111............',
-            '....88000188800088............',
-            '......888888888..............',
-            '..............................'
-        ]
-    },
-    gojo: {
-        nome: 'Gojo', cor: '#3b82f6',
-        paleta: ['#f5d6a8','#1a1a1a','#3b82f6','#e8e8e8','#1e40af','#e5e7eb','#93c5fd','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '.........555555..............',
-            '........55555555.............',
-            '.......5551111555............',
-            '.......5551111555............',
-            '......55551115555............',
-            '......55555555555............',
-            '......55555555555............',
-            '.......005555500.............',
-            '......0005555000............',
-            '......00033003300............',
-            '......00033003300............',
-            '......00000000000............',
-            '.......000000000.............',
-            '......00000000000............',
-            '.....0000000000000...........',
-            '....22260000006222...........',
-            '....22211111111222...........',
-            '....22211111111222...........',
-            '....22233333333222...........',
-            '....22233333333222...........',
-            '....22211111111222...........',
-            '....22211111111222...........',
-            '.....222111111222............',
-            '......11111111111............',
-            '......11111111111............',
-            '......11000110001............',
-            '.....881111188111............',
-            '.....111111111111............',
-            '.....110001110001............',
-            '.....800088880088............',
-            '..............................'
-        ]
-    },
-    mikasa: {
-        nome: 'Mikasa', cor: '#8b5cf6',
-        paleta: ['#f5d6a8','#1a1a1a','#8b5cf6','#ef4444','#4a3728','#e8e8e8','#a78bfa','#7e22ce','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '.........111111..............',
-            '........11111111............',
-            '........11111111............',
-            '.......1111111111...........',
-            '.......1111111111...........',
-            '.......1111111111...........',
-            '.......1110011111...........',
-            '......00011011000............',
-            '......00000000000............',
-            '......00033003300............',
-            '......00030000300............',
-            '......00000000000............',
-            '.......000000000.............',
-            '......00000000000............',
-            '.....0000000000000...........',
-            '....3333300033333............',
-            '....3331111111333............',
-            '....3331111111333............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '.....222111111222............',
-            '.....111111111111............',
-            '.....111111111111............',
-            '.....111000111000............',
-            '....88111188111888............',
-            '....11111111111111............',
-            '....11000111100011............',
-            '....80008888000880............',
-            '..............................'
-        ]
-    },
-    sailor: {
-        nome: 'Sailor Moon', cor: '#ec4899',
-        paleta: ['#f5d6a8','#1a1a1a','#ec4899','#3b82f6','#ffd700','#e8e8e8','#f472b6','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '.........444444..............',
-            '........44444444............',
-            '.......4441111444............',
-            '.......4441111444............',
-            '.......4444141444............',
-            '.......4444444444............',
-            '........00444400.............',
-            '.......000444000............',
-            '......00004440000............',
-            '......00033003300............',
-            '......00033003300............',
-            '......00000000000............',
-            '.......000000000.............',
-            '......00000000000............',
-            '.....0000000000000...........',
-            '....2260000006222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '....2223333333222............',
-            '....2223333333222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '.....222111111222............',
-            '......1111111111............',
-            '......1111111111............',
-            '......1100011000............',
-            '.....886111186118............',
-            '.....111111111111............',
-            '.....110001110001............',
-            '.....800088880088............',
-            '..............................'
-        ]
-    },
-    vegeta: {
-        nome: 'Vegeta', cor: '#f87171',
-        paleta: ['#f5d6a8','#1a1a1a','#14b8a6','#38bdf8','#e8e8e8','#ffd700','#d4a875','#f87171','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '.........111111..............',
-            '........11111111............',
-            '........11111111............',
-            '.......1111111111...........',
-            '.......1111811111...........',
-            '.......1111111111...........',
-            '.......1180011811...........',
-            '......11180018111............',
-            '......11000011111............',
-            '.....003330033300............',
-            '.....00033003300............',
-            '.....00000000000............',
-            '......000000000.............',
-            '.....00000000000............',
-            '....0000000000000...........',
-            '....2220000000222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '....2222333333222............',
-            '....2222333333222............',
-            '....4441111111444............',
-            '....4441111111444............',
-            '....4441111111444............',
-            '....4444444444444............',
-            '....1111111111111............',
-            '....110001110001............',
-            '....8811118811188............',
-            '....1111111111111............',
-            '....1100011100011............',
-            '....8000888800088............',
-            '..............................'
-        ]
-    },
-    itachi: {
-        nome: 'Itachi', cor: '#f87171',
-        paleta: ['#f5d6a8','#1a1a1a','#cc3333','#4a0e4e','#e8e8e8','#ffd700','#7e22ce','#d4a875','#ffe0b0'],
-        sprite: [
-            '..............................',
-            '..............................',
-            '..............................',
-            '.........111111..............',
-            '........11111111............',
-            '.......1111111111............',
-            '.......1111111111............',
-            '......11111111111............',
-            '......11111111111............',
-            '......11111111111............',
-            '......00111011100............',
-            '.....00011111000............',
-            '.....00033003300............',
-            '.....00030000300............',
-            '.....00000000000............',
-            '......000000000.............',
-            '.....00000000000............',
-            '....0000000000000...........',
-            '....222666666222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '....2223333333222............',
-            '....2223333333222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '....2221111111222............',
-            '....2222222222222............',
-            '....1111111111111............',
-            '....110001110001............',
-            '....8811118811188............',
-            '....1111111111111............',
-            '....1100011100011............',
-            '....8000888800088............',
-            '..............................'
-        ]
-    }
-};
+// ===== CHARACTER DATA =====
+const CHARACTERS = [
+  { id:"naruto", name:"Naruto", image:"public/characters/naruto.png", color:"#f7971e", rarity:"rare", price:150,
+    power:{ name:"Modo Sabio", desc:"+50 XP no proximo acerto", icon:"🍃", type:"xp_bonus", color:"#f7971e" },
+    passive:{ name:"Determinação", desc:"+5% XP em todas as fontes" },
+    details:{ quote:"Vou me tornar Hokage, acredite!", emojis:["🍜","🦊","🌀"], bgColors:["#f7971e","#ff6b00"] }
+  },
+  { id:"goku", name:"Goku", image:"public/characters/goku.png", color:"#f87171", rarity:"rare", price:150,
+    power:{ name:"Kamehameha", desc:"Elimina 2 opcoes erradas", icon:"⚡", type:"eliminar_opcoes", color:"#3b82f6" },
+    passive:{ name:"Super Saiyajin", desc:"+1 vida no inicio do quiz" },
+    details:{ quote:"Isso ultrapassa 9000!", emojis:["🐉","✨","🍚"], bgColors:["#f87171","#3b82f6"] }
+  },
+  { id:"luffy", name:"Luffy", image:"public/characters/luffy.png", color:"#f87171", rarity:"rare", price:150,
+    power:{ name:"Gomu Gomu", desc:"Pula a questao sem perder vida", icon:"🪨", type:"pular_questao", color:"#ef4444" },
+    passive:{ name:"Rei dos Piratas", desc:"+10% moedas ganhas" },
+    details:{ quote:"Eu vou ser o Rei dos Piratas!", emojis:["☠️","🍖","🏴‍☠️"], bgColors:["#f87171","#fbbf24"] }
+  },
+  { id:"pikachu", name:"Pikachu", image:"public/characters/pikachu.png", color:"#fbbf24", rarity:"rare", price:150,
+    power:{ name:"Choque do Trovao", desc:"Revela a resposta certa por 2s", icon:"⚡", type:"revelar_resposta", color:"#fbbf24" },
+    passive:{ name:"Eletricidade", desc:"+3s extra no timer" },
+    details:{ quote:"Pika Pika!", emojis:["⚡","⚡","🔋"], bgColors:["#fbbf24","#f59e0b"] }
+  },
+  { id:"tanjiro", name:"Tanjiro", image:"public/characters/tanjiro.png", color:"#4ade80", rarity:"epic", price:150,
+    power:{ name:"Respiracao da Agua", desc:"Recupera 1 vida", icon:"🌊", type:"curar_vida", color:"#4ade80" },
+    passive:{ name:"Fôlego Constante", desc:"10% chance de nao perder vida ao errar" },
+    details:{ quote:"Hinokami Kagura!", emojis:["🌊","🗡️","💧"], bgColors:["#4ade80","#1a6b3c"] }
+  },
+  { id:"gojo", name:"Gojo", image:"public/characters/gojo.png", color:"#3b82f6", rarity:"mythic", price:150,
+    power:{ name:"Roxo (Hollow Purple)", desc:"PASSAR AUTOMATICO na questao! 💜", icon:"💜", type:"passar_questao", color:"#a855f7" },
+    passive:{ name:"Seis Olhos", desc:"Poder pode ser usado 2 vezes por quiz" },
+    details:{ quote:"Nah, eu venceria.", emojis:["💜","👁️","🌀"], bgColors:["#3b82f6","#1e3a5f"] }
+  },
+  { id:"mikasa", name:"Mikasa", image:"public/characters/mikasa.png", color:"#8b5cf6", rarity:"epic", price:150,
+    power:{ name:"Laminas Titanicas", desc:"Dobra moedas no proximo acerto", icon:"🗡️", type:"moedas_dobradas", color:"#8b5cf6" },
+    passive:{ name:"Lealdade", desc:"+2 moedas extras por acerto" },
+    details:{ quote:"Esse mundo e cruel...", emojis:["🗡️","🧣","🕊️"], bgColors:["#8b5cf6","#4a1d6e"] }
+  },
+  { id:"sailor", name:"Sailor Moon", image:"public/characters/sailor.png", color:"#ec4899", rarity:"epic", price:150,
+    power:{ name:"Moon Healing", desc:"Restaura TODAS as vidas!", icon:"🌙", type:"curar_tudo", color:"#ec4899" },
+    passive:{ name:"Luar", desc:"Comeca cada quiz com todas as vidas +1 extra" },
+    details:{ quote:"Em nome da Lua, eu te puno!", emojis:["🌙","✨","💖"], bgColors:["#ec4899","#7e22ce"] }
+  },
+  { id:"vegeta", name:"Vegeta", image:"public/characters/vegeta.png", color:"#f87171", rarity:"epic", price:150,
+    power:{ name:"Final Flash", desc:"Triplica XP no proximo acerto", icon:"💥", type:"xp_triplo", color:"#14b8a6" },
+    passive:{ name:"Príncipe Sayajin", desc:"+15% XP em todas as fontes" },
+    details:{ quote:"Eu sou o Principe dos Sayajins!", emojis:["💥","👑","🔥"], bgColors:["#14b8a6","#0f766e"] }
+  },
+  { id:"itachi", name:"Itachi", image:"public/characters/itachi.png", color:"#f87171", rarity:"mythic", price:150,
+    power:{ name:"Tsukuyomi", desc:"Revela a resposta certa por 3s", icon:"🔮", type:"revelar_tempo", color:"#f87171" },
+    passive:{ name:"Sharingan", desc:"Uma opcao errada e eliminada automaticamente" },
+    details:{ quote:"Perdoe-me, Sasuke...", emojis:["🐦‍⬛","🔮","🍃"], bgColors:["#f87171","#1a1a1a"] }
+  },
+  { id:"meliodas", name:"Meliodas", image:"public/characters/meliodas.png", color:"#fbbf24", rarity:"mythic", price:150,
+    power:{ name:"Full Counter", desc:"Chance de refletir o dano e nao perder vida ao errar", icon:"🛡️", type:"refletir_dano", color:"#fbbf24" },
+    passive:{ name:"Pacto com o Demônio", desc:"+20% de dano critico" },
+    details:{ quote:"Eu sou o Rei dos Piratas!", emojis:["☠️","🍖","🏴‍☠️"], bgColors:["#f87171","#fbbf24"] }
+  }
+];
 
-// Normaliza sprites para garantir largura uniforme
-for (const id of Object.keys(pixelCharacters)) {
-    const s = pixelCharacters[id].sprite;
-    const maxW = Math.max(...s.map(r => r.length));
-    pixelCharacters[id].sprite = s.map(r => r.padEnd(maxW, '.'));
-}
-
-function renderPixel(canvasId, charId, tamanho) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
-    const char = pixelCharacters[charId];
-    if (!char) return;
-    const ctx = canvas.getContext('2d');
-    const size = tamanho || 8;
-    const cols = char.sprite[0] ? char.sprite[0].length : 8;
-    const rows = char.sprite.length;
-    canvas.width = cols * size;
-    canvas.height = rows * size;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let row = 0; row < rows; row++) {
-        const line = char.sprite[row];
-        if (!line) continue;
-        for (let col = 0; col < cols; col++) {
-            const idx = line[col];
-            if (idx === '.') continue;
-            const cor = char.paleta[parseInt(idx)];
-            if (!cor) continue;
-            ctx.fillStyle = cor;
-            ctx.fillRect(col * size, row * size, size, size);
-        }
-    }
-}
-
-// ===== CHARACTER DETAILS =====
-const personagemDetalhes = {
-    naruto: { quote: 'Vou me tornar Hokage, acredite!', corBg: ['#f7971e', '#ff6b00'], emojis: ['🍜', '🦊', '🌀'], passivaDesc: 'Determinacao: +5% XP' },
-    goku: { quote: 'Isso ultrapassa 9000!', corBg: ['#f87171', '#3b82f6'], emojis: ['🐉', '✨', '🍚'], passivaDesc: 'Super Saiyajin: +1 vida no inicio' },
-    luffy: { quote: 'Eu vou ser o Rei dos Piratas!', corBg: ['#f87171', '#fbbf24'], emojis: ['☠️', '🍖', '🏴‍☠️'], passivaDesc: 'Rei dos Piratas: +10% moedas' },
-    pikachu: { quote: 'Pika Pika!', corBg: ['#fbbf24', '#f59e0b'], emojis: ['⚡', '⚡', '🔋'], passivaDesc: 'Eletricidade: +3s no timer' },
-    tanjiro: { quote: 'Hinokami Kagura!', corBg: ['#4ade80', '#1a6b3c'], emojis: ['🌊', '🗡️', '💧'], passivaDesc: 'Folego Constante: 10% salvar vida' },
-    gojo: { quote: 'Nah, eu venceria.', corBg: ['#3b82f6', '#1e3a5f'], emojis: ['💜', '👁️', '🌀'], passivaDesc: 'Seis Olhos: Poder 2x por quiz' },
-    mikasa: { quote: 'Esse mundo e cruel...', corBg: ['#8b5cf6', '#4a1d6e'], emojis: ['🗡️', '🧣', '🕊️'], passivaDesc: 'Lealdade: +2 moedas por acerto' },
-    sailor: { quote: 'Em nome da Lua, eu te puno!', corBg: ['#ec4899', '#7e22ce'], emojis: ['🌙', '✨', '💖'], passivaDesc: 'Luar: +1 vida extra no inicio' },
-    vegeta: { quote: 'Eu sou o Principe dos Sayajins!', corBg: ['#14b8a6', '#0f766e'], emojis: ['💥', '👑', '🔥'], passivaDesc: 'Principe Sayajin: +15% XP' },
-    itachi: { quote: 'Perdoe-me, Sasuke...', corBg: ['#f87171', '#1a1a1a'], emojis: ['🐦‍⬛', '🔮', '🍃'], passivaDesc: 'Sharingan: Elimina 1 opcao errada' }
-};
+const CHARACTERS_MAP = {};
+for (const c of CHARACTERS) { CHARACTERS_MAP[c.id] = c; }
 
 // ===== CHARACTER DETAIL =====
 function mostrarDetalhePersonagem(id) {
-    const char = pixelCharacters[id];
+    const char = CHARACTERS_MAP[id];
     const poder = poderesDisponiveis[id];
-    const passiva = getPassiva(id);
-    const detalhe = personagemDetalhes[id];
     if (!char) return;
 
     const overlay = document.getElementById('charDetailOverlay');
     const modal = document.getElementById('charDetailModal');
     if (!overlay || !modal) return;
 
-    renderPixel('charDetailPixel', id, 8);
+    const imgEl = document.getElementById('charDetailImg');
+    if (imgEl) { imgEl.src = char.image; imgEl.alt = char.name; }
 
-    document.getElementById('charDetailNome').innerText = char.nome;
+    document.getElementById('charDetailNome').innerText = char.name;
     document.getElementById('charDetailPoder').innerHTML = (poder ? poder.icone + ' ' + poder.nome + ' — ' + poder.desc : 'Nenhum');
-    document.getElementById('charDetailPassiva').innerText = passiva ? passiva.desc : 'Nenhuma';
+    document.getElementById('charDetailPassiva').innerText = char.passive ? char.passive.desc : 'Nenhuma';
 
     const quoteEl = document.getElementById('charDetailQuote');
-    if (detalhe && detalhe.quote) {
-        quoteEl.innerText = '"' + detalhe.quote + '"';
+    if (char.details && char.details.quote) {
+        quoteEl.innerText = '"' + char.details.quote + '"';
         quoteEl.style.display = 'block';
     } else {
         quoteEl.style.display = 'none';
     }
 
-    const glowCor = (detalhe && detalhe.corBg) ? detalhe.corBg[0] : '#a855f7';
-    if (detalhe && detalhe.corBg) {
-        modal.style.background = 'linear-gradient(135deg, ' + detalhe.corBg[0] + '22, ' + detalhe.corBg[1] + '44)';
-        modal.style.borderColor = detalhe.corBg[0];
-    } else {
-        modal.style.background = 'rgba(20, 10, 30, 0.97)';
-        modal.style.borderColor = '#a855f7';
-    }
+    const cores = (char.details && char.details.bgColors) || ['#a855f7', '#4a1d6e'];
+    const glowCor = cores[0];
+    modal.style.background = 'linear-gradient(135deg, ' + cores[0] + '22, ' + cores[1] + '44)';
+    modal.style.borderColor = cores[0];
     modal.style.boxShadow = '0 0 30px ' + glowCor + '33, inset 0 0 30px ' + glowCor + '11';
 
-    // Floating emojis background
     const bgEl = document.getElementById('charDetailBgEmojis');
     if (bgEl) {
         bgEl.innerHTML = '';
-        const emojis = (detalhe && detalhe.emojis) || ['⭐', '✨', '💫'];
+        const emojis = (char.details && char.details.emojis) || ['⭐', '✨', '💫'];
         for (let i = 0; i < 12; i++) {
             const span = document.createElement('span');
             span.className = 'char-detail-float';
@@ -1107,8 +890,8 @@ function carregarUser() {
                 totalAcertos: parsed.totalAcertos || 0,
                 totalPerguntas: parsed.totalPerguntas || 0,
                 boostAtivo: parsed.boostAtivo || null,
-                inventario: parsed.inventario || { personagens: [], ranks: [], posts: [], boosts: [] },
-                equipado: parsed.equipado || { personagem: null, rank: null, post: null },
+                inventario: Object.assign({ personagens: [], ranks: [], posts: [], boosts: [], titulos: [] }, parsed.inventario || {}),
+                equipado: Object.assign({ personagem: null, rank: null, post: null, titulo: null }, parsed.equipado || {}),
                 perguntasRespondidas: parsed.perguntasRespondidas || {},
                 conquistas: parsed.conquistas || [],
                 generosJogados: parsed.generosJogados || [],
@@ -1131,8 +914,8 @@ function criarNovoUser() {
         moedas: 0, streak: 0, maxStreak: 0,
         totalAcertos: 0, totalPerguntas: 0,
         boostAtivo: null,
-        inventario: { personagens: [], ranks: [], posts: [], boosts: [] },
-        equipado: { personagem: null, rank: null, post: null },
+        inventario: { personagens: [], ranks: [], posts: [], boosts: [], titulos: [] },
+        equipado: { personagem: null, rank: null, post: null, titulo: null },
         perguntasRespondidas: {},
         conquistas: [],
         generosJogados: [],
@@ -1226,6 +1009,24 @@ const lojaPosts = [
     { id: 'post_frase8', nome: 'Dragao', desc: 'O medo e o inimigo interior.', preco: 250, icone: '🐉' },
     { id: 'post_frase9', nome: 'Templario', desc: 'Honra acima de tudo.', preco: 180, icone: '🛡️' },
     { id: 'post_frase10', nome: 'Estrategista', desc: 'Preveja o imprevisivel.', preco: 300, icone: '♟️' }
+];
+
+const lojaTitulos = [
+    { id: 'sanguinario', nome: 'Sanguinario', desc: 'O sangue dos fracos molha suas maos', preco: 150, icone: '🩸', cor: '#cc0000' },
+    { id: 'justiceiro', nome: 'Justiceiro', desc: 'A justica vem com ferrugem e fio', preco: 200, icone: '⚔️', cor: '#8b0000' },
+    { id: 'cacador_almas', nome: 'Cacador de Almas', desc: 'Colecionador de espiritos errantes', preco: 300, icone: '💀', cor: '#4a0000' },
+    { id: 'lamina_negra', nome: 'Lamina Negra', desc: 'O corte que nao se ve chegando', preco: 250, icone: '🗡️', cor: '#1a0000' },
+    { id: 'executor', nome: 'Executor', desc: 'Sem piedade, sem arrependimento', preco: 180, icone: '🔪', cor: '#cc0000' },
+    { id: 'espectro', nome: 'Espectro', desc: 'Nem vivo, nem morto', preco: 350, icone: '👻', cor: '#2d004d' },
+    { id: 'berserker', nome: 'Berserker', desc: 'A furia e a unica lingua que conhece', preco: 220, icone: '🩹', cor: '#8b0000' },
+    { id: 'ceifador', nome: 'Ceifador', desc: 'A hora de todos chega', preco: 400, icone: '🦴', cor: '#1a0000' },
+    { id: 'templario_negro', nome: 'Templario Negro', desc: 'Fe quebrada, juramento manchado', preco: 500, icone: '🛡️', cor: '#2d0000' },
+    { id: 'vampiro', nome: 'Vampiro', desc: 'A noite e sua aliada eterna', preco: 280, icone: '🧛', cor: '#4a0000' },
+    { id: 'fera', nome: 'Fera', desc: 'Instinto acima da razao', preco: 160, icone: '🐺', cor: '#8b0000' },
+    { id: 'demonio', nome: 'Demonio', desc: 'O pacto foi feito ha muito tempo', preco: 600, icone: '👿', cor: '#8b0000' },
+    { id: 'lobo_solitario', nome: 'Lobo Solitario', desc: 'Nenhuma alcateia, apenas a cacada', preco: 190, icone: '🐺', cor: '#3a0000' },
+    { id: 'flagelo', nome: 'Flagelo', desc: 'O castigo que assombra os fracos', preco: 320, icone: '⛓️', cor: '#5a0000' },
+    { id: 'abissal', nome: 'Abissal', desc: 'Do abismo, o poder infinito', preco: 450, icone: '🌑', cor: '#0a001a' },
 ];
 
 // ===== QUIZ FUNCTIONS =====
@@ -1465,6 +1266,16 @@ function verificarResposta(selecionada) {
 function perderVida() {
     if (getChanceSalvarVida()) {
         notificar('🍃 Folego Constante! Vida salva!', '#4ade80');
+        return;
+    }
+    if (poderEfeito === 'refletir_dano') {
+        poderEfeito = null;
+        notificar('🛡️ Full Counter! Dano refletido!', '#fbbf24');
+        animarPoderPersonagem(user.equipado.personagem);
+        return;
+    }
+    if (getChanceRefletirDano()) {
+        notificar('🛡️ Pacto com o Demonio! Dano refletido!', '#fbbf24');
         return;
     }
     vidas--;
@@ -1849,6 +1660,12 @@ function usarPoder() {
             break;
         }
 
+        case 'refletir_dano':
+            poderEfeito = 'refletir_dano';
+            animarPoderPersonagem(personId);
+            notificar('🛡️ Full Counter! Dano refletido no proximo erro!', '#fbbf24');
+            break;
+
         default:
             notificar('Poder desconhecido!', '#f87171');
             poderUsado = false;
@@ -2019,7 +1836,7 @@ function animarPoderPersonagem(personagemId) {
     const opcoesEl = document.getElementById('opcoes');
     let opcoesRect = null;
     if (opcoesEl) opcoesRect = opcoesEl.getBoundingClientRect();
-    const charDurations = { naruto: 2500, goku: 2500, luffy: 2500, pikachu: 2500, tanjiro: 2500, gojo: 3800, mikasa: 2500, sailor: 2500, vegeta: 2500, itachi: 2800 };
+    const charDurations = { naruto: 2500, goku: 2500, luffy: 2500, pikachu: 2500, tanjiro: 2500, gojo: 3800, mikasa: 2500, sailor: 2500, vegeta: 2500, itachi: 2800, meliodas: 3800 };
     const duracao = charDurations[personagemId] || 2500;
     const start = Date.now();
     window._gojoAutoProceeded = false;
@@ -2350,55 +2167,12 @@ function animarPoderPersonagem(personagemId) {
                     const a = alpha || 1;
                     ctx.save();
                     ctx.globalAlpha = a;
-                    // Legs
-                    ctx.fillStyle = '#1a1a1a';
-                    ctx.fillRect(gx - 8, gy + 38, 7, 22);
-                    ctx.fillRect(gx + 1, gy + 38, 7, 22);
-                    // Body
-                    ctx.fillStyle = '#111';
-                    ctx.shadowColor = '#3b82f6';
-                    ctx.shadowBlur = 15;
-                    ctx.fillRect(gx - 16, gy + 18, 32, 24);
-                    ctx.shadowBlur = 0;
-                    // Head
-                    ctx.fillStyle = '#f5d6a8';
-                    ctx.beginPath();
-                    ctx.arc(gx, gy + 5, 18, 0, Math.PI * 2);
-                    ctx.fill();
-                    // Hair
-                    ctx.fillStyle = '#e5e7eb';
-                    ctx.shadowColor = '#fff';
-                    ctx.shadowBlur = 8;
-                    for (let i = 0; i < 7; i++) {
-                        const ha = -Math.PI * 0.8 + i * 0.25;
-                        const hr = 15 + Math.sin(i * 1.5) * 4;
-                        ctx.beginPath();
-                        ctx.arc(gx + Math.cos(ha) * hr * 0.6, gy + 5 + Math.sin(ha) * hr * 0.6, 7 + Math.sin(i) * 2, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
                     ctx.shadowBlur = 0;
                     // Blindfold
-                    ctx.fillStyle = '#1a1a1a';
-                    ctx.fillRect(gx - 15, gy + 1, 30, 7);
-                    ctx.fillStyle = '#3b82f6';
-                    ctx.fillRect(gx - 2, gy + 2, 4, 5);
                     // Extended arm with hand sign
                     const reach = armReach || 1;
-                    ctx.strokeStyle = '#111';
-                    ctx.lineWidth = 8;
                     ctx.beginPath();
-                    ctx.moveTo(gx + 16, gy + 22);
-                    ctx.lineTo(gx + 45 * reach, gy + 10 - 15 * reach);
                     ctx.stroke();
-                    // Hand sign (finger gun)
-                    const hx = gx + 45 * reach;
-                    const hy = gy + 10 - 15 * reach;
-                    ctx.fillStyle = '#f5d6a8';
-                    ctx.beginPath();
-                    ctx.arc(hx, hy, 6, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.fillStyle = '#1a1a1a';
-                    ctx.fillRect(hx + 4, hy - 2, 12, 4); // pointing finger
                     ctx.restore();
                 }
 
@@ -2864,6 +2638,240 @@ function animarPoderPersonagem(personagemId) {
                 }
                 break;
             }
+            case 'meliodas': {
+                const melDur = 3800;
+                const pp = Math.min(1, elapsed / melDur);
+                const mx = startX + 20;
+                const my = startY;
+
+                function melParticle(x, y, size, color, blur) {
+                    ctx.save();
+                    ctx.fillStyle = color;
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = blur || 20;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // ===== PHASE 0: DARK AURA BUILDUP (0.00 - 0.12) =====
+                if (pp < 0.12) {
+                    const t = pp / 0.12;
+                    const radius = 5 + t * 30;
+                    melParticle(mx, my, radius + 15, 'rgba(45, 27, 78, ' + (0.08 * t) + ')', 40);
+                    melParticle(mx, my, radius, 'rgba(30, 15, 50, ' + (0.2 + t * 0.3) + ')', 30);
+                    melParticle(mx, my, radius * 0.5, 'rgba(80, 30, 120, ' + (t * 0.4) + ')', 20);
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(80, 30, 120, ' + (0.2 * t) + ')';
+                    ctx.lineWidth = 2;
+                    ctx.shadowColor = '#2d1b4e';
+                    ctx.shadowBlur = 15;
+                    for (let i = 0; i < 6; i++) {
+                        const a = i * 1.047 + t * 0.5;
+                        const len = 10 + t * 25;
+                        ctx.beginPath();
+                        ctx.moveTo(mx, my);
+                        ctx.quadraticCurveTo(mx + Math.cos(a) * len * 0.7, my + Math.sin(a) * len * 0.7, mx + Math.cos(a) * len, my + Math.sin(a) * len);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    melParticle(mx, my, 3, 'rgba(180, 50, 50, ' + (0.3 + t * 0.5) + ')', 25);
+                }
+
+                // ===== PHASE 1: DARK SWORD FORMS (0.12 - 0.30) =====
+                else if (pp < 0.30) {
+                    const t = (pp - 0.12) / 0.18;
+                    const bladeLen = 10 + t * 60;
+                    const bladeX = mx + 20;
+                    const bladeY = my - 10;
+                    melParticle(bladeX, bladeY - bladeLen * 0.5, 3 + t * 5, 'rgba(60, 20, 100, ' + (0.3 + t * 0.4) + ')', 25);
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(120, 40, 180, ' + (0.3 + t * 0.5) + ')';
+                    ctx.lineWidth = 2 + t * 3;
+                    ctx.shadowColor = '#2d1b4e';
+                    ctx.shadowBlur = 20;
+                    ctx.beginPath();
+                    ctx.moveTo(bladeX - 4, bladeY);
+                    ctx.lineTo(bladeX, bladeY - bladeLen);
+                    ctx.lineTo(bladeX + 4, bladeY);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.fillStyle = 'rgba(20, 10, 40, ' + (0.3 + t * 0.4) + ')';
+                    ctx.shadowBlur = 0;
+                    ctx.fill();
+                    ctx.restore();
+                    for (let i = 0; i < 6 * t; i++) {
+                        const a = Math.random() * Math.PI * 2;
+                        const d = 5 + Math.random() * 15;
+                        melParticle(bladeX + Math.cos(a) * d, bladeY - bladeLen * 0.5 + Math.sin(a) * d, 2 + Math.random() * 3, '#3a1a6e', 10);
+                    }
+                }
+
+                // ===== PHASE 2: DARKNESS CONCENTRATES (0.30 - 0.45) =====
+                else if (pp < 0.45) {
+                    const t = (pp - 0.30) / 0.15;
+                    const bladeX = mx + 20;
+                    const bladeY = my - 10;
+                    const bladeLen = 70;
+                    const tipX = bladeX;
+                    const tipY = bladeY - bladeLen;
+                    const orbR = 5 + t * 20;
+                    melParticle(tipX, tipY, orbR + 12, 'rgba(45, 20, 80, ' + (0.1 + t * 0.15) + ')', 40);
+                    melParticle(tipX, tipY, orbR, 'rgba(30, 10, 60, ' + (0.3 + t * 0.4) + ')', 30);
+                    melParticle(tipX, tipY, orbR * 0.5, 'rgba(100, 40, 160, ' + (t * 0.5) + ')', 20);
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(80, 30, 140, ' + (0.25 * t) + ')';
+                    ctx.lineWidth = 2;
+                    ctx.shadowColor = '#2d1b4e';
+                    ctx.shadowBlur = 12;
+                    for (let i = 0; i < 3; i++) {
+                        const pulseR = orbR + i * 8 + Math.sin(t * 10 + i) * 4;
+                        ctx.beginPath();
+                        ctx.arc(tipX, tipY, pulseR, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    for (let i = 0; i < 15; i++) {
+                        const a = Math.random() * Math.PI * 2;
+                        const d = 20 + (1 - t) * 40;
+                        melParticle(tipX + Math.cos(a) * d, tipY + Math.sin(a) * d, 2 + Math.random() * 3, '#4a1a7e', 8);
+                    }
+                }
+
+                // ===== PHASE 3: THE BLACK SLASH SWING (0.45 - 0.60) =====
+                else if (pp < 0.60) {
+                    const t = (pp - 0.45) / 0.15;
+                    const arcX = mx + 50 + t * 200;
+                    const arcY = my - 30 + Math.sin(t * Math.PI) * 60;
+                    const arcRadius = 40 + t * 80;
+                    ctx.save();
+                    ctx.shadowColor = '#1a0a2e';
+                    ctx.shadowBlur = 50;
+                    ctx.strokeStyle = 'rgba(30, 10, 60, ' + (0.6 + t * 0.3) + ')';
+                    ctx.lineWidth = 15 + t * 20;
+                    ctx.beginPath();
+                    ctx.arc(arcX, arcY, arcRadius, -Math.PI * 0.8 + t * 0.5, Math.PI * 0.3 + t * 0.5);
+                    ctx.stroke();
+                    ctx.shadowBlur = 30;
+                    ctx.strokeStyle = 'rgba(80, 30, 140, ' + (0.3 + t * 0.4) + ')';
+                    ctx.lineWidth = 6 + t * 8;
+                    ctx.beginPath();
+                    ctx.arc(arcX, arcY, arcRadius, -Math.PI * 0.8 + t * 0.5, Math.PI * 0.3 + t * 0.5);
+                    ctx.stroke();
+                    ctx.shadowBlur = 20;
+                    ctx.strokeStyle = 'rgba(180, 140, 220, ' + (t * 0.3) + ')';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(arcX, arcY, arcRadius, -Math.PI * 0.8 + t * 0.5, Math.PI * 0.3 + t * 0.5);
+                    ctx.stroke();
+                    ctx.restore();
+                    for (let i = 0; i < 20; i++) {
+                        const angle = -Math.PI * 0.8 + t * 0.5 + (Math.random() - 0.5) * 0.4;
+                        const dist = arcRadius * (0.5 + Math.random() * 0.5);
+                        const px = arcX + Math.cos(angle) * dist;
+                        const py = arcY + Math.sin(angle) * dist;
+                        melParticle(px, py, 2 + Math.random() * 4, i % 3 === 0 ? '#6a2aae' : '#2a0a4e', 12);
+                    }
+                    const shakeIntensity = 4 + t * 6;
+                    document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                        el.style.transform = 'translate(' + (Math.random() - 0.5) * shakeIntensity + 'px, ' + (Math.random() - 0.5) * shakeIntensity + 'px)';
+                    });
+                }
+
+                // ===== PHASE 4: SLASH WAVE TRAVELS (0.60 - 0.78) =====
+                else if (pp < 0.78) {
+                    const t = (pp - 0.60) / 0.18;
+                    const waveX = mx + 100 + t * (canvas.width - mx - 100);
+                    const waveY = my - 30 + Math.sin(t * Math.PI * 2) * 40;
+                    const shockR = 20 + t * 40;
+                    melParticle(waveX, waveY, shockR + 20, 'rgba(30, 10, 60, ' + (0.1 + t * 0.1) + ')', 45);
+                    melParticle(waveX, waveY, shockR, 'rgba(45, 20, 80, ' + (0.3 + t * 0.2) + ')', 35);
+                    melParticle(waveX, waveY, shockR * 0.4, 'rgba(100, 50, 160, ' + (t * 0.4) + ')', 20);
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(60, 20, 100, ' + (0.3 * t) + ')';
+                    ctx.lineWidth = 1 + t * 2;
+                    ctx.shadowColor = '#1a0a2e';
+                    ctx.shadowBlur = 10;
+                    for (let i = 0; i < 12; i++) {
+                        const cx = waveX + (Math.random() - 0.5) * 60;
+                        const cy = waveY + (Math.random() - 0.5) * 60;
+                        ctx.beginPath();
+                        ctx.moveTo(cx, cy);
+                        for (let j = 0; j < 3; j++) {
+                            ctx.lineTo(cx + (Math.random() - 0.5) * 30, cy + (Math.random() - 0.5) * 30);
+                        }
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    for (let i = 0; i < 25; i++) {
+                        const tx = waveX - Math.random() * 100;
+                        const ty = waveY + (Math.random() - 0.5) * 80;
+                        melParticle(tx, ty, 2 + Math.random() * 5, '#2a0a4e', 10);
+                    }
+                }
+
+                // ===== PHASE 5: DARKNESS CONSUMES (0.78 - 0.93) =====
+                else if (pp < 0.93) {
+                    const t = (pp - 0.78) / 0.15;
+                    const centerX = mx + 200;
+                    const centerY = my - 20;
+                    const voidR = 10 + t * 150;
+                    melParticle(centerX, centerY, voidR + 30, 'rgba(10, 5, 20, ' + (0.05 + t * 0.1) + ')', 50);
+                    melParticle(centerX, centerY, voidR, 'rgba(15, 5, 30, ' + (0.2 + t * 0.3) + ')', 40);
+                    melParticle(centerX, centerY, voidR * 0.6, 'rgba(30, 15, 50, ' + (t * 0.3) + ')', 25);
+                    ctx.save();
+                    for (let i = 0; i < 5; i++) {
+                        const rOff = i * 12 + t * 20;
+                        ctx.strokeStyle = 'rgba(80, 30, 140, ' + (0.15 * (1 - i * 0.15) * t) + ')';
+                        ctx.lineWidth = 2 + i * 0.5;
+                        ctx.shadowColor = '#2d1b4e';
+                        ctx.shadowBlur = 20;
+                        ctx.beginPath();
+                        ctx.arc(centerX, centerY, voidR * 0.3 + rOff, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                    for (let i = 0; i < 30; i++) {
+                        const a = Math.random() * Math.PI * 2;
+                        const d = voidR * (0.2 + Math.random() * 0.8);
+                        melParticle(centerX + Math.cos(a) * d, centerY + Math.sin(a) * d, 2 + Math.random() * 4, '#1a0a2e', 8);
+                    }
+                    const perguntaEl = document.getElementById('pergunta');
+                    if (perguntaEl && t > 0.3) {
+                        const progress = (t - 0.3) / 0.7;
+                        if (progress > 0.3) {
+                            perguntaEl.style.opacity = 1 - (progress - 0.3) * 1.5;
+                            perguntaEl.style.filter = 'blur(' + (progress - 0.3) * 10 + 'px)';
+                        }
+                    }
+                }
+
+                // ===== PHASE 6: FADEOUT + AUTO PROXIMA (0.93 - 1.00) =====
+                else {
+                    const t = (pp - 0.93) / 0.07;
+                    melParticle(mx + 50, my - 10, 20 * (1 - t), 'rgba(30, 15, 50, ' + (0.15 * (1 - t)) + ')', 25);
+                    ctx.save();
+                    ctx.globalAlpha = t * 0.5;
+                    ctx.fillStyle = '#0a0a0a';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                    if (t > 0.5) {
+                        document.querySelectorAll('#pergunta, #opcoes, .header-info').forEach(el => {
+                            el.style.transform = '';
+                            el.style.opacity = '';
+                            el.style.filter = '';
+                        });
+                    }
+                    if (t > 0.8 && !window._gojoAutoProceeded) {
+                        window._gojoAutoProceeded = true;
+                        setTimeout(() => {
+                            if (typeof proximaPergunta === 'function') proximaPergunta();
+                        }, 200);
+                    }
+                }
+                break;
+            }
         }
 
         if (progress < 1) {
@@ -2898,6 +2906,19 @@ function mostrarAba(aba) {
 function atualizarHUD() {
     const moedasEl = document.getElementById('hudMoedas');
     if (moedasEl) moedasEl.innerText = '🪙 ' + (user ? user.moedas : 0);
+
+    const tituloEl = document.getElementById('hudTitulo');
+    if (tituloEl) {
+        const tituloId = user ? user.equipado.titulo : null;
+        const titulo = tituloId ? lojaTitulos.find(t => t.id === tituloId) : null;
+        if (titulo) {
+            tituloEl.style.display = 'inline';
+            tituloEl.innerText = titulo.icone + ' ' + titulo.nome;
+            tituloEl.style.borderColor = titulo.cor || '#8b0000';
+        } else {
+            tituloEl.style.display = 'none';
+        }
+    }
 
     const nivelEl = document.getElementById('hudNivel');
     if (nivelEl) nivelEl.innerText = 'LV ' + (user ? user.nivel : 1);
@@ -2957,11 +2978,14 @@ function atualizarCharWidget() {
     const widget = document.getElementById('charWidget');
     if (!widget) return;
     const personId = user.equipado.personagem;
-    if (personId && pixelCharacters[personId]) {
+    if (personId && CHARACTERS_MAP[personId]) {
         widget.style.display = 'block';
         const nomeEl = document.getElementById('charWidgetNome');
         const poderEl = document.getElementById('charWidgetPoder');
-        if (nomeEl) nomeEl.innerText = pixelCharacters[personId].nome;
+        const imgEl = document.getElementById('charWidgetImg');
+        const char = CHARACTERS_MAP[personId];
+        if (imgEl) { imgEl.src = char.image; imgEl.alt = char.name; }
+        if (nomeEl) nomeEl.innerText = char.name;
         if (poderEl && poderesDisponiveis[personId]) {
             const usosTexto = poderUsosRestantes > 1 ? ' (' + poderUsosRestantes + 'x)' : '';
             poderEl.innerText = poderesDisponiveis[personId].icone + ' ' + poderesDisponiveis[personId].nome + usosTexto;
@@ -2983,8 +3007,6 @@ function atualizarCharWidget() {
             cargaEl.style.width = pct + '%';
             cargaEl.style.background = atual > 0 ? 'linear-gradient(90deg, #9b59b6, #a855f7)' : '#333';
         }
-
-        renderPixel('charWidgetPixel', personId, 6);
     } else {
         widget.style.display = 'none';
     }
@@ -3004,10 +3026,10 @@ function renderizarLoja() {
 
     html += '<h3 class="secao-titulo">🎭 Personagens</h3>';
     html += '<div class="loja-categorias">';
-    for (const [id, p] of Object.entries(pixelCharacters)) {
-        const poder = poderesDisponiveis[id];
+    for (const char of CHARACTERS) {
+        const poder = poderesDisponiveis[char.id];
         const item = {
-            id: id, nome: p.nome, desc: poder ? poder.desc : 'Personagem', preco: 150, icone: '🎭'
+            id: char.id, nome: char.name, desc: poder ? poder.desc : 'Personagem', preco: char.price, icone: '🎭'
         };
         html += cardLoja(item, 'personagens');
     }
@@ -3023,11 +3045,12 @@ function renderizarLoja() {
     lojaPosts.forEach(p => { html += cardLoja(p, 'posts'); });
     html += '</div>';
 
-    container.innerHTML = html;
+    html += '<h3 class="secao-titulo">🏷️ Titulos</h3>';
+    html += '<div class="loja-categorias">';
+    lojaTitulos.forEach(t => { html += cardLoja(t, 'titulos'); });
+    html += '</div>';
 
-    for (const id of Object.keys(pixelCharacters)) {
-        setTimeout(() => renderPixel('pixel_' + id, id, 3), 50);
-    }
+    container.innerHTML = html;
 }
 
 function cardLoja(item, categoria) {
@@ -3035,21 +3058,26 @@ function cardLoja(item, categoria) {
     const equipado = user.equipado[categoria.substring(0, categoria.length - 1)] === item.id || 
                      (categoria === 'personagens' && user.equipado.personagem === item.id) ||
                      (categoria === 'ranks' && user.equipado.rank === item.id) ||
-                     (categoria === 'posts' && user.equipado.post === item.id);
+                     (categoria === 'posts' && user.equipado.post === item.id) ||
+                     (categoria === 'titulos' && user.equipado.titulo === item.id);
     const podeComprar = !jaTem && user.moedas >= item.preco;
     const isFree = item.preco === 0;
 
-    const estiloCor = (categoria === 'ranks' && item.cor) ? ' style="border-color:' + item.cor + ';box-shadow:0 0 15px ' + item.cor + '22"' : '';
-    const ehPersonagem = categoria === 'personagens' && pixelCharacters[item.id];
+    const estiloCor = (categoria === 'ranks' && item.cor) ? ' style="border-color:' + item.cor + ';box-shadow:0 0 15px ' + item.cor + '22"' : 
+                      (categoria === 'titulos' && item.cor) ? ' style="border-color:' + item.cor + ';box-shadow:0 0 15px ' + item.cor + '44"' : '';
+    const ehPersonagem = categoria === 'personagens' && CHARACTERS_MAP[item.id];
     const clickPersonagem = ehPersonagem ? ' onclick="mostrarDetalhePersonagem(\'' + item.id + '\')"' : '';
-    let html = '<div class="card-loja' + (ehPersonagem ? ' card-personagem' : '') + '"' + estiloCor + clickPersonagem + '>';
+    const charImg = ehPersonagem ? CHARACTERS_MAP[item.id].image : '';
+    let html = '<div class="card-loja' + (ehPersonagem ? ' card-personagem' : '') + (categoria === 'titulos' ? ' card-titulo' : '') + '"' + estiloCor + clickPersonagem + '>';
     if (ehPersonagem) {
-        html += '<div class="pixel-container"><canvas id="pixel_' + item.id + '" class="pixel-art pixel-sm"></canvas></div>';
+        html += '<div class="pixel-container"><img src="' + charImg + '" alt="' + item.nome + '" class="char-sprite char-sm" /></div>';
+    } else if (categoria === 'titulos') {
+        html += '<div class="titulo-strike-wrap"><div class="titulo-strike-icon">' + (item.icone || '🏷️') + '</div><div class="titulo-strike-slash"></div></div>';
     } else {
         html += '<div style="font-size:2.5rem;margin-bottom:6px">' + (item.icone || '🎁') + '</div>';
     }
     html += '<div class="card-info">';
-    html += '<strong ' + (categoria === 'ranks' && item.cor ? 'style="color:' + item.cor + '"' : '') + '>' + item.nome + '</strong>';
+    html += '<strong ' + ((categoria === 'ranks' || categoria === 'titulos') && item.cor ? 'style="color:' + item.cor + '"' : '') + '>' + item.nome + '</strong>';
     html += '<small>' + item.desc + '</small>';
     if (categoria === 'ranks') {
         html += '<div class="rank-mult-info" ' + (item.cor ? 'style="color:' + item.cor + '"' : '') + '>Multiplicador: x' + (item.mult || 1) + '</div>';
@@ -3101,17 +3129,12 @@ function comprarItem(id, categoria, preco) {
     notificar('✅ Comprado: ' + id + '!', '#4ade80');
     renderizarLoja();
     atualizarHUD();
-    
-    // Render pixel art if needed
-    if (categoria === 'personagens' && pixelCharacters[id]) {
-        setTimeout(() => renderPixel('pixel_' + id, id, 6), 50);
-    }
 }
 
 function equiparItem(id, categoria) {
     if (!user.inventario[categoria] || !user.inventario[categoria].includes(id)) return;
     
-    const key = categoria === 'personagens' ? 'personagem' : categoria === 'ranks' ? 'rank' : 'post';
+    const key = categoria === 'personagens' ? 'personagem' : categoria === 'ranks' ? 'rank' : categoria === 'titulos' ? 'titulo' : 'post';
     user.equipado[key] = id;
     salvarUser();
     notificar('✅ Equipado: ' + id + '!', '#4ade80');
@@ -3181,9 +3204,9 @@ function renderizarInventario() {
     if (!container) return;
 
     let html = '<div class="inv-tabs">';
-    const abas = ['personagens', 'ranks', 'posts', 'boosts'];
+    const abas = ['personagens', 'ranks', 'posts', 'boosts', 'titulos'];
     abas.forEach(a => {
-        const nomes = { personagens: '🎭 Personagens', ranks: '🥇 Ranks', posts: '📜 Posts', boosts: '⚡ Boosts' };
+        const nomes = { personagens: '🎭 Personagens', ranks: '🥇 Ranks', posts: '📜 Posts', boosts: '⚡ Boosts', titulos: '🏷️ Titulos' };
         html += '<button class="inv-tab ' + (invAbaAtual === a ? 'ativa' : '') + '" onclick="mudarInvAba(\'' + a + '\')">' + (nomes[a] || a) + '</button>';
     });
     html += '</div>';
@@ -3199,8 +3222,8 @@ function renderizarInventario() {
             let item = null;
             let nome = id;
             if (invAbaAtual === 'personagens') {
-                item = pixelCharacters[id];
-                nome = item ? item.nome : id;
+                item = CHARACTERS_MAP[id];
+                nome = item ? item.name : id;
             } else if (invAbaAtual === 'ranks') {
                 item = lojaRanks.find(r => r.id === id);
                 nome = item ? item.nome : id;
@@ -3210,17 +3233,24 @@ function renderizarInventario() {
             } else if (invAbaAtual === 'boosts') {
                 item = lojaBoosts.find(b => b.id === id);
                 nome = item ? item.nome : id;
+            } else if (invAbaAtual === 'titulos') {
+                item = lojaTitulos.find(t => t.id === id);
+                nome = item ? item.nome : id;
             }
 
-            const key = invAbaAtual === 'personagens' ? 'personagem' : invAbaAtual === 'ranks' ? 'rank' : 'post';
+            const key = invAbaAtual === 'personagens' ? 'personagem' : invAbaAtual === 'ranks' ? 'rank' : invAbaAtual === 'titulos' ? 'titulo' : 'post';
             const equipado = user.equipado[key] === id;
             const boostAtivo = invAbaAtual === 'boosts' && boostAtual === id;
-            const ehPersonagemInv = invAbaAtual === 'personagens' && pixelCharacters[id];
+            const ehPersonagemInv = invAbaAtual === 'personagens' && CHARACTERS_MAP[id];
+            const ehTituloInv = invAbaAtual === 'titulos';
             const clickPersonagemInv = ehPersonagemInv ? ' onclick="mostrarDetalhePersonagem(\'' + id + '\')"' : '';
 
-            html += '<div class="card-inv ' + (equipado ? 'equipado' : '') + (boostAtivo ? ' boost-ativo' : '') + (ehPersonagemInv ? ' card-personagem' : '') + '"' + clickPersonagemInv + '>';
+            html += '<div class="card-inv ' + (equipado ? 'equipado' : '') + (boostAtivo ? ' boost-ativo' : '') + (ehPersonagemInv ? ' card-personagem' : '') + (ehTituloInv ? ' card-titulo' : '') + '"' + clickPersonagemInv + '>';
             if (ehPersonagemInv) {
-                html += '<div class="pixel-container"><canvas id="invPixel_' + id + '" class="pixel-art pixel-sm"></canvas></div>';
+                const char = CHARACTERS_MAP[id];
+                html += '<div class="pixel-container"><img src="' + char.image + '" alt="' + nome + '" class="char-sprite char-sm" /></div>';
+            } else if (ehTituloInv) {
+                html += '<div class="titulo-strike-wrap"><div class="titulo-strike-icon">' + (item ? item.icone || '🏷️' : '🏷️') + '</div><div class="titulo-strike-slash"></div></div>';
             } else {
                 html += '<div style="font-size:2rem;margin-bottom:4px">' + (item ? item.icone || '🎁' : '🎁') + '</div>';
             }
@@ -3248,15 +3278,6 @@ function renderizarInventario() {
 
     html += '</div>';
     container.innerHTML = html;
-
-    // Render pixel art for personagens
-    if (invAbaAtual === 'personagens') {
-        itens.forEach(id => {
-            if (pixelCharacters[id]) {
-                setTimeout(() => renderPixel('invPixel_' + id, id, 3), 50);
-            }
-        });
-    }
 }
 
 function mudarInvAba(aba) {
@@ -3271,12 +3292,13 @@ function renderizarPerfil() {
 
     const rankItem = user.equipado.rank ? lojaRanks.find(r => r.id === user.equipado.rank) : null;
     const postItem = user.equipado.post ? lojaPosts.find(p => p.id === user.equipado.post) : null;
-    const personItem = user.equipado.personagem ? pixelCharacters[user.equipado.personagem] : null;
+    const personItem = user.equipado.personagem ? CHARACTERS_MAP[user.equipado.personagem] : null;
+    const tituloItem = user.equipado.titulo ? lojaTitulos.find(t => t.id === user.equipado.titulo) : null;
 
     let html = '<div class="perfil-header">';
     html += '<div class="perfil-avatar-placeholder">';
     if (personItem) {
-        html += '<div class="perfil-pixel"><canvas id="perfilPixel" class="pixel-art pixel-lg"></canvas></div>';
+        html += '<div class="perfil-pixel"><img src="' + personItem.image + '" alt="' + personItem.name + '" class="char-sprite char-lg" /></div>';
     } else {
         html += '👤';
     }
@@ -3288,6 +3310,7 @@ function renderizarPerfil() {
     html += '<div class="xp-texto">' + (user.nivel >= NIVEL_MAX ? 'MAX Nivel' : user.xp + '/' + user.xpProximoNivel + ' XP') + '</div>';
     if (rankItem) html += '<div class="rank-exibido">' + rankItem.icone + ' ' + rankItem.nome + ' (x' + rankItem.mult + ')</div>';
     if (postItem) html += '<div class="post-exibido">"' + postItem.desc + '"</div>';
+    if (tituloItem) html += '<div class="titulo-exibido" style="border-color:' + (tituloItem.cor || '#8b0000') + '">' + tituloItem.icone + ' ' + tituloItem.nome + '</div>';
     html += '</div></div>';
 
     html += '<div class="perfil-stats">';
@@ -3312,10 +3335,6 @@ function renderizarPerfil() {
     html += '</div>';
 
     container.innerHTML = html;
-
-    if (personItem) {
-        setTimeout(() => renderPixel('perfilPixel', user.equipado.personagem, 6), 50);
-    }
 }
 
 // ===== CHARACTER PASSIVES =====
@@ -3330,7 +3349,8 @@ function getPassiva(personagemId) {
         mikasa: { nome: 'Lealdade', desc: '+2 moedas extras por acerto', aplicar: null },
         sailor: { nome: 'Luar', desc: 'Comeca cada quiz com todas as vidas +1 extra', aplicar: null },
         vegeta: { nome: 'Principe Sayajin', desc: '+15% XP em todas as fontes', aplicar: (xp) => Math.floor(xp * 1.15) },
-        itachi: { nome: 'Sharingan', desc: 'Uma opcao errada e eliminada automaticamente', aplicar: null }
+        itachi: { nome: 'Sharingan', desc: 'Uma opcao errada e eliminada automaticamente', aplicar: null },
+        meliodas: { nome: 'Full Counter', desc: 'Chance de refletir o dano e nao perder vida ao errar', aplicar: null }
     };
     return passivas[personagemId] || null;
 }
@@ -3379,6 +3399,12 @@ function getMaxPoderUsos() {
 function getChanceSalvarVida() {
     const personId = user.equipado.personagem;
     if (personId === 'tanjiro' && Math.random() < 0.1) return true;
+    return false;
+}
+
+function getChanceRefletirDano() {
+    const personId = user.equipado.personagem;
+    if (personId === 'meliodas' && Math.random() < 0.1) return true;
     return false;
 }
 
